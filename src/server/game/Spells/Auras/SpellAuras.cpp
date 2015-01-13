@@ -1269,12 +1269,12 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
                 break;
             }
             case SPELLFAMILY_DEATHKNIGHT:
-				// Rune Strike should always be useable when Blood Presence is active
-				if (target->HasAura(48263))
-				target->ModifyAuraState(AURA_STATE_DEFENSE, true);
-				else
-				target->ModifyAuraState(AURA_STATE_DEFENSE, false);
-				
+                // Rune Strike should always be useable when Blood Presence is active
+                if (target->HasAura(48263))
+                target->ModifyAuraState(AURA_STATE_DEFENSE, true);
+                else
+                target->ModifyAuraState(AURA_STATE_DEFENSE, false);
+                
                 if (GetSpellInfo()->Id == 51124) //Killing Machine
                 {
                     if (!caster || !caster->HasAura(90459)) // T11 4 Piece
@@ -1376,6 +1376,14 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
                 }
                 break;
             case SPELLFAMILY_ROGUE:
+                switch (GetId())
+                {
+                    case 57934: // Tricks of the Trade
+                        // Item - Rogue T13 2P Bonus
+                        if (caster->HasAura(105849))
+                                caster->CastSpell(caster, 105864, true);
+                        break;
+                }
                 // Sprint (skip non player casted spells by category)
                 if (GetSpellInfo()->SpellFamilyFlags[0] & 0x40 && GetSpellInfo()->Category == 44)
                     // in official maybe there is only one icon?
@@ -1383,10 +1391,10 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
                         target->CastSpell(target, 61922, true); // Sprint (waterwalk)
                 break;
         }
-		// Paladin - Pursuit of Justice        
-		if ((target->HasAura(26022) && roll_chance_i(50)) || target->HasAura(26023))
-			if (GetSpellInfo()->GetAllEffectsMechanicMask() & ((1<<MECHANIC_ROOT)|(1<<MECHANIC_STUN) |(1<<MECHANIC_FEAR)))
-				target->CastSpell(target,89024,true);
+        // Paladin - Pursuit of Justice        
+        if ((target->HasAura(26022) && roll_chance_i(50)) || target->HasAura(26023))
+            if (GetSpellInfo()->GetAllEffectsMechanicMask() & ((1<<MECHANIC_ROOT)|(1<<MECHANIC_STUN) |(1<<MECHANIC_FEAR)))
+                target->CastSpell(target,89024,true);
     }
     // mods at aura remove
     else
@@ -2337,10 +2345,10 @@ bool Aura::CallScriptEffectProcHandlers(AuraEffect const* aurEff, AuraApplicatio
             if ((*effItr).IsEffectAffected(m_spellInfo, aurEff->GetEffIndex()))
                 (*effItr).Call(*scritr, aurEff, eventInfo);
         }
-		
+        
         if (!preventDefault && (*scritr)->_IsDefaultActionPrevented())
             preventDefault = true;
-			
+            
         (*scritr)->_FinishScriptCall();
     }
     return preventDefault;
