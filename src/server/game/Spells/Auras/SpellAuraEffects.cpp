@@ -6369,7 +6369,7 @@ void AuraEffect::HandlePeriodicDamageAurasTick(Unit* target, Unit* caster) const
             if (GetSpellInfo()->SpellFamilyFlags[1] & 0x80000000 && GetSpellInfo()->SpellIconID == 3407)
             {
                 if (m_tickNumber == 1)
-                    damage += GetCaster()->GetTotalAttackPowerValue(RANGED_ATTACK) * 0.273;
+                    damage += GetCaster()->GetTotalAttackPowerValue(RANGED_ATTACK) * 0.0546;
             }
             else if(GetSpellInfo()->Id == 13812)
                 damage += GetCaster()->GetTotalAttackPowerValue(RANGED_ATTACK) * 0.0546;
