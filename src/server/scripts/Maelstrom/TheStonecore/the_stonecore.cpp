@@ -261,19 +261,19 @@ public:
 		{
 		case 0:
 			player->CastSpell(player, SPELL_TELEPORT_VISUAL);
-			player->TeleportTo(725, 853.70, 999.90, 317.33, 0.29); // Retorn To Base
+			player->TeleportTo(725, 853.70f, 999.90f, 317.33f, 0.29f); // Retorn To Base
 			break;
 		case 1:
 			player->CastSpell(player, SPELL_TELEPORT_VISUAL);
-			player->TeleportTo(725, 1152.48, 897.27, 285.03, 1.30); // Corborus
+			player->TeleportTo(725, 1152.48f, 897.27f, 285.03f, 1.30f); // Corborus
 			break;
 		case 2:
 			player->CastSpell(player, SPELL_TELEPORT_VISUAL);
-			player->TeleportTo(725, 1286.24, 1217.99, 246.95, 6.19); // Slabhide
+			player->TeleportTo(725, 1286.24f, 1217.99f, 246.95f, 6.19f); // Slabhide
 			break;
 		case 3:
 			player->CastSpell(player, SPELL_TELEPORT_VISUAL);
-			player->TeleportTo(725, 1467.99, 1060.72, 216.38, 3.48); // Ozruk
+			player->TeleportTo(725, 1467.99f, 1060.72f, 216.38f, 3.48f); // Ozruk
 			break;
 
 		case 5:
