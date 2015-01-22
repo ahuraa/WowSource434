@@ -7789,7 +7789,7 @@ void Player::ModifyCurrency(uint32 id, int32 count, bool printLog/* = true*/, bo
 	if (newTotalCount < 0)
 		newTotalCount = 0;
 
-	int32 newWeekCount = int32(oldWeekCount) + (count > 0 ? count : 0);
+	int32 newWeekCount = int32(oldWeekCount) + (!refund ? (count > 0 ? count : 0) : 0);
 	if (newWeekCount < 0)
 		newWeekCount = 0;
 
@@ -7800,6 +7800,7 @@ void Player::ModifyCurrency(uint32 id, int32 count, bool printLog/* = true*/, bo
 		// weekCap - oldWeekCount always >= 0 as we set limit before!
 		if (!ignoreCap)
 			newTotalCount = oldTotalCount + (weekCap - oldWeekCount);
+		newSeasonCount = oldSeasonCount + (weekCap - oldWeekCount);
 	}
 
 	// if we get more then totalCap set to maximum;
@@ -7818,7 +7819,8 @@ void Player::ModifyCurrency(uint32 id, int32 count, bool printLog/* = true*/, bo
 		itr->second.weekCount = newWeekCount;
 		itr->second.seasonCount = newSeasonCount;
 
-		if (count > 0)
+		// ignore refund here to fix  achievement exploit
+		if (!refund && count > 0)
 			UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_CURRENCY, id, count);
 
 		if (currency->Category == CURRENCY_CATEGORY_META_CONQUEST)
@@ -17568,7 +17570,12 @@ bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder)
         DeleteArenaTeam(arena_slot);
     }
 
-    _LoadCurrency(holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOAD_CURRENCY));
+	// Load Currency
+	_LoadCurrency(holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOAD_CURRENCY));
+
+	// Load Currency Week Cap
+	_LoadCurrencyWeekCap(holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOAD_CURRENCY_WEEK_CAP));
+
     SetUInt32Value(PLAYER_FIELD_LIFETIME_HONORABLE_KILLS, fields[40].GetUInt32());
     SetUInt16Value(PLAYER_FIELD_KILLS, 0, fields[41].GetUInt16());
     SetUInt16Value(PLAYER_FIELD_KILLS, 1, fields[42].GetUInt16());
@@ -19811,6 +19818,7 @@ void Player::SaveInventoryAndGoldToDB(SQLTransaction& trans)
 {
     _SaveInventory(trans);
     _SaveCurrency(trans);
+	_SaveCurrencyWeekCap(trans);
     SaveGoldToDB(trans);
 }
 

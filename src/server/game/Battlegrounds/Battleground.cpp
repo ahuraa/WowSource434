@@ -991,12 +991,12 @@ void Battleground::EndBattleground(uint32 winner)
                     if (!player->GetRandomWinner())
                     {
                         // 100cp awarded for the first random battleground won each day
-                        player->ModifyCurrency(CURRENCY_TYPE_CONQUEST_META_RBG, BG_REWARD_WINNER_CONQUEST_FIRST, true, true);
+                        player->ModifyCurrency(CURRENCY_TYPE_CONQUEST_META_ARENA, BG_REWARD_WINNER_CONQUEST_FIRST, true, true);
                         player->SetRandomWinner(true);
                     }
                 }
                 else // 50cp awarded for each non-rated battleground won
-                    player->ModifyCurrency(CURRENCY_TYPE_CONQUEST_META_RBG, BG_REWARD_WINNER_CONQUEST_LAST, true, true);
+                    player->ModifyCurrency(CURRENCY_TYPE_CONQUEST_META_ARENA, BG_REWARD_WINNER_CONQUEST_LAST, true, true);
             }
 
             // Modify the guild reputation and xp - 167 rep on win, 75k guild xp. Only if group is guild group.
