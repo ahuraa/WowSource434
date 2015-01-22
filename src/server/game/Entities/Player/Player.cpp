@@ -1453,20 +1453,6 @@ void Player::HandleDrowning(uint32 time_diff)
     // In water
     if (m_MirrorTimerFlags & UNDERWATER_INWATER)
     {
-        switch (m_zoneUpdateId)
-        {
-            case 5144:
-            case 5007:
-            case 5145:
-            case 4815:
-            case 4816:
-            case 5042:
-            case 5146:
-                return;
-            default:
-                break;
-        }
-
         // Breath timer not activated - activate it
         if (m_MirrorTimer[BREATH_TIMER] == DISABLED_MIRROR_TIMER)
         {
@@ -1503,20 +1489,6 @@ void Player::HandleDrowning(uint32 time_diff)
     // In dark water
     if (m_MirrorTimerFlags & UNDERWARER_INDARKWATER)
     {
-        switch (m_zoneUpdateId)
-        {
-            case 5144:
-            case 5007:
-            case 5145:
-            case 4815:
-            case 4816:
-            case 5042:
-            case 4922:
-                return;
-            default:
-                break;
-        }
-
         // Fatigue timer not activated - activate it
         if (m_MirrorTimer[FATIGUE_TIMER] == DISABLED_MIRROR_TIMER)
         {
@@ -1538,8 +1510,8 @@ void Player::HandleDrowning(uint32 time_diff)
                 else if (HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_GHOST))       // Teleport ghost to graveyard
                     RepopAtGraveyard();
             }
-            else if (!(m_MirrorTimerFlagsLast & UNDERWARER_INDARKWATER))
-                SendMirrorTimer(FATIGUE_TIMER, getMaxTimer(FATIGUE_TIMER), m_MirrorTimer[FATIGUE_TIMER], -1);
+            //else if (!(m_MirrorTimerFlagsLast & UNDERWARER_INDARKWATER))
+            //    SendMirrorTimer(FATIGUE_TIMER, getMaxTimer(FATIGUE_TIMER), m_MirrorTimer[FATIGUE_TIMER], -1);
         }
     }
     else if (m_MirrorTimer[FATIGUE_TIMER] != DISABLED_MIRROR_TIMER)       // Regen timer
@@ -1552,17 +1524,20 @@ void Player::HandleDrowning(uint32 time_diff)
             SendMirrorTimer(FATIGUE_TIMER, DarkWaterTime, m_MirrorTimer[FATIGUE_TIMER], 10);
     }
 
-    if (m_MirrorTimerFlags & (UNDERWATER_INLAVA /*| UNDERWATER_INSLIME*/) && !(_lastLiquid && _lastLiquid->SpellId))
+    if (m_MirrorTimerFlags & (UNDERWATER_INLAVA | UNDERWATER_INSLIME)) //&& !(_lastLiquid && _lastLiquid->SpellId))
     {
         // Breath timer not activated - activate it
         if (m_MirrorTimer[FIRE_TIMER] == DISABLED_MIRROR_TIMER)
+        {
             m_MirrorTimer[FIRE_TIMER] = getMaxTimer(FIRE_TIMER);
+            //SendMirrorTimer(FIRE_TIMER, m_MirrorTimer[FIRE_TIMER], m_MirrorTimer[FIRE_TIMER], -1);
+        }
         else
         {
             m_MirrorTimer[FIRE_TIMER] -= time_diff;
             if (m_MirrorTimer[FIRE_TIMER] < 0)
             {
-                m_MirrorTimer[FIRE_TIMER]+= 1*IN_MILLISECONDS;
+                m_MirrorTimer[FIRE_TIMER]+= 2*IN_MILLISECONDS;
                 // Calculate and deal damage
                 // TODO: Check this formula
                 uint32 damage = urand(600, 700);
@@ -1570,8 +1545,8 @@ void Player::HandleDrowning(uint32 time_diff)
                     EnvironmentalDamage(DAMAGE_LAVA, damage);
                 // need to skip Slime damage in Undercity,
                 // maybe someone can find better way to handle environmental damage
-                //else if (m_zoneUpdateId != 1497)
-                //    EnvironmentalDamage(DAMAGE_SLIME, damage);
+                else if (m_zoneUpdateId != 1497)
+                    EnvironmentalDamage(DAMAGE_SLIME, damage);
             }
         }
     }
