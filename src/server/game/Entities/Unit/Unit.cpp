@@ -7986,28 +7986,42 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, uint32 absorb, AuraE
                 break;
             }
             // Dancing Rune Weapon
-            if (dummySpell->Id == 49028)
-            {
-                // 1 dummy aura for dismiss rune blade
-                if (effIndex != 1)
-                    return false;
-
-                Unit* pPet = NULL;
-                for (ControlList::const_iterator itr = m_Controlled.begin(); itr != m_Controlled.end(); ++itr) // Find Rune Weapon
-                    if ((*itr)->GetEntry() == 27893)
-                    {
-                        pPet = *itr;
-                        break;
-                    }
-
-                if (pPet && pPet->GetVictim() && damage && procSpell)
-                {
-                    pPet->CastSpell(pPet->GetVictim(), procSpell->Id, true);
-                    break;
-                }
-                else
-                    return false;
-            }
+			if (dummySpell->Id == 49028)
+			{
+				// 1 dummy aura for dismiss rune blade
+				if (effIndex != 1)
+					return false;
+				Unit* pPet = NULL;
+				for (ControlList::const_iterator itr = m_Controlled.begin(); itr != m_Controlled.end(); ++itr) // Find Rune Weapon
+				if ((*itr)->GetEntry() == 27893)
+				{
+					pPet = *itr;
+					break;
+				}
+				if (pPet && pPet->GetVictim() && damage && procSpell)
+				{
+					pPet->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+					pPet->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
+					uint32 procDmg = damage / 2;
+					pPet->SendSpellNonMeleeDamageLog(pPet->GetVictim(), procSpell->Id, procDmg, procSpell->GetSchoolMask(), 0, 0, false, 0, false);
+					pPet->DealDamage(pPet->GetVictim(), procDmg, NULL, SPELL_DIRECT_DAMAGE, procSpell->GetSchoolMask(), procSpell, true);
+					break;
+				}
+				else if (pPet && pPet->GetVictim() && damage && !procSpell)
+				{
+					CalcDamageInfo damageInfo;
+					CalculateMeleeDamage(pPet->GetVictim(), 0, &damageInfo, BASE_ATTACK);
+					damageInfo.attacker = pPet;
+					damageInfo.damage = damageInfo.damage / 2;
+					// Send log damage message to client
+					pPet->DealDamageMods(pPet->GetVictim(), damageInfo.damage, &damageInfo.absorb);
+					pPet->SendAttackStateUpdate(&damageInfo);
+					pPet->ProcDamageAndSpell(damageInfo.target, damageInfo.procAttacker, damageInfo.procVictim, damageInfo.procEx, damageInfo.damage, damageInfo.attackType);
+					pPet->DealMeleeDamage(&damageInfo, true);
+				}
+				else
+					return false;
+			}
             // Unholy Blight
             if (dummySpell->Id == 49194)
             {
