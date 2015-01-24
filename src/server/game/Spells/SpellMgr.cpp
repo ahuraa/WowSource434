@@ -3167,6 +3167,10 @@ void SpellMgr::LoadSpellCustomAttr()
             case 92315:	// Mage - Pyromaniac(Dot after casting Pyroblast with Hot Strake + Using Impact set to 3 target)
                 spellInfo->Effects[EFFECT_0].ApplyAuraName = SPELL_EFFECT_DUMMY;
                 break;
+			case 51460:	// Runic Corruption
+				spellInfo->Effects[EFFECT_0].ApplyAuraName = SPELL_AURA_MOD_POWER_REGEN_PERCENT;
+				spellInfo->Effects[EFFECT_1].Effect = SPELL_EFFECT_DUMMY;
+				break;
             case 80380: // Disable Temporarily the Aura Effect "MELEE_SLOW"
                 spellInfo->Effects[1].BasePoints = 0;
                 break;
