@@ -1600,38 +1600,6 @@ public:
     }
 };
 
-// 51462 & 51459 Runic Corruption
-class spell_dk_runic_corruption : public SpellScriptLoader
-{
-public:
-	spell_dk_runic_corruption() : SpellScriptLoader("spell_dk_runic_corruption") { }
-
-	class spell_dk_runic_corruption_AuraScript : public AuraScript
-	{
-		PrepareAuraScript(spell_dk_runic_corruption_AuraScript);
-
-		void HandleEffect(AuraEffect const* aurEff, AuraEffectHandleModes mode)
-		{
-			if (Player* player = GetCaster()->ToPlayer())
-			{
-				player->ResyncRunes(MAX_RUNES);
-			}
-		}
-
-		void Register()
-		{
-			OnEffectApply += AuraEffectApplyFn(spell_dk_runic_corruption_AuraScript::HandleEffect, EFFECT_0, SPELL_AURA_MOD_POWER_REGEN_PERCENT, AURA_EFFECT_HANDLE_REAL);
-			OnEffectRemove += AuraEffectApplyFn(spell_dk_runic_corruption_AuraScript::HandleEffect, EFFECT_0, SPELL_AURA_MOD_POWER_REGEN_PERCENT, AURA_EFFECT_HANDLE_REAL);
-		}
-	};
-
-	AuraScript* GetAuraScript() const
-	{
-		return new spell_dk_runic_corruption_AuraScript();
-	}
-};
-
-
 void AddSC_deathknight_spell_scripts()
 {
     new spell_dk_anti_magic_shell_raid();
@@ -1665,5 +1633,4 @@ void AddSC_deathknight_spell_scripts()
     new spell_dk_rune_weapon_scaling_02();
     new spell_dk_death_grip_dummy();
     new spell_dk_pillar_of_frost();
-	new spell_dk_runic_corruption();
 }

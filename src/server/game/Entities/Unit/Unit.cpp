@@ -7916,8 +7916,8 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, uint32 absorb, AuraE
                     triggered_spell_id = 65142;
                     break;
                 }
-                case 81229: // Runic Empowerment
-                {
+               case 81229: // Runic Empowerment
+               {
                     Player* player = ToPlayer();
                     if (!player || player->getClass() != CLASS_DEATH_KNIGHT)
                         return false;
@@ -7939,33 +7939,36 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, uint32 absorb, AuraE
                         }
                         return true;
                     }
+					else
+					{
 
-                    uint32 runesOnCooldown = 0;
-                    uint32 cooldownRunes[MAX_RUNES];
-                    for (uint32 i = 0; i < MAX_RUNES; ++i)
-                        if (player->GetRuneCooldown(i))
-                        {
-                            cooldownRunes[runesOnCooldown] = player->GetBaseRune(i);
-                            runesOnCooldown++;
-                        }
+						uint32 runesOnCooldown = 0;
+						uint32 cooldownRunes[MAX_RUNES];
+						for (uint32 i = 0; i < MAX_RUNES; ++i)
+						if (player->GetRuneCooldown(i))
+						{
+							cooldownRunes[runesOnCooldown] = player->GetBaseRune(i);
+							runesOnCooldown++;
+						}
 
-                    if (runesOnCooldown)
-                    {
-                        uint8 randomRune = urand(0, runesOnCooldown - 1);
-                        switch (cooldownRunes[randomRune])
-                        {
-                            case RUNE_BLOOD:
-                                triggered_spell_id = 81166;
-                                break;
-                            case RUNE_FROST:
-                                triggered_spell_id = 81168;
-                                break;
-                            case RUNE_UNHOLY:
-                                triggered_spell_id = 81169;
-                                break;
-                        }
-                    }
-                    break;
+						if (runesOnCooldown)
+						{
+							uint8 randomRune = urand(0, runesOnCooldown - 1);
+							switch (cooldownRunes[randomRune])
+							{
+							case RUNE_BLOOD:
+								triggered_spell_id = 81166;
+								break;
+							case RUNE_FROST:
+								triggered_spell_id = 81168;
+								break;
+							case RUNE_UNHOLY:
+								triggered_spell_id = 81169;
+								break;
+							}
+						}
+					}
+					break;
                 }
             }
             // Blood-Caked Blade
