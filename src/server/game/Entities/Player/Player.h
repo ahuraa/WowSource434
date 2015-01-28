@@ -1946,6 +1946,7 @@ public:
 
 	// Dual Spec
 	void UpdateSpecCount(uint8 count);
+	void ForceAuraEffectReactivation();
 	void ActivateSpec(uint8 spec);
 
 	void InitGlyphsForLevel();

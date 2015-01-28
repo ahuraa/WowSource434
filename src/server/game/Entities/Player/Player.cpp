@@ -26569,6 +26569,39 @@ void Player::_SaveTalents(SQLTransaction& trans)
     }
 }
 
+// Custom function used to force some effects to be reactivated after teleporting.
+void Player::ForceAuraEffectReactivation()
+{
+
+	// CLASS: DEATH KNIGHT
+	if (getClass() == CLASS_DEATH_KNIGHT){
+
+		// Blood of the North
+		if (this->HasAura(54637))
+		{
+			if (AuraEffect *aurEff = this->GetAuraEffect(54637, 0))
+			{
+				for (uint8 i = 0; i<MAX_RUNES; i++){
+					if (this->GetBaseRune(i) == RUNE_BLOOD){
+						this->AddRuneByAuraEffect(i, RUNE_DEATH, aurEff, aurEff->GetAuraType(), aurEff->GetSpellInfo());
+					}
+				}
+			}
+		}
+
+	}
+
+
+
+	// Unstuck Player
+	for (uint8 i = 0; i < MAX_MOVE_TYPE; ++i){
+		if (i != 5 && i != 8){
+			SetSpeed(UnitMoveType(i), this->GetSpeedRate(UnitMoveType(i)), true);
+			UpdateSpeed(UnitMoveType(i), true);
+		}
+	}
+}
+
 void Player::UpdateSpecCount(uint8 count)
 {
     uint32 curCount = GetSpecsCount();
