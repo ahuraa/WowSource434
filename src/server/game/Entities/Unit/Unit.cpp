@@ -7994,6 +7994,7 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, uint32 absorb, AuraE
 				// 1 dummy aura for dismiss rune blade
 				if (effIndex != 1)
 					return false;
+
 				Unit* pPet = NULL;
 				for (ControlList::const_iterator itr = m_Controlled.begin(); itr != m_Controlled.end(); ++itr) // Find Rune Weapon
 				if ((*itr)->GetEntry() == 27893)
@@ -8001,6 +8002,8 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, uint32 absorb, AuraE
 					pPet = *itr;
 					break;
 				}
+
+				// special abilities damage
 				if (pPet && pPet->GetVictim() && damage && procSpell)
 				{
 					pPet->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
@@ -8010,7 +8013,8 @@ bool Unit::HandleDummyAuraProc(Unit* victim, uint32 damage, uint32 absorb, AuraE
 					pPet->DealDamage(pPet->GetVictim(), procDmg, NULL, SPELL_DIRECT_DAMAGE, procSpell->GetSchoolMask(), procSpell, true);
 					break;
 				}
-				else if (pPet && pPet->GetVictim() && damage && !procSpell)
+				else // copy 50% melee damage
+				if (pPet && pPet->GetVictim() && damage && !procSpell)
 				{
 					CalcDamageInfo damageInfo;
 					CalculateMeleeDamage(pPet->GetVictim(), 0, &damageInfo, BASE_ATTACK);

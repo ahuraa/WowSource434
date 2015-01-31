@@ -971,6 +971,12 @@ bool Guardian::InitStatsForLevel(uint8 petlevel)
                     SetBaseWeaponDamage(BASE_ATTACK, MAXDAMAGE, maxDamage);
                     break;
                 }
+				case 27893: // Dancing Rune Weapon
+				{
+					SetRedirectThreat(100, m_owner->GetGUID());
+					CastSpell(this, 51906, true);
+					break;
+				}
                 case 89:                // Infernal
                 {
                     if (m_owner->GetTypeId() == TYPEID_PLAYER)
@@ -2124,6 +2130,11 @@ void Guardian::RecalculatePetScalingDamageDone()
         auraId = 54566;
         effIndex = EFFECT_2;
     }
+	else if (GetEntry() == 27893)
+	{
+		auraId = 51906;
+		effIndex = EFFECT_0;
+	}
     else if (m_owner && m_owner->getClass() == CLASS_WARLOCK)
     {
         auraId = 34947;
@@ -2163,6 +2174,8 @@ void Guardian::RecalculatePetScalingAttackSpeed(WeaponAttackType att)
         auraId = 89446;
     else if (IsPetGhoul())
         auraId = 51996;
+	else if (GetEntry() == 27893)
+		auraId = 51906;
     else if (GetEntry() == 510) // water elemental
         auraId = 89764;
 
