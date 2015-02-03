@@ -85,13 +85,8 @@ class boss_murozond : public CreatureScript
                 switch(action)
                 {
                     case ACTION_REWIND_TIME:
-                        if (NumOfRewind == 0)
-                        {
-                            if (GameObject* go = me->FindNearestGameObject(209249, 300.0f))
-                                go->SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_NOT_SELECTABLE);
-                        }
-                        else
-                            --NumOfRewind;
+                        
+                        --NumOfRewind;
 
                         me->RemoveDynObject(101984);
 
@@ -255,9 +250,11 @@ class npc_hourglass_of_time : public CreatureScript
 		bool done;
 		uint32 CheckAura;
 		uint32 CheckAgain;
+		uint8 UsedCharge;
 
 		void Reset()
 		{
+			UsedCharge = 0;
 			CheckAgain = 0;
 			CheckAura = 1000;
 			done = false;
@@ -278,6 +275,14 @@ class npc_hourglass_of_time : public CreatureScript
 						    	muro->GetAI()->DoAction(ACTION_REWIND_TIME);
 						    	done = true;
 								CheckAgain = 6000;
+
+								if (UsedCharge == 4)
+								{
+									if (GameObject* go = me->FindNearestGameObject(209249, 300.0f))
+										go->SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_NOT_SELECTABLE);
+								}
+								else
+									UsedCharge++;
 						    }
 					}
 					else CheckAura -= diff;
