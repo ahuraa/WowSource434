@@ -123,7 +123,7 @@ class spell_dk_necrotic : public SpellScriptLoader
                 if (Unit* caster = GetCaster())
                 {
                     int32 absorbAmount = caster->GetTotalAttackPowerValue(BASE_ATTACK) * 0.7f;
-                    caster->ApplyResilience(GetUnitOwner(), &absorbAmount, false);
+                    caster->ApplyResilience(GetUnitOwner(), &absorbAmount);
                     if (AuraEffect* necrotic = GetUnitOwner()->GetAuraEffect(73975, EFFECT_0, caster->GetGUID()))
                         absorbAmount += necrotic->GetAmount();
                     amount = int32(absorbAmount);
