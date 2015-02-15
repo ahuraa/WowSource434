@@ -341,8 +341,8 @@ class TransportBase;
 class SpellCastTargets;
 namespace Movement
 {
-	class ExtraMovementStatusElement;
-	class MoveSpline;
+    class ExtraMovementStatusElement;
+    class MoveSpline;
 }
 
 typedef std::list<Unit*> UnitList;
@@ -1509,8 +1509,8 @@ class Unit : public WorldObject
         void TriggerAurasProcOnEvent(ProcEventInfo& eventInfo, std::list<AuraApplication*>& procAuras);
 
         void HandleEmoteCommand(uint32 anim_id);
-		void HandleEmote(uint32 emote_id);
-		void HandleEmoteState(uint32 emote_id);
+        void HandleEmote(uint32 emote_id);
+        void HandleEmoteState(uint32 emote_id);
         void AttackerStateUpdate (Unit* victim, WeaponAttackType attType = BASE_ATTACK, bool extra = false);
 
         void CalculateMeleeDamage(Unit* victim, uint32 damage, CalcDamageInfo* damageInfo, WeaponAttackType attackType = BASE_ATTACK);
@@ -1789,7 +1789,7 @@ class Unit : public WorldObject
         CharmInfo* InitCharmInfo();
         void DeleteCharmInfo();
         void UpdateCharmAI();
-		void EnableAI();
+        void EnableAI();
         //Player* GetMoverSource() const;
         Player* m_movedPlayer;
         SharedVisionList const& GetSharedVisionList() { return m_sharedVision; }
@@ -2145,7 +2145,7 @@ class Unit : public WorldObject
         float m_TempSpeed;
 
         bool isHover() const { return HasAuraType(SPELL_AURA_HOVER); }
-		bool isCamouflaged() const { return HasAuraType(SPELL_AURA_MOD_CAMOUFLAGE); }
+        bool isCamouflaged() const { return HasAuraType(SPELL_AURA_MOD_CAMOUFLAGE); }
 
         float ApplyEffectModifiers(SpellInfo const* spellProto, uint8 effect_index, float value) const;
         int32 CalculateSpellDamage(Unit const* target, SpellInfo const* spellProto, uint8 effect_index, int32 const* basePoints = NULL) const;
@@ -2268,7 +2268,7 @@ class Unit : public WorldObject
         void ExitVehicle(Position const* exitPosition = NULL);
         void ChangeSeat(int8 seatId, bool next = true);
 
-		void WriteMovementInfo(WorldPacket& data, Movement::ExtraMovementStatusElement* extras = NULL);
+        void WriteMovementInfo(WorldPacket& data, Movement::ExtraMovementStatusElement* extras = NULL);
 
         // Should only be called by AuraEffect::HandleAuraControlVehicle(AuraApplication const* auraApp, uint8 mode, bool apply) const;
         void _ExitVehicle(Position const* exitPosition = NULL);
@@ -2311,7 +2311,7 @@ class Unit : public WorldObject
         void ReleaseFocus(Spell const* focusSpell);
 
         //bool IsVisionObscured(Unit* target, bool ranged = false);
-		bool IsVisionObscured(Unit* pVictim);
+        bool IsVisionObscured(Unit* pVictim);
 
         // Done priotiy to setCanFly in script fix visual bug with movementflag (creature took flying animation on ground, walkin animation in air etc...)
         inline void DisableMovementFlagUpdate(bool s) { _disableMovementFlagUpdate = s; }
@@ -2336,7 +2336,7 @@ class Unit : public WorldObject
         rowCastsMap _spellsCastedInRow;
         SpellInfo const* lastSpell;
 
-		//alt power 10
+        //alt power 10
         int32 alt;
         int32 GetAltPower() {return alt;};
         void SetAltPower(int32 power);
@@ -2438,8 +2438,8 @@ class Unit : public WorldObject
 
         uint32 m_unitTypeMask;
         LiquidTypeEntry const* _lastLiquid;
-		
-        bool m_IsInKillingProcess;		
+        
+        bool m_IsInKillingProcess;        
 
         bool IsAlwaysVisibleFor(WorldObject const* seer) const;
         bool IsAlwaysDetectableFor(WorldObject const* seer) const;

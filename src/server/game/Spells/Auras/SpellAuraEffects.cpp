@@ -380,7 +380,7 @@ pAuraEffectHandler AuraEffectHandler[TOTAL_AURAS]=
     &AuraEffect::HandleModMeleeSpeedPct,                          //319 SPELL_AURA_MOD_MELEE_HASTE_3
     &AuraEffect::HandleAuraModRangedHaste,                        //320 SPELL_AURA_MOD_RANGED_HASTE_2
     &AuraEffect::HandleNULL,                                      //321 SPELL_AURA_321
-	&AuraEffect::HandleNULL,                                      //322 SPELL_AURA_INTERFERE_TARGETTING
+    &AuraEffect::HandleNULL,                                      //322 SPELL_AURA_INTERFERE_TARGETTING
     &AuraEffect::HandleUnused,                                    //323 unused (4.3.4)
     &AuraEffect::HandleNULL,                                      //324 SPELL_AURA_324
     &AuraEffect::HandleUnused,                                    //325 unused (4.3.4)
@@ -5716,7 +5716,7 @@ void AuraEffect::HandlePeriodicDummyAuraTick(Unit* target, Unit* caster) const
         case SPELLFAMILY_PRIEST:
         {
             switch (GetId())
-		    {  
+            {  
             // Holy Word: Sanctuary
             case 88685:
             {
@@ -5725,7 +5725,7 @@ void AuraEffect::HandlePeriodicDummyAuraTick(Unit* target, Unit* caster) const
             }
             break;
            }
-        }	
+        }    
         case SPELLFAMILY_DRUID:
         {
             switch (GetSpellInfo()->Id)
@@ -6306,19 +6306,19 @@ void AuraEffect::HandlePeriodicDamageAurasTick(Unit* target, Unit* caster) const
                 }
                 break;
             }
-			case 603:  // Bane Of Doom
-			{
-				int32 chance = 20;
-				// Impending doom
-				if (AuraEffect* aurEff = caster->GetAuraEffect(SPELL_AURA_ADD_FLAT_MODIFIER, SPELLFAMILY_WARLOCK, 195, 0))
-					chance += aurEff->GetAmount();
+            case 603:  // Bane Of Doom
+            {
+                int32 chance = 20;
+                // Impending doom
+                if (AuraEffect* aurEff = caster->GetAuraEffect(SPELL_AURA_ADD_FLAT_MODIFIER, SPELLFAMILY_WARLOCK, 195, 0))
+                    chance += aurEff->GetAmount();
 
-				// There is a chance to summon an Ebon Imp when Bane of Doom does damage
-				if (roll_chance_i(chance))
-					caster->CastSpell(caster, 18662, true);
+                // There is a chance to summon an Ebon Imp when Bane of Doom does damage
+                if (roll_chance_i(chance))
+                    caster->CastSpell(caster, 18662, true);
 
-				break;
-			}
+                break;
+            }
         }
     }
 
