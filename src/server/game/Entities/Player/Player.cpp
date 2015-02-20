@@ -831,15 +831,15 @@ Player::Player(WorldSession* session): Unit(true), phaseMgr(this)
     m_DailyQuestChanged = false;
     m_lastDailyQuestTime = 0;
 
-	// Init rune flags
-	for (uint8 i = 0; i < MAX_RUNES; ++i)
-	{
-		SetRuneTimer(i, 0xFFFFFFFF);
-		SetLastRuneGraceTimer(i, 0);
-	}
+    // Init rune flags
+    for (uint8 i = 0; i < MAX_RUNES; ++i)
+    {
+        SetRuneTimer(i, 0xFFFFFFFF);
+        SetLastRuneGraceTimer(i, 0);
+    }
 
-	for (uint8 i = 0; i < MAX_TIMERS; i++)
-		m_MirrorTimer[i] = DISABLED_MIRROR_TIMER;
+    for (uint8 i = 0; i < MAX_TIMERS; i++)
+        m_MirrorTimer[i] = DISABLED_MIRROR_TIMER;
     m_MirrorTimerFlags = UNDERWATER_NONE;
     m_MirrorTimerFlagsLast = UNDERWATER_NONE;
     m_isInWater = false;
@@ -925,11 +925,11 @@ Player::Player(WorldSession* session): Unit(true), phaseMgr(this)
     // Honor System
     m_lastHonorUpdateTime = time(NULL);
 
-	// Currency Week Cap
-	m_maxWeekRating[CP_SOURCE_ARENA] = 0;
-	m_maxWeekRating[CP_SOURCE_RATED_BG] = 0;
-	m_conquestPointsWeekCap[CP_SOURCE_ARENA] = 1350;
-	m_conquestPointsWeekCap[CP_SOURCE_RATED_BG] = 1650;
+    // Currency Week Cap
+    m_maxWeekRating[CP_SOURCE_ARENA] = 0;
+    m_maxWeekRating[CP_SOURCE_RATED_BG] = 0;
+    m_conquestPointsWeekCap[CP_SOURCE_ARENA] = 1350;
+    m_conquestPointsWeekCap[CP_SOURCE_RATED_BG] = 1650;
 
     m_IsBGRandomWinner = false;
 
@@ -1148,10 +1148,10 @@ bool Player::Create(uint32 guidlow, CharacterCreateInfo* createInfo)
     InitRunes();
 
 
-	SetUInt32Value(PLAYER_FIELD_COINAGE, sWorld->getIntConfig(CONFIG_START_PLAYER_MONEY));
-	SetCurrency(CURRENCY_TYPE_HONOR_POINTS, sWorld->getIntConfig(CONFIG_CURRENCY_START_HONOR_POINTS));
-	SetCurrency(CURRENCY_TYPE_JUSTICE_POINTS, sWorld->getIntConfig(CONFIG_CURRENCY_START_JUSTICE_POINTS));
-	SetCurrency(CURRENCY_TYPE_CONQUEST_POINTS, sWorld->getIntConfig(CONFIG_CURRENCY_START_CONQUEST_POINTS));
+    SetUInt32Value(PLAYER_FIELD_COINAGE, sWorld->getIntConfig(CONFIG_START_PLAYER_MONEY));
+    SetCurrency(CURRENCY_TYPE_HONOR_POINTS, sWorld->getIntConfig(CONFIG_CURRENCY_START_HONOR_POINTS));
+    SetCurrency(CURRENCY_TYPE_JUSTICE_POINTS, sWorld->getIntConfig(CONFIG_CURRENCY_START_JUSTICE_POINTS));
+    SetCurrency(CURRENCY_TYPE_CONQUEST_POINTS, sWorld->getIntConfig(CONFIG_CURRENCY_START_CONQUEST_POINTS));
 
     // start with every map explored
     if (sWorld->getBoolConfig(CONFIG_START_ALL_EXPLORED))
@@ -1679,19 +1679,19 @@ void Player::Update(uint32 p_time)
         m_spellModTakingSpell = NULL;
     }
 
-	if ((GetMap()->IsRaid()) && (GetGroup() == NULL) && (GetSession()->GetSecurity() < 1))
-	{
-	    TeleportTo(530,-1890.4f,5398.62f,-12.42f,4.04241f);
-	}
+    if ((GetMap()->IsRaid()) && (GetGroup() == NULL) && (GetSession()->GetSecurity() < 1))
+    {
+        TeleportTo(530,-1890.4f,5398.62f,-12.42f,4.04241f);
+    }
 
-	if ((GetMap()->IsRaid()) && (GetGroup() != NULL) && GetMap()->Is25ManRaid() && (GetGroup()->GetMembersCount() > 25))
-	{
-	    TeleportTo(530,-1890.4f,5398.62f,-12.42f,4.04241f);
-	}
-	if ((GetMap()->IsRaid()) && (GetGroup() != NULL) && !GetMap()->Is25ManRaid()  && (GetGroup()->GetMembersCount() > 10))
-	{
-	    TeleportTo(530,-1890.4f,5398.62f,-12.42f,4.04241f);
-	}
+    if ((GetMap()->IsRaid()) && (GetGroup() != NULL) && GetMap()->Is25ManRaid() && (GetGroup()->GetMembersCount() > 25))
+    {
+        TeleportTo(530,-1890.4f,5398.62f,-12.42f,4.04241f);
+    }
+    if ((GetMap()->IsRaid()) && (GetGroup() != NULL) && !GetMap()->Is25ManRaid()  && (GetGroup()->GetMembersCount() > 10))
+    {
+        TeleportTo(530,-1890.4f,5398.62f,-12.42f,4.04241f);
+    }
 
     //used to implement delayed far teleports
     SetCanDelayTeleport(true);
@@ -1962,25 +1962,25 @@ void Player::Update(uint32 p_time)
         }
     }
 
-	if (getClass() == CLASS_DEATH_KNIGHT)
-	{
-		// Update rune timers
-		for (uint8 i = 0; i < MAX_RUNES; ++i)
-		{
-			uint32 timer = GetRuneTimer(i);
+    if (getClass() == CLASS_DEATH_KNIGHT)
+    {
+        // Update rune timers
+        for (uint8 i = 0; i < MAX_RUNES; ++i)
+        {
+            uint32 timer = GetRuneTimer(i);
 
-			// Don't update timer if rune is disabled
-			if (GetRuneCooldown(i))
-				continue;
+            // Don't update timer if rune is disabled
+            if (GetRuneCooldown(i))
+                continue;
 
-			// Timer has began
-			if (timer < 0xFFFFFFFF)
-			{
-				timer += p_time;
-				SetRuneTimer(i, std::min(uint32(2500), timer));
-			}
-		}
-	}
+            // Timer has began
+            if (timer < 0xFFFFFFFF)
+            {
+                timer += p_time;
+                SetRuneTimer(i, std::min(uint32(2500), timer));
+            }
+        }
+    }
 
     // group update
     if (_groupOutOfRangeUpdateTime <= p_time)
@@ -7292,7 +7292,7 @@ void Player::RewardOnKill (Unit *victim, float rate)
                 GetReputationMgr().ModifyReputation(factionEntry2, donerep2);
         }
     }
-	
+    
     if (Rew->CurrencyId1 && Rew->CurrencyCount1)
     {
         ModifyCurrency(Rew->CurrencyId1, Rew->CurrencyCount1);
@@ -7306,8 +7306,8 @@ void Player::RewardOnKill (Unit *victim, float rate)
     if (Rew->CurrencyId3 && Rew->CurrencyCount3)
     {
         ModifyCurrency(Rew->CurrencyId3, Rew->CurrencyCount3);
-    }	
-	
+    }    
+    
 }
 
 
@@ -7352,7 +7352,7 @@ void Player::RewardReputation(Quest const* quest)
         if (FactionEntry const* factionEntry = sFactionStore.LookupEntry(quest->RewardFactionId[i]))
             GetReputationMgr().ModifyReputation(factionEntry, rep);
 
-			// Give guild rep on completed quest
+            // Give guild rep on completed quest
         if (Guild * pGuild = sGuildMgr->GetGuildById(GetGuildId()))
         {
             if (uint32 exp = quest->XPValue(this))
@@ -7560,429 +7560,429 @@ bool Player::RewardHonor(Unit* victim, uint32 groupsize, int32 honor, bool pvpto
 
 void Player::_LoadCurrency(PreparedQueryResult result)
 {
-	if (!result)
-		return;
+    if (!result)
+        return;
 
-	do
-	{
-		Field* fields = result->Fetch();
+    do
+    {
+        Field* fields = result->Fetch();
 
-		uint16 currencyID = fields[0].GetUInt16();
+        uint16 currencyID = fields[0].GetUInt16();
 
-		CurrencyTypesEntry const* currency = sCurrencyTypesStore.LookupEntry(currencyID);
-		if (!currency)
-			continue;
+        CurrencyTypesEntry const* currency = sCurrencyTypesStore.LookupEntry(currencyID);
+        if (!currency)
+            continue;
 
-		PlayerCurrency cur;
-		cur.state = PLAYERCURRENCY_UNCHANGED;
-		cur.weekCount = fields[1].GetUInt32();
-		cur.totalCount = fields[2].GetUInt32();
-		cur.seasonCount = fields[3].GetUInt32();
+        PlayerCurrency cur;
+        cur.state = PLAYERCURRENCY_UNCHANGED;
+        cur.weekCount = fields[1].GetUInt32();
+        cur.totalCount = fields[2].GetUInt32();
+        cur.seasonCount = fields[3].GetUInt32();
 
-		_currencyStorage.insert(PlayerCurrenciesMap::value_type(currencyID, cur));
+        _currencyStorage.insert(PlayerCurrenciesMap::value_type(currencyID, cur));
 
-	} while (result->NextRow());
+    } while (result->NextRow());
 }
 
 void Player::_LoadCurrencyWeekCap(PreparedQueryResult result)
 {
-	//           0         1            2
-	// "SELECT source, maxWeekRating, weekCap FROM character_cp_weekcap WHERE guid = ?"
+    //           0         1            2
+    // "SELECT source, maxWeekRating, weekCap FROM character_cp_weekcap WHERE guid = ?"
 
-	if (!result)
-		return;
+    if (!result)
+        return;
 
-	do
-	{
-		Field *fields = result->Fetch();
+    do
+    {
+        Field *fields = result->Fetch();
 
-		uint16 source = fields[0].GetUInt16();
-		if (source != CP_SOURCE_ARENA && source != CP_SOURCE_RATED_BG)
-			continue;
+        uint16 source = fields[0].GetUInt16();
+        if (source != CP_SOURCE_ARENA && source != CP_SOURCE_RATED_BG)
+            continue;
 
-		m_maxWeekRating[source] = fields[1].GetUInt16();
-		m_conquestPointsWeekCap[source] = fields[2].GetUInt16();
-	} while (result->NextRow());
+        m_maxWeekRating[source] = fields[1].GetUInt16();
+        m_conquestPointsWeekCap[source] = fields[2].GetUInt16();
+    } while (result->NextRow());
 }
 
 
 void Player::_SaveCurrency(SQLTransaction& trans)
 {
-	PreparedStatement* stmt = NULL;
-	for (PlayerCurrenciesMap::iterator itr = _currencyStorage.begin(); itr != _currencyStorage.end(); ++itr)
-	{
-		CurrencyTypesEntry const* entry = sCurrencyTypesStore.LookupEntry(itr->first);
-		if (!entry) // should never happen
-			continue;
+    PreparedStatement* stmt = NULL;
+    for (PlayerCurrenciesMap::iterator itr = _currencyStorage.begin(); itr != _currencyStorage.end(); ++itr)
+    {
+        CurrencyTypesEntry const* entry = sCurrencyTypesStore.LookupEntry(itr->first);
+        if (!entry) // should never happen
+            continue;
 
-		switch (itr->second.state)
-		{
-		case PLAYERCURRENCY_NEW:
-			stmt = CharacterDatabase.GetPreparedStatement(CHAR_REP_PLAYER_CURRENCY);
-			stmt->setUInt32(0, GetGUIDLow());
-			stmt->setUInt16(1, itr->first);
-			stmt->setUInt32(2, itr->second.weekCount);
-			stmt->setUInt32(3, itr->second.totalCount);
-			stmt->setUInt32(4, itr->second.seasonCount);
-			trans->Append(stmt);
-			break;
-		case PLAYERCURRENCY_CHANGED:
-			stmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_PLAYER_CURRENCY);
-			stmt->setUInt32(0, itr->second.weekCount);
-			stmt->setUInt32(1, itr->second.totalCount);
-			stmt->setUInt32(2, itr->second.seasonCount);
-			stmt->setUInt32(3, GetGUIDLow());
-			stmt->setUInt16(4, itr->first);
-			trans->Append(stmt);
-			break;
-		default:
-			break;
-		}
+        switch (itr->second.state)
+        {
+        case PLAYERCURRENCY_NEW:
+            stmt = CharacterDatabase.GetPreparedStatement(CHAR_REP_PLAYER_CURRENCY);
+            stmt->setUInt32(0, GetGUIDLow());
+            stmt->setUInt16(1, itr->first);
+            stmt->setUInt32(2, itr->second.weekCount);
+            stmt->setUInt32(3, itr->second.totalCount);
+            stmt->setUInt32(4, itr->second.seasonCount);
+            trans->Append(stmt);
+            break;
+        case PLAYERCURRENCY_CHANGED:
+            stmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_PLAYER_CURRENCY);
+            stmt->setUInt32(0, itr->second.weekCount);
+            stmt->setUInt32(1, itr->second.totalCount);
+            stmt->setUInt32(2, itr->second.seasonCount);
+            stmt->setUInt32(3, GetGUIDLow());
+            stmt->setUInt16(4, itr->first);
+            trans->Append(stmt);
+            break;
+        default:
+            break;
+        }
 
-		itr->second.state = PLAYERCURRENCY_UNCHANGED;
-	}
+        itr->second.state = PLAYERCURRENCY_UNCHANGED;
+    }
 }
 
 void Player::_SaveCurrencyWeekCap(SQLTransaction& trans)
 {
-	PreparedStatement* stmt = NULL;
+    PreparedStatement* stmt = NULL;
 
-	for (uint8 source = 0; source < CP_SOURCE_MAX; source++)
-	{
-		stmt = CharacterDatabase.GetPreparedStatement(CHAR_REP_PLAYER_CURRENCY_WEEK_CAP);
-		stmt->setUInt32(0, GetGUIDLow());
-		stmt->setUInt8(1, source);
-		stmt->setUInt16(2, m_maxWeekRating[source]);
-		stmt->setUInt16(3, m_conquestPointsWeekCap[source]);
-		trans->Append(stmt);
-	}
+    for (uint8 source = 0; source < CP_SOURCE_MAX; source++)
+    {
+        stmt = CharacterDatabase.GetPreparedStatement(CHAR_REP_PLAYER_CURRENCY_WEEK_CAP);
+        stmt->setUInt32(0, GetGUIDLow());
+        stmt->setUInt8(1, source);
+        stmt->setUInt16(2, m_maxWeekRating[source]);
+        stmt->setUInt16(3, m_conquestPointsWeekCap[source]);
+        trans->Append(stmt);
+    }
 }
 
 void Player::SendNewCurrency(uint32 id) const
 {
-	PlayerCurrenciesMap::const_iterator itr = _currencyStorage.find(id);
-	if (itr == _currencyStorage.end())
-		return;
+    PlayerCurrenciesMap::const_iterator itr = _currencyStorage.find(id);
+    if (itr == _currencyStorage.end())
+        return;
 
-	ByteBuffer currencyData;
-	WorldPacket packet(SMSG_INIT_CURRENCY, 4 + (5 * 4 + 1));
-	packet.WriteBits(1, 23);
+    ByteBuffer currencyData;
+    WorldPacket packet(SMSG_INIT_CURRENCY, 4 + (5 * 4 + 1));
+    packet.WriteBits(1, 23);
 
-	CurrencyTypesEntry const* entry = sCurrencyTypesStore.LookupEntry(id);
-	if (!entry) // should never happen
-		return;
+    CurrencyTypesEntry const* entry = sCurrencyTypesStore.LookupEntry(id);
+    if (!entry) // should never happen
+        return;
 
-	uint32 precision = (entry->Flags & CURRENCY_FLAG_HIGH_PRECISION) ? CURRENCY_PRECISION : 1;
-	uint32 weekCount = itr->second.weekCount / precision;
-	uint32 weekCap = GetCurrencyWeekCap(entry) / precision;
+    uint32 precision = (entry->Flags & CURRENCY_FLAG_HIGH_PRECISION) ? CURRENCY_PRECISION : 1;
+    uint32 weekCount = itr->second.weekCount / precision;
+    uint32 weekCap = GetCurrencyWeekCap(entry) / precision;
 
-	packet.WriteBit(weekCount);
-	packet.WriteBits(0, 4); // some flags
-	packet.WriteBit(weekCap);
-	packet.WriteBit(itr->second.seasonCount > 0 ? 1 : 0);     // season total earned
+    packet.WriteBit(weekCount);
+    packet.WriteBits(0, 4); // some flags
+    packet.WriteBit(weekCap);
+    packet.WriteBit(itr->second.seasonCount > 0 ? 1 : 0);     // season total earned
 
-	currencyData << uint32(itr->second.totalCount / precision);
-	if (weekCap)
-		currencyData << uint32(weekCap);
+    currencyData << uint32(itr->second.totalCount / precision);
+    if (weekCap)
+        currencyData << uint32(weekCap);
 
-	if (itr->second.seasonCount > 0)
-		currencyData << uint32(itr->second.seasonCount / precision);
+    if (itr->second.seasonCount > 0)
+        currencyData << uint32(itr->second.seasonCount / precision);
 
-	currencyData << uint32(entry->ID);
-	if (weekCount)
-		currencyData << uint32(weekCount);
+    currencyData << uint32(entry->ID);
+    if (weekCount)
+        currencyData << uint32(weekCount);
 
-	packet.FlushBits();
-	packet.append(currencyData);
-	GetSession()->SendPacket(&packet);
+    packet.FlushBits();
+    packet.append(currencyData);
+    GetSession()->SendPacket(&packet);
 }
 
 void Player::SendCurrencies() const
 {
-	ByteBuffer currencyData;
-	WorldPacket packet(SMSG_INIT_CURRENCY, 4 + _currencyStorage.size()*(5 * 4 + 1));
-	size_t count_pos = packet.bitwpos();
-	packet.WriteBits(_currencyStorage.size(), 23);
+    ByteBuffer currencyData;
+    WorldPacket packet(SMSG_INIT_CURRENCY, 4 + _currencyStorage.size()*(5 * 4 + 1));
+    size_t count_pos = packet.bitwpos();
+    packet.WriteBits(_currencyStorage.size(), 23);
 
-	size_t count = 0;
-	for (PlayerCurrenciesMap::const_iterator itr = _currencyStorage.begin(); itr != _currencyStorage.end(); ++itr)
-	{
-		CurrencyTypesEntry const* entry = sCurrencyTypesStore.LookupEntry(itr->first);
+    size_t count = 0;
+    for (PlayerCurrenciesMap::const_iterator itr = _currencyStorage.begin(); itr != _currencyStorage.end(); ++itr)
+    {
+        CurrencyTypesEntry const* entry = sCurrencyTypesStore.LookupEntry(itr->first);
 
-		// not send init meta currencies.
-		if (!entry || entry->Category == CURRENCY_CATEGORY_META_CONQUEST)
-			continue;
+        // not send init meta currencies.
+        if (!entry || entry->Category == CURRENCY_CATEGORY_META_CONQUEST)
+            continue;
 
-		uint32 precision = (entry->Flags & CURRENCY_FLAG_HIGH_PRECISION) ? CURRENCY_PRECISION : 1;
-		uint32 weekCount = itr->second.weekCount / precision;
-		uint32 weekCap = GetCurrencyWeekCap(entry) / precision;
+        uint32 precision = (entry->Flags & CURRENCY_FLAG_HIGH_PRECISION) ? CURRENCY_PRECISION : 1;
+        uint32 weekCount = itr->second.weekCount / precision;
+        uint32 weekCap = GetCurrencyWeekCap(entry) / precision;
 
-		packet.WriteBit(weekCount);
-		packet.WriteBits(0, 4); // some flags
-		packet.WriteBit(weekCap);
-		packet.WriteBit(itr->second.seasonCount > 0 ? 1 : 0);     // season total earned
+        packet.WriteBit(weekCount);
+        packet.WriteBits(0, 4); // some flags
+        packet.WriteBit(weekCap);
+        packet.WriteBit(itr->second.seasonCount > 0 ? 1 : 0);     // season total earned
 
-		currencyData << uint32(itr->second.totalCount / precision);
-		if (weekCap)
-			currencyData << uint32(weekCap);
+        currencyData << uint32(itr->second.totalCount / precision);
+        if (weekCap)
+            currencyData << uint32(weekCap);
 
-		if (itr->second.seasonCount > 0)
-			currencyData << uint32(itr->second.seasonCount / precision);
+        if (itr->second.seasonCount > 0)
+            currencyData << uint32(itr->second.seasonCount / precision);
 
-		currencyData << uint32(entry->ID);
-		if (weekCount)
-			currencyData << uint32(weekCount);
+        currencyData << uint32(entry->ID);
+        if (weekCount)
+            currencyData << uint32(weekCount);
 
-		++count;
-	}
+        ++count;
+    }
 
-	packet.FlushBits();
-	packet.append(currencyData);
-	packet.PutBits(count_pos, count, 23);
-	GetSession()->SendPacket(&packet);
+    packet.FlushBits();
+    packet.append(currencyData);
+    packet.PutBits(count_pos, count, 23);
+    GetSession()->SendPacket(&packet);
 }
 
 void Player::SendPvpRewards() const
 {
-	WorldPacket packet(SMSG_REQUEST_PVP_REWARDS_RESPONSE, 24);
-	packet << GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_POINTS, true);
-	packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_POINTS, true);
-	packet << GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_ARENA, true);
-	packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_ARENA, true);
-	packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_RBG, true);
-	packet << GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_POINTS, true);
-	packet << GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_RBG, true);
-	GetSession()->SendPacket(&packet);
+    WorldPacket packet(SMSG_REQUEST_PVP_REWARDS_RESPONSE, 24);
+    packet << GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_POINTS, true);
+    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_POINTS, true);
+    packet << GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_ARENA, true);
+    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_ARENA, true);
+    packet << GetCurrencyOnWeek(CURRENCY_TYPE_CONQUEST_META_RBG, true);
+    packet << GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_POINTS, true);
+    packet << GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_RBG, true);
+    GetSession()->SendPacket(&packet);
 }
 
 uint32 Player::GetCurrency(uint32 id, bool usePrecision) const
 {
-	PlayerCurrenciesMap::const_iterator itr = _currencyStorage.find(id);
-	if (itr == _currencyStorage.end())
-		return 0;
+    PlayerCurrenciesMap::const_iterator itr = _currencyStorage.find(id);
+    if (itr == _currencyStorage.end())
+        return 0;
 
-	CurrencyTypesEntry const* currency = sCurrencyTypesStore.LookupEntry(id);
-	uint32 precision = (usePrecision && currency->Flags & CURRENCY_FLAG_HIGH_PRECISION) ? CURRENCY_PRECISION : 1;
+    CurrencyTypesEntry const* currency = sCurrencyTypesStore.LookupEntry(id);
+    uint32 precision = (usePrecision && currency->Flags & CURRENCY_FLAG_HIGH_PRECISION) ? CURRENCY_PRECISION : 1;
 
-	return itr->second.totalCount / precision;
+    return itr->second.totalCount / precision;
 }
 
 uint32 Player::GetCurrencyOnWeek(uint32 id, bool usePrecision) const
 {
-	PlayerCurrenciesMap::const_iterator itr = _currencyStorage.find(id);
-	if (itr == _currencyStorage.end())
-		return 0;
+    PlayerCurrenciesMap::const_iterator itr = _currencyStorage.find(id);
+    if (itr == _currencyStorage.end())
+        return 0;
 
-	CurrencyTypesEntry const* currency = sCurrencyTypesStore.LookupEntry(id);
-	uint32 precision = (usePrecision && currency->Flags & CURRENCY_FLAG_HIGH_PRECISION) ? CURRENCY_PRECISION : 1;
+    CurrencyTypesEntry const* currency = sCurrencyTypesStore.LookupEntry(id);
+    uint32 precision = (usePrecision && currency->Flags & CURRENCY_FLAG_HIGH_PRECISION) ? CURRENCY_PRECISION : 1;
 
-	return itr->second.weekCount / precision;
+    return itr->second.weekCount / precision;
 }
 
 
 bool Player::HasCurrency(uint32 id, uint32 count) const
 {
-	PlayerCurrenciesMap::const_iterator itr = _currencyStorage.find(id);
-	return itr != _currencyStorage.end() && itr->second.totalCount >= count;
+    PlayerCurrenciesMap::const_iterator itr = _currencyStorage.find(id);
+    return itr != _currencyStorage.end() && itr->second.totalCount >= count;
 }
 
 bool Player::HasCurrencySeasonCount(uint32 id, uint32 count) const
 {
-	PlayerCurrenciesMap::const_iterator itr = _currencyStorage.find(id);
-	return itr != _currencyStorage.end() && itr->second.seasonCount >= count;
+    PlayerCurrenciesMap::const_iterator itr = _currencyStorage.find(id);
+    return itr != _currencyStorage.end() && itr->second.seasonCount >= count;
 }
 
 void Player::ModifyCurrency(uint32 id, int32 count, bool printLog/* = true*/, bool ignoreMultipliers/* = false*/, bool refund/* = false*/, bool ignoreCap/* = false*/)
 {
-	if (!count)
-		return;
+    if (!count)
+        return;
 
-	CurrencyTypesEntry const* currency = sCurrencyTypesStore.LookupEntry(id);
-	ASSERT(currency);
+    CurrencyTypesEntry const* currency = sCurrencyTypesStore.LookupEntry(id);
+    ASSERT(currency);
 
-	if (!ignoreMultipliers)
-		count *= GetTotalAuraMultiplierByMiscValue(SPELL_AURA_MOD_CURRENCY_GAIN, id);
+    if (!ignoreMultipliers)
+        count *= GetTotalAuraMultiplierByMiscValue(SPELL_AURA_MOD_CURRENCY_GAIN, id);
 
-	int32 precision = currency->Flags & CURRENCY_FLAG_HIGH_PRECISION ? CURRENCY_PRECISION : 1;
-	uint32 oldTotalCount = 0;
-	uint32 oldWeekCount = 0;
-	uint32 oldSeasonCount = 0;
+    int32 precision = currency->Flags & CURRENCY_FLAG_HIGH_PRECISION ? CURRENCY_PRECISION : 1;
+    uint32 oldTotalCount = 0;
+    uint32 oldWeekCount = 0;
+    uint32 oldSeasonCount = 0;
 
-	PlayerCurrenciesMap::iterator itr = _currencyStorage.find(id);
-	if (itr == _currencyStorage.end())
-	{
-		PlayerCurrency cur;
-		cur.state = PLAYERCURRENCY_NEW;
-		cur.totalCount = 0;
-		cur.weekCount = 0;
-		cur.seasonCount = 0;
-		_currencyStorage[id] = cur;
-		itr = _currencyStorage.find(id);
-	}
-	else
-	{
-		oldTotalCount = itr->second.totalCount;
-		oldWeekCount = itr->second.weekCount;
-		oldSeasonCount = itr->second.seasonCount;
-	}
+    PlayerCurrenciesMap::iterator itr = _currencyStorage.find(id);
+    if (itr == _currencyStorage.end())
+    {
+        PlayerCurrency cur;
+        cur.state = PLAYERCURRENCY_NEW;
+        cur.totalCount = 0;
+        cur.weekCount = 0;
+        cur.seasonCount = 0;
+        _currencyStorage[id] = cur;
+        itr = _currencyStorage.find(id);
+    }
+    else
+    {
+        oldTotalCount = itr->second.totalCount;
+        oldWeekCount = itr->second.weekCount;
+        oldSeasonCount = itr->second.seasonCount;
+    }
 
-	// seasonCount
-	int32 newSeasonCount = int32(oldSeasonCount) + (!refund ? (count > 0 ? count : 0) : 0);
+    // seasonCount
+    int32 newSeasonCount = int32(oldSeasonCount) + (!refund ? (count > 0 ? count : 0) : 0);
 
-	// count can't be more then weekCap if used (weekCap > 0)
-	uint32 weekCap = GetCurrencyWeekCap(currency);
-	if (!ignoreCap && weekCap && count > int32(weekCap))
-		count = weekCap;
+    // count can't be more then weekCap if used (weekCap > 0)
+    uint32 weekCap = GetCurrencyWeekCap(currency);
+    if (!ignoreCap && weekCap && count > int32(weekCap))
+        count = weekCap;
 
-	// count can't be more then totalCap if used (totalCap > 0)
-	uint32 totalCap = GetCurrencyTotalCap(currency);
-	if (totalCap && count > int32(totalCap))
-		count = totalCap;
+    // count can't be more then totalCap if used (totalCap > 0)
+    uint32 totalCap = GetCurrencyTotalCap(currency);
+    if (totalCap && count > int32(totalCap))
+        count = totalCap;
 
-	int32 newTotalCount = int32(oldTotalCount) + count;
-	if (newTotalCount < 0)
-		newTotalCount = 0;
+    int32 newTotalCount = int32(oldTotalCount) + count;
+    if (newTotalCount < 0)
+        newTotalCount = 0;
 
-	int32 newWeekCount = int32(oldWeekCount) + (!refund ? (count > 0 ? count : 0) : 0);
-	if (newWeekCount < 0)
-		newWeekCount = 0;
+    int32 newWeekCount = int32(oldWeekCount) + (!refund ? (count > 0 ? count : 0) : 0);
+    if (newWeekCount < 0)
+        newWeekCount = 0;
 
-	// if we get more then weekCap just set to limit
-	if (weekCap && int32(weekCap) < newWeekCount)
-	{
-		newWeekCount = int32(weekCap);
-		// weekCap - oldWeekCount always >= 0 as we set limit before!
-		if (!ignoreCap)
-			newTotalCount = oldTotalCount + (weekCap - oldWeekCount);
-		newSeasonCount = oldSeasonCount + (weekCap - oldWeekCount);
-	}
+    // if we get more then weekCap just set to limit
+    if (weekCap && int32(weekCap) < newWeekCount)
+    {
+        newWeekCount = int32(weekCap);
+        // weekCap - oldWeekCount always >= 0 as we set limit before!
+        if (!ignoreCap)
+            newTotalCount = oldTotalCount + (weekCap - oldWeekCount);
+        newSeasonCount = oldSeasonCount + (weekCap - oldWeekCount);
+    }
 
-	// if we get more then totalCap set to maximum;
-	if (totalCap && int32(totalCap) < newTotalCount)
-	{
-		newTotalCount = int32(totalCap);
-		newWeekCount = weekCap;
-	}
+    // if we get more then totalCap set to maximum;
+    if (totalCap && int32(totalCap) < newTotalCount)
+    {
+        newTotalCount = int32(totalCap);
+        newWeekCount = weekCap;
+    }
 
-	if (uint32(newTotalCount) != oldTotalCount)
-	{
-		if (itr->second.state != PLAYERCURRENCY_NEW)
-			itr->second.state = PLAYERCURRENCY_CHANGED;
+    if (uint32(newTotalCount) != oldTotalCount)
+    {
+        if (itr->second.state != PLAYERCURRENCY_NEW)
+            itr->second.state = PLAYERCURRENCY_CHANGED;
 
-		itr->second.totalCount = newTotalCount;
-		itr->second.weekCount = newWeekCount;
-		itr->second.seasonCount = newSeasonCount;
+        itr->second.totalCount = newTotalCount;
+        itr->second.weekCount = newWeekCount;
+        itr->second.seasonCount = newSeasonCount;
 
-		// ignore refund here to fix  achievement exploit
-		if (!refund && count > 0)
-			UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_CURRENCY, id, count);
+        // ignore refund here to fix  achievement exploit
+        if (!refund && count > 0)
+            UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_CURRENCY, id, count);
 
-		if (currency->Category == CURRENCY_CATEGORY_META_CONQUEST)
-		{
-			// count was changed to week limit, now we can modify original points.
-			ModifyCurrency(CURRENCY_TYPE_CONQUEST_POINTS, count, printLog);
-			return;
-		}
+        if (currency->Category == CURRENCY_CATEGORY_META_CONQUEST)
+        {
+            // count was changed to week limit, now we can modify original points.
+            ModifyCurrency(CURRENCY_TYPE_CONQUEST_POINTS, count, printLog);
+            return;
+        }
 
-		WorldPacket packet(SMSG_UPDATE_CURRENCY, 12);
+        WorldPacket packet(SMSG_UPDATE_CURRENCY, 12);
 
-		packet.WriteBit(weekCap != 0);
-		packet.WriteBit(itr->second.seasonCount > 0 ? 1 : 0); // hasSeasonCount
-		packet.WriteBit(!printLog); // print in log
+        packet.WriteBit(weekCap != 0);
+        packet.WriteBit(itr->second.seasonCount > 0 ? 1 : 0); // hasSeasonCount
+        packet.WriteBit(!printLog); // print in log
 
-		if (itr->second.seasonCount > 0)
-			packet << uint32(itr->second.seasonCount / CURRENCY_PRECISION);
+        if (itr->second.seasonCount > 0)
+            packet << uint32(itr->second.seasonCount / CURRENCY_PRECISION);
 
-		packet << uint32(newTotalCount / precision);
-		packet << uint32(id);
-		if (weekCap)
-			packet << uint32(newWeekCount / precision);
+        packet << uint32(newTotalCount / precision);
+        packet << uint32(id);
+        if (weekCap)
+            packet << uint32(newWeekCount / precision);
 
-		GetSession()->SendPacket(&packet);
-	}
+        GetSession()->SendPacket(&packet);
+    }
 }
 
 void Player::SetCurrency(uint32 id, uint32 count, bool /*printLog*/ /*= true*/)
 {
-	PlayerCurrenciesMap::iterator itr = _currencyStorage.find(id);
-	if (itr == _currencyStorage.end())
-	{
-		PlayerCurrency cur;
-		cur.state = PLAYERCURRENCY_NEW;
-		cur.totalCount = count;
-		cur.weekCount = 0;
-		cur.seasonCount = count;
-		_currencyStorage[id] = cur;
-	}
+    PlayerCurrenciesMap::iterator itr = _currencyStorage.find(id);
+    if (itr == _currencyStorage.end())
+    {
+        PlayerCurrency cur;
+        cur.state = PLAYERCURRENCY_NEW;
+        cur.totalCount = count;
+        cur.weekCount = 0;
+        cur.seasonCount = count;
+        _currencyStorage[id] = cur;
+    }
 }
 
 uint32 Player::GetCurrencyWeekCap(uint32 id, bool usePrecision) const
 {
-	CurrencyTypesEntry const* entry = sCurrencyTypesStore.LookupEntry(id);
-	if (!entry)
-		return 0;
+    CurrencyTypesEntry const* entry = sCurrencyTypesStore.LookupEntry(id);
+    if (!entry)
+        return 0;
 
-	uint32 precision = (usePrecision && entry->Flags & CURRENCY_FLAG_HIGH_PRECISION) ? CURRENCY_PRECISION : 1;
+    uint32 precision = (usePrecision && entry->Flags & CURRENCY_FLAG_HIGH_PRECISION) ? CURRENCY_PRECISION : 1;
 
-	return GetCurrencyWeekCap(entry) / precision;
+    return GetCurrencyWeekCap(entry) / precision;
 }
 
 void Player::ResetCurrencyWeekCap()
 {
-	// How nice it's this Formula ? *_*
-	uint32 newCap = Trinity::Currency::ConquestRatingCalculator(m_maxWeekRating[CP_SOURCE_ARENA]);
-	m_conquestPointsWeekCap[CP_SOURCE_ARENA] = uint16(newCap);
+    // How nice it's this Formula ? *_*
+    uint32 newCap = Trinity::Currency::ConquestRatingCalculator(m_maxWeekRating[CP_SOURCE_ARENA]);
+    m_conquestPointsWeekCap[CP_SOURCE_ARENA] = uint16(newCap);
 
-	// Our players must be skilled every week u.u
-	m_maxWeekRating[CP_SOURCE_ARENA] = 0;
+    // Our players must be skilled every week u.u
+    m_maxWeekRating[CP_SOURCE_ARENA] = 0;
 
-	// Update database!
-	SQLTransaction trans = CharacterDatabase.BeginTransaction();
-	_SaveCurrencyWeekCap(trans);
-	_SaveCurrency(trans);
-	CharacterDatabase.CommitTransaction(trans);
+    // Update database!
+    SQLTransaction trans = CharacterDatabase.BeginTransaction();
+    _SaveCurrencyWeekCap(trans);
+    _SaveCurrency(trans);
+    CharacterDatabase.CommitTransaction(trans);
 
-	// Let know players what the fuck i'm doing :V
-	SendCurrencies();
+    // Let know players what the fuck i'm doing :V
+    SendCurrencies();
 
-	for (uint32 arenaSlot = 0; arenaSlot < MAX_ARENA_SLOT; arenaSlot++)
-	{
-		if (uint32 arenaTeamId = GetArenaTeamId(arenaSlot))
-		{
-			ArenaTeam* arenaTeam = sArenaTeamMgr->GetArenaTeamById(arenaTeamId);
-			arenaTeam->FinishWeek();                              // set played this week etc values to 0 in memory, too
-			arenaTeam->SaveToDB();                                // save changes
-			arenaTeam->NotifyStatsChanged();                      // notify the players of the changes
-		}
-	}
+    for (uint32 arenaSlot = 0; arenaSlot < MAX_ARENA_SLOT; arenaSlot++)
+    {
+        if (uint32 arenaTeamId = GetArenaTeamId(arenaSlot))
+        {
+            ArenaTeam* arenaTeam = sArenaTeamMgr->GetArenaTeamById(arenaTeamId);
+            arenaTeam->FinishWeek();                              // set played this week etc values to 0 in memory, too
+            arenaTeam->SaveToDB();                                // save changes
+            arenaTeam->NotifyStatsChanged();                      // notify the players of the changes
+        }
+    }
 
-	for (PlayerCurrenciesMap::iterator itr = _currencyStorage.begin(); itr != _currencyStorage.end(); ++itr)
-	{
-		itr->second.weekCount = 0;
-		itr->second.state = PLAYERCURRENCY_CHANGED;
-	}
+    for (PlayerCurrenciesMap::iterator itr = _currencyStorage.begin(); itr != _currencyStorage.end(); ++itr)
+    {
+        itr->second.weekCount = 0;
+        itr->second.state = PLAYERCURRENCY_CHANGED;
+    }
 
-	WorldPacket data(SMSG_WEEKLY_RESET_CURRENCY, 0);
-	SendDirectMessage(&data);
+    WorldPacket data(SMSG_WEEKLY_RESET_CURRENCY, 0);
+    SendDirectMessage(&data);
 }
 
 
 uint32 Player::GetCurrencyWeekCap(CurrencyTypesEntry const* currency) const
 {
-	switch (currency->ID)
-	{
-		//original conquest not have week cap
-	case CURRENCY_TYPE_CONQUEST_POINTS:
-		return std::max(GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_ARENA, false), GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_RBG, false));
-	case CURRENCY_TYPE_CONQUEST_META_ARENA:
-		// should add precision mod = 100
-		return m_conquestPointsWeekCap[CP_SOURCE_ARENA] * CURRENCY_PRECISION;
-	case CURRENCY_TYPE_CONQUEST_META_RBG:
-		// should add precision mod = 100
-		return m_conquestPointsWeekCap[CP_SOURCE_RATED_BG] * CURRENCY_PRECISION;
-	}
+    switch (currency->ID)
+    {
+        //original conquest not have week cap
+    case CURRENCY_TYPE_CONQUEST_POINTS:
+        return std::max(GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_ARENA, false), GetCurrencyWeekCap(CURRENCY_TYPE_CONQUEST_META_RBG, false));
+    case CURRENCY_TYPE_CONQUEST_META_ARENA:
+        // should add precision mod = 100
+        return m_conquestPointsWeekCap[CP_SOURCE_ARENA] * CURRENCY_PRECISION;
+    case CURRENCY_TYPE_CONQUEST_META_RBG:
+        // should add precision mod = 100
+        return m_conquestPointsWeekCap[CP_SOURCE_RATED_BG] * CURRENCY_PRECISION;
+    }
 
-	return currency->WeekCap;
+    return currency->WeekCap;
 }
 
 uint32 Player::GetCurrencyTotalCap(CurrencyTypesEntry const* currency) const
@@ -8022,22 +8022,22 @@ uint32 Player::GetCurrencyTotalCap(CurrencyTypesEntry const* currency) const
 
 void Player::UpdateConquestCurrencyCap(uint32 currency)
 {
-	uint32 currenciesToUpdate[2] = { currency, CURRENCY_TYPE_CONQUEST_POINTS };
+    uint32 currenciesToUpdate[2] = { currency, CURRENCY_TYPE_CONQUEST_POINTS };
 
-	for (uint32 i = 0; i < 2; ++i)
-	{
-		CurrencyTypesEntry const* currencyEntry = sCurrencyTypesStore.LookupEntry(currenciesToUpdate[i]);
-		if (!currencyEntry)
-			continue;
+    for (uint32 i = 0; i < 2; ++i)
+    {
+        CurrencyTypesEntry const* currencyEntry = sCurrencyTypesStore.LookupEntry(currenciesToUpdate[i]);
+        if (!currencyEntry)
+            continue;
 
-		uint32 precision = (currencyEntry->Flags & CURRENCY_FLAG_HIGH_PRECISION) ? 100 : 1;
-		uint32 cap = GetCurrencyWeekCap(currencyEntry);
+        uint32 precision = (currencyEntry->Flags & CURRENCY_FLAG_HIGH_PRECISION) ? 100 : 1;
+        uint32 cap = GetCurrencyWeekCap(currencyEntry);
 
-		WorldPacket packet(SMSG_UPDATE_CURRENCY_WEEK_LIMIT, 8);
-		packet << uint32(cap / precision);
-		packet << uint32(currenciesToUpdate[i]);
-		GetSession()->SendPacket(&packet);
-	}
+        WorldPacket packet(SMSG_UPDATE_CURRENCY_WEEK_LIMIT, 8);
+        packet << uint32(cap / precision);
+        packet << uint32(currenciesToUpdate[i]);
+        GetSession()->SendPacket(&packet);
+    }
 }
 
 void Player::SetInGuild(uint32 guildId)
@@ -8075,7 +8075,7 @@ void Player::SetArenaTeamInfoField(uint8 slot, ArenaTeamInfoType type, uint32 va
     SetUInt32Value(PLAYER_FIELD_ARENA_TEAM_INFO_1_1 + (slot * ARENA_TEAM_END) + type, value);
     if (type == ARENA_TEAM_PERSONAL_RATING && value > _maxPersonalArenaRate)
         _maxPersonalArenaRate = value;
-	    UpdateConquestCurrencyCap(CURRENCY_TYPE_CONQUEST_META_ARENA);
+        UpdateConquestCurrencyCap(CURRENCY_TYPE_CONQUEST_META_ARENA);
 }
 
 uint32 Player::GetArenaTeamIdFromDB(uint64 guid, uint8 type)
@@ -9105,92 +9105,92 @@ void Player::CastItemCombatSpell(Unit* target, WeaponAttackType attType, uint32 
 
 void Player::CastItemUseSpell(Item* item, SpellCastTargets const& targets, uint8 cast_count, uint32 glyphIndex)
 {
-	ItemTemplate const* proto = item->GetTemplate();
-	// special learning case
-	if (proto->Spells[0].SpellId == 483 || proto->Spells[0].SpellId == 55884)
-	{
-		uint32 learn_spell_id = proto->Spells[0].SpellId;
-		uint32 learning_spell_id = proto->Spells[1].SpellId;
+    ItemTemplate const* proto = item->GetTemplate();
+    // special learning case
+    if (proto->Spells[0].SpellId == 483 || proto->Spells[0].SpellId == 55884)
+    {
+        uint32 learn_spell_id = proto->Spells[0].SpellId;
+        uint32 learning_spell_id = proto->Spells[1].SpellId;
 
-		SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(learn_spell_id);
-		if (!spellInfo)
-		{
-			sLog->outError(LOG_FILTER_PLAYER, "Player::CastItemUseSpell: Item (Entry: %u) in have wrong spell id %u, ignoring ", proto->ItemId, learn_spell_id);
-			SendEquipError(EQUIP_ERR_INTERNAL_BAG_ERROR, item, NULL);
-			return;
-		}
+        SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(learn_spell_id);
+        if (!spellInfo)
+        {
+            sLog->outError(LOG_FILTER_PLAYER, "Player::CastItemUseSpell: Item (Entry: %u) in have wrong spell id %u, ignoring ", proto->ItemId, learn_spell_id);
+            SendEquipError(EQUIP_ERR_INTERNAL_BAG_ERROR, item, NULL);
+            return;
+        }
 
-		Spell* spell = new Spell(this, spellInfo, TRIGGERED_NONE);
-		spell->m_CastItem = item;
-		spell->m_cast_count = cast_count;                   //set count of casts
-		spell->SetSpellValue(SPELLVALUE_BASE_POINT0, learning_spell_id);
-		spell->prepare(&targets);
-		return;
-	}
+        Spell* spell = new Spell(this, spellInfo, TRIGGERED_NONE);
+        spell->m_CastItem = item;
+        spell->m_cast_count = cast_count;                   //set count of casts
+        spell->SetSpellValue(SPELLVALUE_BASE_POINT0, learning_spell_id);
+        spell->prepare(&targets);
+        return;
+    }
 
-	// use triggered flag only for items with many spell casts and for not first cast
-	uint8 count = 0;
+    // use triggered flag only for items with many spell casts and for not first cast
+    uint8 count = 0;
 
-	// item spells cast at use
-	for (uint8 i = 0; i < MAX_ITEM_PROTO_SPELLS; ++i)
-	{
-		_Spell const& spellData = proto->Spells[i];
+    // item spells cast at use
+    for (uint8 i = 0; i < MAX_ITEM_PROTO_SPELLS; ++i)
+    {
+        _Spell const& spellData = proto->Spells[i];
 
-		// no spell
-		if (!spellData.SpellId)
-			continue;
+        // no spell
+        if (!spellData.SpellId)
+            continue;
 
-		// wrong triggering type
-		if (spellData.SpellTrigger != ITEM_SPELLTRIGGER_ON_USE)
-			continue;
+        // wrong triggering type
+        if (spellData.SpellTrigger != ITEM_SPELLTRIGGER_ON_USE)
+            continue;
 
-		SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(spellData.SpellId);
-		if (!spellInfo)
-		{
-			sLog->outError(LOG_FILTER_PLAYER, "Player::CastItemUseSpell: Item (Entry: %u) in have wrong spell id %u, ignoring", proto->ItemId, spellData.SpellId);
-			continue;
-		}
+        SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(spellData.SpellId);
+        if (!spellInfo)
+        {
+            sLog->outError(LOG_FILTER_PLAYER, "Player::CastItemUseSpell: Item (Entry: %u) in have wrong spell id %u, ignoring", proto->ItemId, spellData.SpellId);
+            continue;
+        }
 
-		Spell* spell = new Spell(this, spellInfo, (count > 0) ? TRIGGERED_FULL_MASK : TRIGGERED_NONE);
-		spell->m_CastItem = item;
-		spell->m_cast_count = cast_count;                   // set count of casts
-		spell->m_glyphIndex = glyphIndex;                   // glyph index
-		spell->prepare(&targets);
+        Spell* spell = new Spell(this, spellInfo, (count > 0) ? TRIGGERED_FULL_MASK : TRIGGERED_NONE);
+        spell->m_CastItem = item;
+        spell->m_cast_count = cast_count;                   // set count of casts
+        spell->m_glyphIndex = glyphIndex;                   // glyph index
+        spell->prepare(&targets);
 
-		++count;
-	}
+        ++count;
+    }
 
-	// Item enchantments spells cast at use
-	for (uint8 e_slot = 0; e_slot < MAX_ENCHANTMENT_SLOT; ++e_slot)
-	{
-		if (e_slot > PRISMATIC_ENCHANTMENT_SLOT && e_slot < PROP_ENCHANTMENT_SLOT_0)    // not holding enchantment id
-			continue;
+    // Item enchantments spells cast at use
+    for (uint8 e_slot = 0; e_slot < MAX_ENCHANTMENT_SLOT; ++e_slot)
+    {
+        if (e_slot > PRISMATIC_ENCHANTMENT_SLOT && e_slot < PROP_ENCHANTMENT_SLOT_0)    // not holding enchantment id
+            continue;
 
-		uint32 enchant_id = item->GetEnchantmentId(EnchantmentSlot(e_slot));
-		SpellItemEnchantmentEntry const* pEnchant = sSpellItemEnchantmentStore.LookupEntry(enchant_id);
-		if (!pEnchant)
-			continue;
-		for (uint8 s = 0; s < MAX_ITEM_ENCHANTMENT_EFFECTS; ++s)
-		{
-			if (pEnchant->type[s] != ITEM_ENCHANTMENT_TYPE_USE_SPELL)
-				continue;
+        uint32 enchant_id = item->GetEnchantmentId(EnchantmentSlot(e_slot));
+        SpellItemEnchantmentEntry const* pEnchant = sSpellItemEnchantmentStore.LookupEntry(enchant_id);
+        if (!pEnchant)
+            continue;
+        for (uint8 s = 0; s < MAX_ITEM_ENCHANTMENT_EFFECTS; ++s)
+        {
+            if (pEnchant->type[s] != ITEM_ENCHANTMENT_TYPE_USE_SPELL)
+                continue;
 
-			SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(pEnchant->spellid[s]);
-			if (!spellInfo)
-			{
-				sLog->outError(LOG_FILTER_PLAYER, "Player::CastItemUseSpell Enchant %i, cast unknown spell %i", pEnchant->ID, pEnchant->spellid[s]);
-				continue;
-			}
+            SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(pEnchant->spellid[s]);
+            if (!spellInfo)
+            {
+                sLog->outError(LOG_FILTER_PLAYER, "Player::CastItemUseSpell Enchant %i, cast unknown spell %i", pEnchant->ID, pEnchant->spellid[s]);
+                continue;
+            }
 
-			Spell* spell = new Spell(this, spellInfo, (count > 0) ? TRIGGERED_FULL_MASK : TRIGGERED_NONE);
-			spell->m_CastItem = item;
-			spell->m_cast_count = cast_count;               // set count of casts
-			spell->m_glyphIndex = glyphIndex;               // glyph index
-			spell->prepare(&targets);
+            Spell* spell = new Spell(this, spellInfo, (count > 0) ? TRIGGERED_FULL_MASK : TRIGGERED_NONE);
+            spell->m_CastItem = item;
+            spell->m_cast_count = cast_count;               // set count of casts
+            spell->m_glyphIndex = glyphIndex;               // glyph index
+            spell->prepare(&targets);
 
-			++count;
-		}
-	}
+            ++count;
+        }
+    }
 }
 
 
@@ -12259,16 +12259,16 @@ InventoryResult Player::CanUseItem(ItemTemplate const* proto) const
 
 InventoryResult Player::CanRollForItemInLFG(ItemTemplate const* proto, WorldObject const* lootedObject) const
 {
-	if (!GetGroup() || !GetGroup()->isLFGGroup())
-		return EQUIP_ERR_OK;    // not in LFG group
+    if (!GetGroup() || !GetGroup()->isLFGGroup())
+        return EQUIP_ERR_OK;    // not in LFG group
 
-	// check if looted object is inside the lfg dungeon
-	Map const* map = lootedObject->GetMap();
-	if (!sLFGMgr->inLfgDungeonMap(GetGroup()->GetGUID(), map->GetId(), map->GetDifficulty()))
-		return EQUIP_ERR_OK;
+    // check if looted object is inside the lfg dungeon
+    Map const* map = lootedObject->GetMap();
+    if (!sLFGMgr->inLfgDungeonMap(GetGroup()->GetGUID(), map->GetId(), map->GetDifficulty()))
+        return EQUIP_ERR_OK;
 
-	if (!proto)
-		return EQUIP_ERR_ITEM_NOT_FOUND;
+    if (!proto)
+        return EQUIP_ERR_ITEM_NOT_FOUND;
     // Used by group, function NeedBeforeGreed, to know if a prototype can be used by a player
 
     const static uint32 item_weapon_skills[MAX_ITEM_SUBCLASS_WEAPON] =
@@ -15579,19 +15579,19 @@ void Player::AddQuest(Quest const* quest, Object* questGiver)
 
     UpdateForQuestWorldObjects();
 
-	if (sWorld->getBoolConfig(CONFIG_QUEST_ENABLE_QUEST_TRACKER)) // check if Quest Tracker is enabled
+    if (sWorld->getBoolConfig(CONFIG_QUEST_ENABLE_QUEST_TRACKER)) // check if Quest Tracker is enabled
 
-		{   
-		    // prepare Quest Tracker datas
-			PreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_INS_QUEST_TRACK);
-		    stmt->setUInt32(0, quest_id);
-		    stmt->setUInt32(1, GetGUIDLow());
-		    stmt->setString(2, _HASH);
-		    stmt->setString(3, _DATE);
-			 
-			// add to Quest Tracker
-			CharacterDatabase.Execute(stmt);
-		}
+        {   
+            // prepare Quest Tracker datas
+            PreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_INS_QUEST_TRACK);
+            stmt->setUInt32(0, quest_id);
+            stmt->setUInt32(1, GetGUIDLow());
+            stmt->setString(2, _HASH);
+            stmt->setString(3, _DATE);
+             
+            // add to Quest Tracker
+            CharacterDatabase.Execute(stmt);
+        }
 
     if (questGiver != NULL)
     {
@@ -15656,16 +15656,16 @@ void Player::CompleteQuest(uint32 quest_id)
             sScriptMgr->OnQuestComplete(this, qInfo);
         }
     }
-	if (sWorld->getBoolConfig(CONFIG_QUEST_ENABLE_QUEST_TRACKER)) // check if Quest Tracker is enabled
-		{
-		    // prepare Quest Tracker datas
-	        PreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_QUEST_TRACK_COMPLETE_TIME);
-		    stmt->setUInt32(0, quest_id);
-		    stmt->setUInt32(1, GetGUIDLow());
-		    
-		    // add to Quest Tracker
-		    CharacterDatabase.Execute(stmt);
-		}
+    if (sWorld->getBoolConfig(CONFIG_QUEST_ENABLE_QUEST_TRACKER)) // check if Quest Tracker is enabled
+        {
+            // prepare Quest Tracker datas
+            PreparedStatement* stmt = CharacterDatabase.GetPreparedStatement(CHAR_UPD_QUEST_TRACK_COMPLETE_TIME);
+            stmt->setUInt32(0, quest_id);
+            stmt->setUInt32(1, GetGUIDLow());
+            
+            // add to Quest Tracker
+            CharacterDatabase.Execute(stmt);
+        }
 }
 
 void Player::IncompleteQuest(uint32 quest_id)
@@ -15693,7 +15693,7 @@ void Player::RewardQuest(Quest const* quest, uint32 reward, Object* questGiver, 
     for (uint8 i = 0; i < QUEST_ITEM_OBJECTIVES_COUNT; ++i)
         if (quest->RequiredItemId[i])
             DestroyItemCount(quest->RequiredItemId[i], quest->RequiredItemCount[i], true);
-			
+            
     for (uint8 i = 0; i < QUEST_REQUIRED_CURRENCY_COUNT; ++i)
         if (quest->RequiredCurrencyId[i])
             ModifyCurrency(quest->RequiredCurrencyId[i], -int32(quest->RequiredCurrencyCount[i]));
@@ -17557,7 +17557,7 @@ bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder)
     // set which actionbars the client has active - DO NOT REMOVE EVER AGAIN (can be changed though, if it does change fieldwise)
     SetByteValue(PLAYER_FIELD_BYTES, 2, fields[58].GetUInt8());
 
-	_currentPetSlot = (PetSlot)fields[60].GetUInt8();
+    _currentPetSlot = (PetSlot)fields[60].GetUInt8();
     InitDisplayIds();
 
     // cleanup inventory related item value fields (its will be filled correctly in _LoadInventory)
@@ -17624,11 +17624,11 @@ bool Player::LoadFromDB(uint32 guid, SQLQueryHolder *holder)
         DeleteArenaTeam(arena_slot);
     }
 
-	// Load Currency
-	_LoadCurrency(holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOAD_CURRENCY));
+    // Load Currency
+    _LoadCurrency(holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOAD_CURRENCY));
 
-	// Load Currency Week Cap
-	_LoadCurrencyWeekCap(holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOAD_CURRENCY_WEEK_CAP));
+    // Load Currency Week Cap
+    _LoadCurrencyWeekCap(holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOAD_CURRENCY_WEEK_CAP));
 
     SetUInt32Value(PLAYER_FIELD_LIFETIME_HONORABLE_KILLS, fields[40].GetUInt32());
     SetUInt16Value(PLAYER_FIELD_KILLS, 0, fields[41].GetUInt16());
@@ -18788,9 +18788,9 @@ void Player::_LoadMail()
 void Player::LoadPets()
 {
     QueryResult result = CharacterDatabase.PQuery("SELECT currentPetSlot FROM characters WHERE guid = '%u'", this->GetGUIDLow());
-	Field* fields = result->Fetch();
-	PetSlot petslot = (PetSlot)fields[0].GetUInt8();
-	
+    Field* fields = result->Fetch();
+    PetSlot petslot = (PetSlot)fields[0].GetUInt8();
+    
     //Spawn Pet maybe Lastpetentry save in database
     if (IsInWorld())
     {
@@ -19689,7 +19689,7 @@ void Player::SaveToDB(bool create /*=false*/)
         stmt->setUInt8(index++, GetByteValue(PLAYER_FIELD_BYTES, 2));
         stmt->setUInt32(index++, m_grantableLevels);
         stmt->setUInt32(index++, GetAchievementPoints());
-		stmt->setUInt8(index++, _currentPetSlot);
+        stmt->setUInt8(index++, _currentPetSlot);
     }
     else
     {
@@ -19814,7 +19814,7 @@ void Player::SaveToDB(bool create /*=false*/)
         stmt->setUInt32(index++, GetAchievementPoints());
 
         stmt->setUInt8(index++, IsInWorld() ? 1 : 0);
-		stmt->setUInt8(index++, _currentPetSlot);
+        stmt->setUInt8(index++, _currentPetSlot);
         // Index
         stmt->setUInt32(index++, GetGUIDLow());
     }
@@ -19872,7 +19872,7 @@ void Player::SaveInventoryAndGoldToDB(SQLTransaction& trans)
 {
     _SaveInventory(trans);
     _SaveCurrency(trans);
-	_SaveCurrencyWeekCap(trans);
+    _SaveCurrencyWeekCap(trans);
     SaveGoldToDB(trans);
 }
 
@@ -20721,7 +20721,7 @@ void Player::SendAutoRepeatCancel(Unit* target)
     WorldPacket data(SMSG_CANCEL_AUTO_REPEAT, target->GetPackGUID().size());
     data.append(target->GetPackGUID());                     // may be it's target guid
     //GetSession()->SendPacket(&data);
-	SendMessageToSet(&data, false);
+    SendMessageToSet(&data, false);
 }
 
 void Player::SendExplorationExperience(uint32 Area, uint32 Experience)
@@ -20916,8 +20916,8 @@ void Player::RemovePet(Pet* pet, PetSlot mode, bool returnreagent, bool logout)
     }
 
     QueryResult result = CharacterDatabase.PQuery("SELECT currentPetSlot FROM characters WHERE guid = '%u'", this->GetGUIDLow());
-	Field* fields = result->Fetch();
-	PetSlot petslot = (PetSlot)fields[0].GetUInt8();
+    Field* fields = result->Fetch();
+    PetSlot petslot = (PetSlot)fields[0].GetUInt8();
 
     if (mode == PET_SAVE_AS_CURRENT)
         mode = petslot;
@@ -22090,33 +22090,33 @@ inline bool Player::_StoreOrEquipNewItem(uint32 vendorslot, uint32 item, uint8 c
 
     ModifyMoney(-price);
 
-	if (crItem->ExtendedCost) // case for new honor system
-	{
-		ItemExtendedCostEntry const* iece = sItemExtendedCostStore.LookupEntry(crItem->ExtendedCost);
-		for (int i = 0; i < MAX_ITEM_EXT_COST_CURRENCIES; ++i)
-		{
-			if (iece->RequiredItem[i])
-				DestroyItemCount(iece->RequiredItem[i], iece->RequiredItemCount[i] * stacks, true);
-		}
+    if (crItem->ExtendedCost) // case for new honor system
+    {
+        ItemExtendedCostEntry const* iece = sItemExtendedCostStore.LookupEntry(crItem->ExtendedCost);
+        for (int i = 0; i < MAX_ITEM_EXT_COST_CURRENCIES; ++i)
+        {
+            if (iece->RequiredItem[i])
+                DestroyItemCount(iece->RequiredItem[i], iece->RequiredItemCount[i] * stacks, true);
+        }
 
-		for (int i = 0; i < MAX_ITEM_EXT_COST_CURRENCIES; ++i)
-		{
-			CurrencyTypesEntry const* entry = sCurrencyTypesStore.LookupEntry(iece->RequiredCurrency[i]);
-			if (!entry)
-				continue;
+        for (int i = 0; i < MAX_ITEM_EXT_COST_CURRENCIES; ++i)
+        {
+            CurrencyTypesEntry const* entry = sCurrencyTypesStore.LookupEntry(iece->RequiredCurrency[i]);
+            if (!entry)
+                continue;
 
-			// Skip check only currencies.. 
-			uint32 checkValue = entry->TotalCap;
-			if (entry->ID == CURRENCY_TYPE_CONQUEST_POINTS)
-				checkValue = 600000;
+            // Skip check only currencies.. 
+            uint32 checkValue = entry->TotalCap;
+            if (entry->ID == CURRENCY_TYPE_CONQUEST_POINTS)
+                checkValue = 600000;
 
-			if (checkValue > 0 && iece->RequiredCurrencyCount[i] * stacks > checkValue)
-				continue;
+            if (checkValue > 0 && iece->RequiredCurrencyCount[i] * stacks > checkValue)
+                continue;
 
-			if (iece->RequiredCurrency[i])
-				ModifyCurrency(iece->RequiredCurrency[i], -int32(iece->RequiredCurrencyCount[i] * stacks), true, true);
-		}
-	}
+            if (iece->RequiredCurrency[i])
+                ModifyCurrency(iece->RequiredCurrency[i], -int32(iece->RequiredCurrencyCount[i] * stacks), true, true);
+        }
+    }
 
     Item* it = bStore ?
         StoreNewItem(vDest, item, true) :
@@ -22210,33 +22210,33 @@ bool Player::BuyCurrencyFromVendorSlot(uint64 vendorGuid, uint32 vendorSlot, uin
             return false;
         }
 
-		for (uint8 i = 0; i < MAX_ITEM_EXT_COST_ITEMS; ++i)
-		{
-			if (iece->RequiredItem[i] && !HasItemCount(iece->RequiredItem[i], (iece->RequiredItemCount[i] * stacks)))
-			{
-				SendEquipError(EQUIP_ERR_VENDOR_MISSING_TURNINS, NULL, NULL);
-				return false;
-			}
-		}
+        for (uint8 i = 0; i < MAX_ITEM_EXT_COST_ITEMS; ++i)
+        {
+            if (iece->RequiredItem[i] && !HasItemCount(iece->RequiredItem[i], (iece->RequiredItemCount[i] * stacks)))
+            {
+                SendEquipError(EQUIP_ERR_VENDOR_MISSING_TURNINS, NULL, NULL);
+                return false;
+            }
+        }
 
-		for (uint8 i = 0; i < MAX_ITEM_EXT_COST_CURRENCIES; ++i)
-		{
-			if (!iece->RequiredCurrency[i])
-				continue;
+        for (uint8 i = 0; i < MAX_ITEM_EXT_COST_CURRENCIES; ++i)
+        {
+            if (!iece->RequiredCurrency[i])
+                continue;
 
-			CurrencyTypesEntry const* entry = sCurrencyTypesStore.LookupEntry(iece->RequiredCurrency[i]);
-			if (!entry)
-			{
-				SendBuyError(BUY_ERR_CANT_FIND_ITEM, creature, currency, 0); // Find correct error
-				return false;
-			}
+            CurrencyTypesEntry const* entry = sCurrencyTypesStore.LookupEntry(iece->RequiredCurrency[i]);
+            if (!entry)
+            {
+                SendBuyError(BUY_ERR_CANT_FIND_ITEM, creature, currency, 0); // Find correct error
+                return false;
+            }
 
-			if (!HasCurrency(iece->RequiredCurrency[i], (iece->RequiredCurrencyCount[i])))
-			{
-				SendEquipError(EQUIP_ERR_VENDOR_MISSING_TURNINS, NULL, NULL); // Find correct error
-				return false;
-			}
-		}
+            if (!HasCurrency(iece->RequiredCurrency[i], (iece->RequiredCurrencyCount[i])))
+            {
+                SendEquipError(EQUIP_ERR_VENDOR_MISSING_TURNINS, NULL, NULL); // Find correct error
+                return false;
+            }
+        }
 
         // check for personal arena rating requirement
         if (GetMaxPersonalArenaRatingRequirement(iece->RequiredArenaSlot) < iece->RequiredPersonalArenaRating)
@@ -22393,42 +22393,42 @@ bool Player::BuyItemFromVendorSlot(uint64 vendorguid, uint32 vendorslot, uint32 
             }
         }
 
-		for (uint8 i = 0; i < MAX_ITEM_EXT_COST_CURRENCIES; ++i)
-		{
-			if (!iece->RequiredCurrency[i])
-				continue;
+        for (uint8 i = 0; i < MAX_ITEM_EXT_COST_CURRENCIES; ++i)
+        {
+            if (!iece->RequiredCurrency[i])
+                continue;
 
-			CurrencyTypesEntry const* entry = sCurrencyTypesStore.LookupEntry(iece->RequiredCurrency[i]);
-			if (!entry)
-			{
-				SendBuyError(BUY_ERR_CANT_FIND_ITEM, creature, item, 0);
-				return false;
-			}
+            CurrencyTypesEntry const* entry = sCurrencyTypesStore.LookupEntry(iece->RequiredCurrency[i]);
+            if (!entry)
+            {
+                SendBuyError(BUY_ERR_CANT_FIND_ITEM, creature, item, 0);
+                return false;
+            }
 
-			// See if we mush check CurrentAmount or TotalSeasonAmount
-			uint32 checkValue = entry->TotalCap;
-			if (entry->ID == CURRENCY_TYPE_CONQUEST_POINTS)
-				checkValue = 600000;
+            // See if we mush check CurrentAmount or TotalSeasonAmount
+            uint32 checkValue = entry->TotalCap;
+            if (entry->ID == CURRENCY_TYPE_CONQUEST_POINTS)
+                checkValue = 600000;
 
-			if (checkValue != 0 && iece->RequiredCurrencyCount[i] * stacks > checkValue)
-			{
-				// Check for total season amount
-				if (!HasCurrencySeasonCount(iece->RequiredCurrency[i], iece->RequiredCurrencyCount[i] * stacks))
-				{
-					SendEquipError(EQUIP_ERR_VENDOR_MISSING_TURNINS, NULL, NULL);
-					return false;
-				}
-			}
-			else
-			{
-				// Check for current amount
-				if (!HasCurrency(iece->RequiredCurrency[i], iece->RequiredCurrencyCount[i] * stacks))
-				{
-					SendEquipError(EQUIP_ERR_VENDOR_MISSING_TURNINS, NULL, NULL);
-					return false;
-				}
-			}
-		}
+            if (checkValue != 0 && iece->RequiredCurrencyCount[i] * stacks > checkValue)
+            {
+                // Check for total season amount
+                if (!HasCurrencySeasonCount(iece->RequiredCurrency[i], iece->RequiredCurrencyCount[i] * stacks))
+                {
+                    SendEquipError(EQUIP_ERR_VENDOR_MISSING_TURNINS, NULL, NULL);
+                    return false;
+                }
+            }
+            else
+            {
+                // Check for current amount
+                if (!HasCurrency(iece->RequiredCurrency[i], iece->RequiredCurrencyCount[i] * stacks))
+                {
+                    SendEquipError(EQUIP_ERR_VENDOR_MISSING_TURNINS, NULL, NULL);
+                    return false;
+                }
+            }
+        }
 
         // check for personal arena rating requirement
         if (GetMaxPersonalArenaRatingRequirement(iece->RequiredArenaSlot) < iece->RequiredPersonalArenaRating)
@@ -23555,33 +23555,33 @@ void Player::SendInstanceResetWarning(uint32 mapid, Difficulty difficulty, uint3
 
 void Player::ApplyEquipCooldown(Item* pItem)
 {
-	if (pItem->HasFlag(ITEM_FIELD_FLAGS, ITEM_PROTO_FLAG_NO_EQUIP_COOLDOWN))
-		return;
+    if (pItem->HasFlag(ITEM_FIELD_FLAGS, ITEM_PROTO_FLAG_NO_EQUIP_COOLDOWN))
+        return;
 
-	for (uint8 i = 0; i < MAX_ITEM_PROTO_SPELLS; ++i)
-	{
-		_Spell const& spellData = pItem->GetTemplate()->Spells[i];
+    for (uint8 i = 0; i < MAX_ITEM_PROTO_SPELLS; ++i)
+    {
+        _Spell const& spellData = pItem->GetTemplate()->Spells[i];
 
-		// no spell
-		if (!spellData.SpellId)
-			continue;
+        // no spell
+        if (!spellData.SpellId)
+            continue;
 
-		// wrong triggering type (note: ITEM_SPELLTRIGGER_ON_NO_DELAY_USE not have cooldown)
-		if (spellData.SpellTrigger != ITEM_SPELLTRIGGER_ON_USE)
-			continue;
+        // wrong triggering type (note: ITEM_SPELLTRIGGER_ON_NO_DELAY_USE not have cooldown)
+        if (spellData.SpellTrigger != ITEM_SPELLTRIGGER_ON_USE)
+            continue;
 
-		// Don't replace longer cooldowns by equip cooldown if we have any.
-		SpellCooldowns::iterator itr = m_spellCooldowns.find(spellData.SpellId);
-		if (itr != m_spellCooldowns.end() && itr->second.itemid == pItem->GetEntry() && itr->second.end > time(NULL) + 30)
-			continue;
+        // Don't replace longer cooldowns by equip cooldown if we have any.
+        SpellCooldowns::iterator itr = m_spellCooldowns.find(spellData.SpellId);
+        if (itr != m_spellCooldowns.end() && itr->second.itemid == pItem->GetEntry() && itr->second.end > time(NULL) + 30)
+            continue;
 
-		AddSpellCooldown(spellData.SpellId, pItem->GetEntry(), time(NULL) + 30);
+        AddSpellCooldown(spellData.SpellId, pItem->GetEntry(), time(NULL) + 30);
 
-		WorldPacket data(SMSG_ITEM_COOLDOWN, 12);
-		data << pItem->GetGUID();
-		data << uint32(spellData.SpellId);
-		GetSession()->SendPacket(&data);
-	}
+        WorldPacket data(SMSG_ITEM_COOLDOWN, 12);
+        data << pItem->GetGUID();
+        data << uint32(spellData.SpellId);
+        GetSession()->SendPacket(&data);
+    }
 }
 
 
@@ -23904,7 +23904,7 @@ void Player::ResetMonthlyQuestStatus()
 
 void Player::UpdateMaxWeekRating(ConquestPointsSources source, uint8 slot)
 {
-	m_maxWeekRating[source] = std::max(m_maxWeekRating[source], (uint16)GetArenaPersonalRating(slot));
+    m_maxWeekRating[source] = std::max(m_maxWeekRating[source], (uint16)GetArenaPersonalRating(slot));
 }
 
 Battleground* Player::GetBattleground() const
@@ -24665,54 +24665,54 @@ Player* Player::GetNextRandomRaidMember(float radius)
 
 PartyResult Player::CanUninviteFromGroup() const
 {
-	Group const* grp = GetGroup();
-	if (!grp)
-		return ERR_NOT_IN_GROUP;
+    Group const* grp = GetGroup();
+    if (!grp)
+        return ERR_NOT_IN_GROUP;
 
-	if (grp->isLFGGroup())
-	{
-		uint64 gguid = grp->GetGUID();
-		if (!sLFGMgr->GetKicksLeft(gguid))
-			return ERR_PARTY_LFG_BOOT_LIMIT;
+    if (grp->isLFGGroup())
+    {
+        uint64 gguid = grp->GetGUID();
+        if (!sLFGMgr->GetKicksLeft(gguid))
+            return ERR_PARTY_LFG_BOOT_LIMIT;
 
-		lfg::LfgState state = sLFGMgr->GetState(gguid);
-		if (state == lfg::LFG_STATE_BOOT)
-			return ERR_PARTY_LFG_BOOT_IN_PROGRESS;
+        lfg::LfgState state = sLFGMgr->GetState(gguid);
+        if (state == lfg::LFG_STATE_BOOT)
+            return ERR_PARTY_LFG_BOOT_IN_PROGRESS;
 
-		if (grp->GetMembersCount() <= lfg::LFG_GROUP_KICK_VOTES_NEEDED)
-			return ERR_PARTY_LFG_BOOT_TOO_FEW_PLAYERS;
+        if (grp->GetMembersCount() <= lfg::LFG_GROUP_KICK_VOTES_NEEDED)
+            return ERR_PARTY_LFG_BOOT_TOO_FEW_PLAYERS;
 
-		if (state == lfg::LFG_STATE_FINISHED_DUNGEON)
-			return ERR_PARTY_LFG_BOOT_DUNGEON_COMPLETE;
+        if (state == lfg::LFG_STATE_FINISHED_DUNGEON)
+            return ERR_PARTY_LFG_BOOT_DUNGEON_COMPLETE;
 
-		if (grp->isRollLootActive())
-			return ERR_PARTY_LFG_BOOT_LOOT_ROLLS;
+        if (grp->isRollLootActive())
+            return ERR_PARTY_LFG_BOOT_LOOT_ROLLS;
 
-		/// @todo Should also be sent when anyone has recently left combat, with an aprox ~5 seconds timer.
-		for (GroupReference const* itr = grp->GetFirstMember(); itr != NULL; itr = itr->next())
-		if (itr->getSource() && itr->getSource()->isInCombat())
-			return ERR_PARTY_LFG_BOOT_IN_COMBAT;
+        /// @todo Should also be sent when anyone has recently left combat, with an aprox ~5 seconds timer.
+        for (GroupReference const* itr = grp->GetFirstMember(); itr != NULL; itr = itr->next())
+        if (itr->getSource() && itr->getSource()->isInCombat())
+            return ERR_PARTY_LFG_BOOT_IN_COMBAT;
 
-		/* Missing support for these types
-		return ERR_PARTY_LFG_BOOT_COOLDOWN_S;
-		return ERR_PARTY_LFG_BOOT_NOT_ELIGIBLE_S;
-		*/
-	}
-	else
-	{
-		if (!grp->IsLeader(GetGUID()) && !grp->IsAssistant(GetGUID()))
-			return ERR_NOT_LEADER;
+        /* Missing support for these types
+        return ERR_PARTY_LFG_BOOT_COOLDOWN_S;
+        return ERR_PARTY_LFG_BOOT_NOT_ELIGIBLE_S;
+        */
+    }
+    else
+    {
+        if (!grp->IsLeader(GetGUID()) && !grp->IsAssistant(GetGUID()))
+            return ERR_NOT_LEADER;
 
-		if (InBattleground())
-			return ERR_INVITE_RESTRICTED;
-	}
+        if (InBattleground())
+            return ERR_INVITE_RESTRICTED;
+    }
 
-	return ERR_PARTY_RESULT_OK;
+    return ERR_PARTY_RESULT_OK;
 }
 
 bool Player::isUsingLfg()
 {
-	return sLFGMgr->GetState(GetGUID()) != lfg::LFG_STATE_NONE;
+    return sLFGMgr->GetState(GetGUID()) != lfg::LFG_STATE_NONE;
 }
 
 void Player::SetBattlegroundOrBattlefieldRaid(Group* group, int8 subgroup)
@@ -25099,45 +25099,45 @@ void Player::UpdateCharmedAI()
 
 uint32 Player::GetRuneTypeBaseCooldown(RuneType runeType) const
 {
-	float cooldown = RUNE_BASE_COOLDOWN;
-	float hastePct = 0.0f;
+    float cooldown = RUNE_BASE_COOLDOWN;
+    float hastePct = 0.0f;
 
-	AuraEffectList const& regenAura = GetAuraEffectsByType(SPELL_AURA_MOD_POWER_REGEN_PERCENT);
-	for (AuraEffectList::const_iterator i = regenAura.begin(); i != regenAura.end(); ++i)
-	if ((*i)->GetMiscValue() == POWER_RUNES && (*i)->GetMiscValueB() == runeType)
-		cooldown *= 1.0f - (*i)->GetAmount() / 100.0f;
+    AuraEffectList const& regenAura = GetAuraEffectsByType(SPELL_AURA_MOD_POWER_REGEN_PERCENT);
+    for (AuraEffectList::const_iterator i = regenAura.begin(); i != regenAura.end(); ++i)
+    if ((*i)->GetMiscValue() == POWER_RUNES && (*i)->GetMiscValueB() == runeType)
+        cooldown *= 1.0f - (*i)->GetAmount() / 100.0f;
 
-	// Runes cooldown are now affected by player's haste from equipment ...
-	hastePct = GetRatingBonusValue(CR_HASTE_MELEE);
+    // Runes cooldown are now affected by player's haste from equipment ...
+    hastePct = GetRatingBonusValue(CR_HASTE_MELEE);
 
-	// ... and some auras.
-	hastePct += GetTotalAuraModifier(SPELL_AURA_MOD_MELEE_HASTE);
-	hastePct += GetTotalAuraModifier(SPELL_AURA_MOD_MELEE_HASTE_2);
-	hastePct += GetTotalAuraModifier(SPELL_AURA_MOD_MELEE_HASTE_3);
+    // ... and some auras.
+    hastePct += GetTotalAuraModifier(SPELL_AURA_MOD_MELEE_HASTE);
+    hastePct += GetTotalAuraModifier(SPELL_AURA_MOD_MELEE_HASTE_2);
+    hastePct += GetTotalAuraModifier(SPELL_AURA_MOD_MELEE_HASTE_3);
 
-	cooldown *= 1.0f - (hastePct / 100.0f);
+    cooldown *= 1.0f - (hastePct / 100.0f);
 
-	return cooldown;
+    return cooldown;
 }
 
 void Player::SetRuneCooldown(uint8 index, uint32 cooldown, bool casted /*= false*/)
 {
-	uint32 gracePeriod = GetRuneTimer(index);
+    uint32 gracePeriod = GetRuneTimer(index);
 
-	if (casted && isInCombat())
-	{
-		if (gracePeriod < 0xFFFFFFFF && cooldown > 0)
-		{
-			uint32 lessCd = std::min(uint32(2500), gracePeriod);
-			cooldown = (cooldown > lessCd) ? (cooldown - lessCd) : 0;
-			SetLastRuneGraceTimer(index, lessCd);
-		}
+    if (casted && isInCombat())
+    {
+        if (gracePeriod < 0xFFFFFFFF && cooldown > 0)
+        {
+            uint32 lessCd = std::min(uint32(2500), gracePeriod);
+            cooldown = (cooldown > lessCd) ? (cooldown - lessCd) : 0;
+            SetLastRuneGraceTimer(index, lessCd);
+        }
 
-		SetRuneTimer(index, 0);
-	}
+        SetRuneTimer(index, 0);
+    }
 
-	m_runes->runes[index].Cooldown = cooldown;
-	m_runes->SetRuneState(index, (cooldown == 0) ? true : false);
+    m_runes->runes[index].Cooldown = cooldown;
+    m_runes->SetRuneState(index, (cooldown == 0) ? true : false);
 }
 
 void Player::RemoveRunesByAuraEffect(AuraEffect const* aura)
@@ -25229,11 +25229,11 @@ void Player::InitRunes()
 
     for (uint8 i = 0; i < MAX_RUNES; ++i)
     {
-		SetBaseRune(i, runeSlotTypes[i]);                               // init base types
-		SetCurrentRune(i, runeSlotTypes[i]);                            // init current types
-		SetRuneCooldown(i, 0);                                          // reset cooldowns
-		SetRuneTimer(i, 0xFFFFFFFF);                                    // Reset rune flags
-		SetLastRuneGraceTimer(i, 0);
+        SetBaseRune(i, runeSlotTypes[i]);                               // init base types
+        SetCurrentRune(i, runeSlotTypes[i]);                            // init current types
+        SetRuneCooldown(i, 0);                                          // reset cooldowns
+        SetRuneTimer(i, 0xFFFFFFFF);                                    // Reset rune flags
+        SetLastRuneGraceTimer(i, 0);
         SetRuneConvertAura(i, NULL, SPELL_AURA_NONE, NULL);
         m_runes->SetRuneState(i);
     }
@@ -26573,33 +26573,33 @@ void Player::_SaveTalents(SQLTransaction& trans)
 void Player::ForceAuraEffectReactivation()
 {
 
-	// CLASS: DEATH KNIGHT
-	if (getClass() == CLASS_DEATH_KNIGHT){
+    // CLASS: DEATH KNIGHT
+    if (getClass() == CLASS_DEATH_KNIGHT){
 
-		// Blood of the North
-		if (this->HasAura(54637))
-		{
-			if (AuraEffect *aurEff = this->GetAuraEffect(54637, 0))
-			{
-				for (uint8 i = 0; i<MAX_RUNES; i++){
-					if (this->GetBaseRune(i) == RUNE_BLOOD){
-						this->AddRuneByAuraEffect(i, RUNE_DEATH, aurEff, aurEff->GetAuraType(), aurEff->GetSpellInfo());
-					}
-				}
-			}
-		}
+        // Blood of the North
+        if (this->HasAura(54637))
+        {
+            if (AuraEffect *aurEff = this->GetAuraEffect(54637, 0))
+            {
+                for (uint8 i = 0; i<MAX_RUNES; i++){
+                    if (this->GetBaseRune(i) == RUNE_BLOOD){
+                        this->AddRuneByAuraEffect(i, RUNE_DEATH, aurEff, aurEff->GetAuraType(), aurEff->GetSpellInfo());
+                    }
+                }
+            }
+        }
 
-	}
+    }
 
 
 
-	// Unstuck Player
-	for (uint8 i = 0; i < MAX_MOVE_TYPE; ++i){
-		if (i != 5 && i != 8){
-			SetSpeed(UnitMoveType(i), this->GetSpeedRate(UnitMoveType(i)), true);
-			UpdateSpeed(UnitMoveType(i), true);
-		}
-	}
+    // Unstuck Player
+    for (uint8 i = 0; i < MAX_MOVE_TYPE; ++i){
+        if (i != 5 && i != 8){
+            SetSpeed(UnitMoveType(i), this->GetSpeedRate(UnitMoveType(i)), true);
+            UpdateSpeed(UnitMoveType(i), true);
+        }
+    }
 }
 
 void Player::UpdateSpecCount(uint8 count)
@@ -27131,7 +27131,7 @@ void Player::RefundItem(Item* item)
     SaveInventoryAndGoldToDB(trans);
 
     CharacterDatabase.CommitTransaction(trans);
-	
+    
     // we save the data here to prevent spamming
     sAnticheatMgr->SavePlayerData(this);
 
@@ -27684,299 +27684,299 @@ bool Player::IsMasteryLearned()
 
 void Player::ReadMovementInfo(WorldPacket& data, MovementInfo* mi, Movement::ExtraMovementStatusElement* extras /*= NULL*/)
 {
-	MovementStatusElements const* sequence = GetMovementStatusElementsSequence(data.GetOpcode());
-	if (!sequence)
-	{
-		sLog->outError(LOG_FILTER_NETWORKIO, "Player::ReadMovementInfo: No movement sequence found for opcode %s", GetOpcodeNameForLogging(data.GetOpcode()).c_str());
-		return;
-	}
+    MovementStatusElements const* sequence = GetMovementStatusElementsSequence(data.GetOpcode());
+    if (!sequence)
+    {
+        sLog->outError(LOG_FILTER_NETWORKIO, "Player::ReadMovementInfo: No movement sequence found for opcode %s", GetOpcodeNameForLogging(data.GetOpcode()).c_str());
+        return;
+    }
 
-	bool hasMovementFlags = false;
-	bool hasMovementFlags2 = false;
-	bool hasTimestamp = false;
-	bool hasOrientation = false;
-	bool hasTransportData = false;
-	bool hasTransportTime2 = false;
-	bool hasTransportTime3 = false;
-	bool hasPitch = false;
-	bool hasFallData = false;
-	bool hasFallDirection = false;
-	bool hasSplineElevation = false;
+    bool hasMovementFlags = false;
+    bool hasMovementFlags2 = false;
+    bool hasTimestamp = false;
+    bool hasOrientation = false;
+    bool hasTransportData = false;
+    bool hasTransportTime2 = false;
+    bool hasTransportTime3 = false;
+    bool hasPitch = false;
+    bool hasFallData = false;
+    bool hasFallDirection = false;
+    bool hasSplineElevation = false;
 
-	ObjectGuid guid; //Not 100% Sure about this
-	ObjectGuid tguid; //Not 100% Sure about this
+    ObjectGuid guid; //Not 100% Sure about this
+    ObjectGuid tguid; //Not 100% Sure about this
 
-	for (; *sequence != MSEEnd; ++sequence)
-	{
-		MovementStatusElements const& element = *sequence;
+    for (; *sequence != MSEEnd; ++sequence)
+    {
+        MovementStatusElements const& element = *sequence;
 
-		switch (element)
-		{
-		case MSEHasGuidByte0:
-		case MSEHasGuidByte1:
-		case MSEHasGuidByte2:
-		case MSEHasGuidByte3:
-		case MSEHasGuidByte4:
-		case MSEHasGuidByte5:
-		case MSEHasGuidByte6:
-		case MSEHasGuidByte7:
-			guid[element - MSEHasGuidByte0] = data.ReadBit();
-			break;
-		case MSEHasTransportGuidByte0:
-		case MSEHasTransportGuidByte1:
-		case MSEHasTransportGuidByte2:
-		case MSEHasTransportGuidByte3:
-		case MSEHasTransportGuidByte4:
-		case MSEHasTransportGuidByte5:
-		case MSEHasTransportGuidByte6:
-		case MSEHasTransportGuidByte7:
-			if (hasTransportData)
-				tguid[element - MSEHasTransportGuidByte0] = data.ReadBit();
-			break;
-		case MSEGuidByte0:
-		case MSEGuidByte1:
-		case MSEGuidByte2:
-		case MSEGuidByte3:
-		case MSEGuidByte4:
-		case MSEGuidByte5:
-		case MSEGuidByte6:
-		case MSEGuidByte7:
-			data.ReadByteSeq(guid[element - MSEGuidByte0]);
-			break;
-		case MSETransportGuidByte0:
-		case MSETransportGuidByte1:
-		case MSETransportGuidByte2:
-		case MSETransportGuidByte3:
-		case MSETransportGuidByte4:
-		case MSETransportGuidByte5:
-		case MSETransportGuidByte6:
-		case MSETransportGuidByte7:
-			if (hasTransportData)
-				data.ReadByteSeq(tguid[element - MSETransportGuidByte0]);
-			break;
-		case MSEHasMovementFlags:
-			hasMovementFlags = !data.ReadBit();
-			break;
-		case MSEHasMovementFlags2:
-			hasMovementFlags2 = !data.ReadBit();
-			break;
-		case MSEHasTimestamp:
-			hasTimestamp = !data.ReadBit();
-			break;
-		case MSEHasOrientation:
-			hasOrientation = !data.ReadBit();
-			break;
-		case MSEHasTransportData:
-			hasTransportData = data.ReadBit();
-			break;
-		case MSEHasTransportTime2:
-			if (hasTransportData)
-				hasTransportTime2 = data.ReadBit();
-			break;
-		case MSEHasTransportTime3:
-			if (hasTransportData)
-				hasTransportTime3 = data.ReadBit();
-			break;
-		case MSEHasPitch:
-			hasPitch = !data.ReadBit();
-			break;
-		case MSEHasFallData:
-			hasFallData = data.ReadBit();
-			break;
-		case MSEHasFallDirection:
-			if (hasFallData)
-				hasFallDirection = data.ReadBit();
-			break;
-		case MSEHasSplineElevation:
-			hasSplineElevation = !data.ReadBit();
-			break;
-		case MSEHasSpline:
-			data.ReadBit();
-			break;
-		case MSEMovementFlags:
-			if (hasMovementFlags)
-				mi->flags = data.ReadBits(30);
-			break;
-		case MSEMovementFlags2:
-			if (hasMovementFlags2)
-				mi->flags2 = data.ReadBits(12);
-			break;
-		case MSETimestamp:
-			if (hasTimestamp)
-				data >> mi->time;
-			break;
-		case MSEPositionX:
-			data >> mi->pos.m_positionX;
-			break;
-		case MSEPositionY:
-			data >> mi->pos.m_positionY;
-			break;
-		case MSEPositionZ:
-			data >> mi->pos.m_positionZ;
-			break;
-		case MSEOrientation:
-			if (hasOrientation)
-				mi->pos.SetOrientation(data.read<float>());
-			break;
-		case MSETransportPositionX:
-			if (hasTransportData)
-				data >> mi->pos.m_positionX;
-			break;
-		case MSETransportPositionY:
-			if (hasTransportData)
-				data >> mi->pos.m_positionY;
-			break;
-		case MSETransportPositionZ:
-			if (hasTransportData)
-				data >> mi->pos.m_positionZ;
-			break;
-		case MSETransportOrientation:
-			if (hasTransportData)
-				mi->pos.SetOrientation(data.read<float>());
-			break;
-		case MSETransportSeat:
-			if (hasTransportData)
-				data >> mi->t_seat;
-			break;
-		case MSETransportTime:
-			if (hasTransportData)
-				data >> mi->t_time;
-			break;
-		case MSETransportTime2:
-			if (hasTransportData && hasTransportTime2)
-				data >> mi->t_time2;
-			break;
-		case MSETransportTime3:
-			if (hasTransportData && hasTransportTime3)
-				data >> mi->t_time3;
-			break;
-		case MSEPitch:
-			if (hasPitch)
-				mi->pitch = G3D::wrap(data.read<float>(), float(-M_PI), float(M_PI));
-			break;
-		case MSEFallTime:
-			if (hasFallData)
-				data >> mi->fallTime;
-			break;
-		case MSEFallVerticalSpeed:
-			if (hasFallData)
-				data >> mi->j_zspeed;
-			break;
-		case MSEFallCosAngle:
-			if (hasFallData && hasFallDirection)
-				data >> mi->j_cosAngle;
-			break;
-		case MSEFallSinAngle:
-			if (hasFallData && hasFallDirection)
-				data >> mi->j_sinAngle;
-			break;
-		case MSEFallHorizontalSpeed:
-			if (hasFallData && hasFallDirection)
-				data >> mi->j_xyspeed;
-			break;
-		case MSESplineElevation:
-			if (hasSplineElevation)
-				data >> mi->splineElevation;
-			break;
-		case MSECounter:
-			data.read_skip<uint32>();   /// @TODO: Maybe compare it with m_movementCounter to verify that packets are sent & received in order?
-			break;
-		case MSEZeroBit:
-		case MSEOneBit:
-			data.ReadBit();
-			break;
-		/*case MSEExtraElement:
-			extras->ReadNextElement(data);
-			break;
-		default:
-			ASSERT(Movement::PrintInvalidSequenceElement(element, __FUNCTION__));
-			break;*/
-		}
-	}
+        switch (element)
+        {
+        case MSEHasGuidByte0:
+        case MSEHasGuidByte1:
+        case MSEHasGuidByte2:
+        case MSEHasGuidByte3:
+        case MSEHasGuidByte4:
+        case MSEHasGuidByte5:
+        case MSEHasGuidByte6:
+        case MSEHasGuidByte7:
+            guid[element - MSEHasGuidByte0] = data.ReadBit();
+            break;
+        case MSEHasTransportGuidByte0:
+        case MSEHasTransportGuidByte1:
+        case MSEHasTransportGuidByte2:
+        case MSEHasTransportGuidByte3:
+        case MSEHasTransportGuidByte4:
+        case MSEHasTransportGuidByte5:
+        case MSEHasTransportGuidByte6:
+        case MSEHasTransportGuidByte7:
+            if (hasTransportData)
+                tguid[element - MSEHasTransportGuidByte0] = data.ReadBit();
+            break;
+        case MSEGuidByte0:
+        case MSEGuidByte1:
+        case MSEGuidByte2:
+        case MSEGuidByte3:
+        case MSEGuidByte4:
+        case MSEGuidByte5:
+        case MSEGuidByte6:
+        case MSEGuidByte7:
+            data.ReadByteSeq(guid[element - MSEGuidByte0]);
+            break;
+        case MSETransportGuidByte0:
+        case MSETransportGuidByte1:
+        case MSETransportGuidByte2:
+        case MSETransportGuidByte3:
+        case MSETransportGuidByte4:
+        case MSETransportGuidByte5:
+        case MSETransportGuidByte6:
+        case MSETransportGuidByte7:
+            if (hasTransportData)
+                data.ReadByteSeq(tguid[element - MSETransportGuidByte0]);
+            break;
+        case MSEHasMovementFlags:
+            hasMovementFlags = !data.ReadBit();
+            break;
+        case MSEHasMovementFlags2:
+            hasMovementFlags2 = !data.ReadBit();
+            break;
+        case MSEHasTimestamp:
+            hasTimestamp = !data.ReadBit();
+            break;
+        case MSEHasOrientation:
+            hasOrientation = !data.ReadBit();
+            break;
+        case MSEHasTransportData:
+            hasTransportData = data.ReadBit();
+            break;
+        case MSEHasTransportTime2:
+            if (hasTransportData)
+                hasTransportTime2 = data.ReadBit();
+            break;
+        case MSEHasTransportTime3:
+            if (hasTransportData)
+                hasTransportTime3 = data.ReadBit();
+            break;
+        case MSEHasPitch:
+            hasPitch = !data.ReadBit();
+            break;
+        case MSEHasFallData:
+            hasFallData = data.ReadBit();
+            break;
+        case MSEHasFallDirection:
+            if (hasFallData)
+                hasFallDirection = data.ReadBit();
+            break;
+        case MSEHasSplineElevation:
+            hasSplineElevation = !data.ReadBit();
+            break;
+        case MSEHasSpline:
+            data.ReadBit();
+            break;
+        case MSEMovementFlags:
+            if (hasMovementFlags)
+                mi->flags = data.ReadBits(30);
+            break;
+        case MSEMovementFlags2:
+            if (hasMovementFlags2)
+                mi->flags2 = data.ReadBits(12);
+            break;
+        case MSETimestamp:
+            if (hasTimestamp)
+                data >> mi->time;
+            break;
+        case MSEPositionX:
+            data >> mi->pos.m_positionX;
+            break;
+        case MSEPositionY:
+            data >> mi->pos.m_positionY;
+            break;
+        case MSEPositionZ:
+            data >> mi->pos.m_positionZ;
+            break;
+        case MSEOrientation:
+            if (hasOrientation)
+                mi->pos.SetOrientation(data.read<float>());
+            break;
+        case MSETransportPositionX:
+            if (hasTransportData)
+                data >> mi->pos.m_positionX;
+            break;
+        case MSETransportPositionY:
+            if (hasTransportData)
+                data >> mi->pos.m_positionY;
+            break;
+        case MSETransportPositionZ:
+            if (hasTransportData)
+                data >> mi->pos.m_positionZ;
+            break;
+        case MSETransportOrientation:
+            if (hasTransportData)
+                mi->pos.SetOrientation(data.read<float>());
+            break;
+        case MSETransportSeat:
+            if (hasTransportData)
+                data >> mi->t_seat;
+            break;
+        case MSETransportTime:
+            if (hasTransportData)
+                data >> mi->t_time;
+            break;
+        case MSETransportTime2:
+            if (hasTransportData && hasTransportTime2)
+                data >> mi->t_time2;
+            break;
+        case MSETransportTime3:
+            if (hasTransportData && hasTransportTime3)
+                data >> mi->t_time3;
+            break;
+        case MSEPitch:
+            if (hasPitch)
+                mi->pitch = G3D::wrap(data.read<float>(), float(-M_PI), float(M_PI));
+            break;
+        case MSEFallTime:
+            if (hasFallData)
+                data >> mi->fallTime;
+            break;
+        case MSEFallVerticalSpeed:
+            if (hasFallData)
+                data >> mi->j_zspeed;
+            break;
+        case MSEFallCosAngle:
+            if (hasFallData && hasFallDirection)
+                data >> mi->j_cosAngle;
+            break;
+        case MSEFallSinAngle:
+            if (hasFallData && hasFallDirection)
+                data >> mi->j_sinAngle;
+            break;
+        case MSEFallHorizontalSpeed:
+            if (hasFallData && hasFallDirection)
+                data >> mi->j_xyspeed;
+            break;
+        case MSESplineElevation:
+            if (hasSplineElevation)
+                data >> mi->splineElevation;
+            break;
+        case MSECounter:
+            data.read_skip<uint32>();   /// @TODO: Maybe compare it with m_movementCounter to verify that packets are sent & received in order?
+            break;
+        case MSEZeroBit:
+        case MSEOneBit:
+            data.ReadBit();
+            break;
+        /*case MSEExtraElement:
+            extras->ReadNextElement(data);
+            break;
+        default:
+            ASSERT(Movement::PrintInvalidSequenceElement(element, __FUNCTION__));
+            break;*/
+        }
+    }
 
-	mi->guid = guid;
-	mi->t_guid = tguid;
+    mi->guid = guid;
+    mi->t_guid = tguid;
 
-	//! Anti-cheat checks. Please keep them in seperate if () blocks to maintain a clear overview.
-	//! Might be subject to latency, so just remove improper flags.
+    //! Anti-cheat checks. Please keep them in seperate if () blocks to maintain a clear overview.
+    //! Might be subject to latency, so just remove improper flags.
 #ifdef TRINITY_DEBUG
 #define REMOVE_VIOLATING_FLAGS(check, maskToRemove)\
-	{\
-	if (check)\
-	{\
-	sLog->outDebug(LOG_FILTER_UNITS, "WorldSession::ReadMovementInfo: Violation of MovementFlags found (%s). "\
-	"MovementFlags: %u, MovementFlags2: %u for player GUID: %u. Mask %u will be removed.",\
-	STRINGIZE(check), mi->GetMovementFlags(), mi->GetExtraMovementFlags(), GetGUIDLow(), maskToRemove);\
-	mi->RemoveMovementFlag((maskToRemove));\
-	}\
-	}
+    {\
+    if (check)\
+    {\
+    sLog->outDebug(LOG_FILTER_UNITS, "WorldSession::ReadMovementInfo: Violation of MovementFlags found (%s). "\
+    "MovementFlags: %u, MovementFlags2: %u for player GUID: %u. Mask %u will be removed.",\
+    STRINGIZE(check), mi->GetMovementFlags(), mi->GetExtraMovementFlags(), GetGUIDLow(), maskToRemove);\
+    mi->RemoveMovementFlag((maskToRemove));\
+    }\
+    }
 #else
 #define REMOVE_VIOLATING_FLAGS(check, maskToRemove)\
-	if (check)\
-	mi->RemoveMovementFlag((maskToRemove));
+    if (check)\
+    mi->RemoveMovementFlag((maskToRemove));
 #endif
 
-	/*! This must be a packet spoofing attempt. MOVEMENTFLAG_ROOT sent from the client is not valid
-	in conjunction with any of the moving movement flags such as MOVEMENTFLAG_FORWARD.
-	It will freeze clients that receive this player's movement info.
-	*/
-	REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_ROOT),
-		MOVEMENTFLAG_ROOT);
+    /*! This must be a packet spoofing attempt. MOVEMENTFLAG_ROOT sent from the client is not valid
+    in conjunction with any of the moving movement flags such as MOVEMENTFLAG_FORWARD.
+    It will freeze clients that receive this player's movement info.
+    */
+    REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_ROOT),
+        MOVEMENTFLAG_ROOT);
 
-	//! Cannot hover without SPELL_AURA_HOVER
-	REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_HOVER) && !HasAuraType(SPELL_AURA_HOVER),
-		MOVEMENTFLAG_HOVER);
+    //! Cannot hover without SPELL_AURA_HOVER
+    REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_HOVER) && !HasAuraType(SPELL_AURA_HOVER),
+        MOVEMENTFLAG_HOVER);
 
-	//! Cannot ascend and descend at the same time
-	REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_ASCENDING) && mi->HasMovementFlag(MOVEMENTFLAG_DESCENDING),
-		MOVEMENTFLAG_ASCENDING | MOVEMENTFLAG_DESCENDING);
+    //! Cannot ascend and descend at the same time
+    REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_ASCENDING) && mi->HasMovementFlag(MOVEMENTFLAG_DESCENDING),
+        MOVEMENTFLAG_ASCENDING | MOVEMENTFLAG_DESCENDING);
 
-	//! Cannot move left and right at the same time
-	REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_LEFT) && mi->HasMovementFlag(MOVEMENTFLAG_RIGHT),
-		MOVEMENTFLAG_LEFT | MOVEMENTFLAG_RIGHT);
+    //! Cannot move left and right at the same time
+    REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_LEFT) && mi->HasMovementFlag(MOVEMENTFLAG_RIGHT),
+        MOVEMENTFLAG_LEFT | MOVEMENTFLAG_RIGHT);
 
-	//! Cannot strafe left and right at the same time
-	REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_STRAFE_LEFT) && mi->HasMovementFlag(MOVEMENTFLAG_STRAFE_RIGHT),
-		MOVEMENTFLAG_STRAFE_LEFT | MOVEMENTFLAG_STRAFE_RIGHT);
+    //! Cannot strafe left and right at the same time
+    REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_STRAFE_LEFT) && mi->HasMovementFlag(MOVEMENTFLAG_STRAFE_RIGHT),
+        MOVEMENTFLAG_STRAFE_LEFT | MOVEMENTFLAG_STRAFE_RIGHT);
 
-	//! Cannot pitch up and down at the same time
-	REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_PITCH_UP) && mi->HasMovementFlag(MOVEMENTFLAG_PITCH_DOWN),
-		MOVEMENTFLAG_PITCH_UP | MOVEMENTFLAG_PITCH_DOWN);
+    //! Cannot pitch up and down at the same time
+    REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_PITCH_UP) && mi->HasMovementFlag(MOVEMENTFLAG_PITCH_DOWN),
+        MOVEMENTFLAG_PITCH_UP | MOVEMENTFLAG_PITCH_DOWN);
 
-	//! Cannot move forwards and backwards at the same time
-	REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_FORWARD) && mi->HasMovementFlag(MOVEMENTFLAG_BACKWARD),
-		MOVEMENTFLAG_FORWARD | MOVEMENTFLAG_BACKWARD);
+    //! Cannot move forwards and backwards at the same time
+    REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_FORWARD) && mi->HasMovementFlag(MOVEMENTFLAG_BACKWARD),
+        MOVEMENTFLAG_FORWARD | MOVEMENTFLAG_BACKWARD);
 
-	//! Cannot walk on water without SPELL_AURA_WATER_WALK
-	REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_WATERWALKING) && !HasAuraType(SPELL_AURA_WATER_WALK),
-		MOVEMENTFLAG_WATERWALKING);
+    //! Cannot walk on water without SPELL_AURA_WATER_WALK
+    REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_WATERWALKING) && !HasAuraType(SPELL_AURA_WATER_WALK),
+        MOVEMENTFLAG_WATERWALKING);
 
-	//! Cannot feather fall without SPELL_AURA_FEATHER_FALL
-	REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_FALLING_SLOW) && !HasAuraType(SPELL_AURA_FEATHER_FALL),
-		MOVEMENTFLAG_FALLING_SLOW);
+    //! Cannot feather fall without SPELL_AURA_FEATHER_FALL
+    REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_FALLING_SLOW) && !HasAuraType(SPELL_AURA_FEATHER_FALL),
+        MOVEMENTFLAG_FALLING_SLOW);
 
-	/*! Cannot fly if no fly auras present. Exception is being a GM.
-	Note that we check for account level instead of Player::IsGameMaster() because in some
-	situations it may be feasable to use .gm fly on as a GM without having .gm on,
-	e.g. aerial combat.
-	*/
+    /*! Cannot fly if no fly auras present. Exception is being a GM.
+    Note that we check for account level instead of Player::IsGameMaster() because in some
+    situations it may be feasable to use .gm fly on as a GM without having .gm on,
+    e.g. aerial combat.
+    */
 
-	REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_FLYING | MOVEMENTFLAG_CAN_FLY) && ToPlayer()->GetSession()->GetSecurity() == SEC_PLAYER &&
-		!ToPlayer()->m_mover->HasAuraType(SPELL_AURA_FLY) &&
-		!ToPlayer()->m_mover->HasAuraType(SPELL_AURA_MOD_INCREASE_MOUNTED_FLIGHT_SPEED),
-		MOVEMENTFLAG_FLYING | MOVEMENTFLAG_CAN_FLY);
+    REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_FLYING | MOVEMENTFLAG_CAN_FLY) && ToPlayer()->GetSession()->GetSecurity() == SEC_PLAYER &&
+        !ToPlayer()->m_mover->HasAuraType(SPELL_AURA_FLY) &&
+        !ToPlayer()->m_mover->HasAuraType(SPELL_AURA_MOD_INCREASE_MOUNTED_FLIGHT_SPEED),
+        MOVEMENTFLAG_FLYING | MOVEMENTFLAG_CAN_FLY);
 
-	REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_DISABLE_GRAVITY | MOVEMENTFLAG_CAN_FLY) && mi->HasMovementFlag(MOVEMENTFLAG_FALLING),
-		MOVEMENTFLAG_FALLING);
+    REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_DISABLE_GRAVITY | MOVEMENTFLAG_CAN_FLY) && mi->HasMovementFlag(MOVEMENTFLAG_FALLING),
+        MOVEMENTFLAG_FALLING);
 
-	REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_FALLING) && (!hasFallData || !hasFallDirection), MOVEMENTFLAG_FALLING);
+    REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_FALLING) && (!hasFallData || !hasFallDirection), MOVEMENTFLAG_FALLING);
 
-	REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_SPLINE_ELEVATION) &&
-		(!hasSplineElevation || G3D::fuzzyEq(mi->splineElevation, 0.0f)), MOVEMENTFLAG_SPLINE_ELEVATION);
+    REMOVE_VIOLATING_FLAGS(mi->HasMovementFlag(MOVEMENTFLAG_SPLINE_ELEVATION) &&
+        (!hasSplineElevation || G3D::fuzzyEq(mi->splineElevation, 0.0f)), MOVEMENTFLAG_SPLINE_ELEVATION);
 
-	// Client first checks if spline elevation != 0, then verifies flag presence
-	if (hasSplineElevation)
-		mi->AddMovementFlag(MOVEMENTFLAG_SPLINE_ELEVATION);
+    // Client first checks if spline elevation != 0, then verifies flag presence
+    if (hasSplineElevation)
+        mi->AddMovementFlag(MOVEMENTFLAG_SPLINE_ELEVATION);
 
 #undef REMOVE_VIOLATING_FLAGS
 }
