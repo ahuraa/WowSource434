@@ -22419,14 +22419,11 @@ bool Player::BuyItemFromVendorSlot(uint64 vendorguid, uint32 vendorslot, uint32 
                     return false;
                 }
             }
-            else
+            // Check for current amount
+            else if ((entry->ID != CURRENCY_TYPE_CONQUEST_POINTS) && (!HasCurrency(iece->RequiredCurrency[i], iece->RequiredCurrencyCount[i] * stacks)))
             {
-                // Check for current amount
-                if (!HasCurrency(iece->RequiredCurrency[i], iece->RequiredCurrencyCount[i] * stacks))
-                {
                     SendEquipError(EQUIP_ERR_VENDOR_MISSING_TURNINS, NULL, NULL);
                     return false;
-                }
             }
         }
 
