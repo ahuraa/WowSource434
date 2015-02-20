@@ -729,6 +729,15 @@ public:
     {
         return new npc_salanar_the_horsemanAI(creature);
     }
+	bool OnQuestComplete(Player* player, Creature* creature, Quest const* quest){
+		if (quest->GetQuestId() == 12687){
+			player->learnSpell(33388, true);
+			player->learnSpell(33391, true);
+			player->learnSpell(48778, true);
+		}
+		return true;
+	}
+
 
     struct npc_salanar_the_horsemanAI : public ScriptedAI
     {
@@ -755,6 +764,7 @@ public:
                 }
             }
         }
+
 
         void MoveInLineOfSight(Unit* who)
         {
