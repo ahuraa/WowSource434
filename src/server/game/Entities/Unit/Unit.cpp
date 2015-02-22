@@ -16006,43 +16006,43 @@ void Unit::ApplyAttackTimePercentMod(WeaponAttackType att, float val, bool apply
     float remainingTimePct = (float)m_attackTimer[att] / (GetAttackTime(att) * m_modAttackSpeedPct[att]);
     if (val > 0)
     {
-        ApplyPercentModFloatVarPrecise(m_modAttackSpeedPct[att], val, !apply, 1.0f);
+		ApplyPercentModFloatVar(m_modAttackSpeedPct[att], val, !apply);
         ApplyPercentModFloatValue(UNIT_FIELD_BASEATTACKTIME+att, val, !apply);
 
         if (GetTypeId() == TYPEID_PLAYER)
         {
             if (att == BASE_ATTACK)
             {
-                ApplyPercentModFloatValuePrecise(PLAYER_FIELD_MOD_HASTE, val, !apply, 1.0f);
-                if (GetTypeId() == TYPEID_PLAYER && getClass() != CLASS_HUNTER && applyRegenPct)
-                    ApplyPercentModFloatValue(PLAYER_FIELD_MOD_HASTE_REGEN, val, !apply);
+				ApplyPercentModFloatValue(PLAYER_FIELD_MOD_HASTE, val, !apply);
+                //if (GetTypeId() == TYPEID_PLAYER && getClass() != CLASS_HUNTER && applyRegenPct)
+                   // ApplyPercentModFloatValue(PLAYER_FIELD_MOD_HASTE_REGEN, val, !apply);
             }
             else if (att == RANGED_ATTACK)
             {
-                ApplyPercentModFloatValuePrecise(PLAYER_FIELD_MOD_RANGED_HASTE, val, !apply, 1.0f);
-                if (getClass() == CLASS_HUNTER && applyRegenPct)
-                    ApplyPercentModFloatValue(PLAYER_FIELD_MOD_HASTE_REGEN, val, !apply);
+				ApplyPercentModFloatValue(PLAYER_FIELD_MOD_RANGED_HASTE, val, !apply);
+                //if (getClass() == CLASS_HUNTER && applyRegenPct)
+                   // ApplyPercentModFloatValue(PLAYER_FIELD_MOD_HASTE_REGEN, val, !apply);
             }
         }
     }
     else
     {
-        ApplyPercentModFloatVarPrecise(m_modAttackSpeedPct[att], -val, apply, 1.0f);
+		ApplyPercentModFloatVar(m_modAttackSpeedPct[att], -val, apply);
         ApplyPercentModFloatValue(UNIT_FIELD_BASEATTACKTIME+att, -val, apply);
 
         if (GetTypeId() == TYPEID_PLAYER)
         {
             if (att == BASE_ATTACK)
             {
-                ApplyPercentModFloatValuePrecise(PLAYER_FIELD_MOD_HASTE, -val, apply, 1.0f);
-                if (GetTypeId() == TYPEID_PLAYER && getClass() != CLASS_HUNTER && applyRegenPct)
-                    ApplyPercentModFloatValue(PLAYER_FIELD_MOD_HASTE_REGEN, -val, apply);
+				ApplyPercentModFloatValue(PLAYER_FIELD_MOD_HASTE, -val, apply);
+                //if (GetTypeId() == TYPEID_PLAYER && getClass() != CLASS_HUNTER && applyRegenPct)
+                   // ApplyPercentModFloatValue(PLAYER_FIELD_MOD_HASTE_REGEN, -val, apply);
             }
             else if (att == RANGED_ATTACK)
             {
-                ApplyPercentModFloatValuePrecise(PLAYER_FIELD_MOD_RANGED_HASTE, -val, apply, 1.0f);
-                if (getClass() == CLASS_HUNTER && applyRegenPct)
-                    ApplyPercentModFloatValue(PLAYER_FIELD_MOD_HASTE_REGEN, -val, apply);
+				ApplyPercentModFloatValue(PLAYER_FIELD_MOD_RANGED_HASTE, -val, apply);
+                //if (getClass() == CLASS_HUNTER && applyRegenPct)
+                   // ApplyPercentModFloatValue(PLAYER_FIELD_MOD_HASTE_REGEN, -val, apply);
             }
         }
     }
