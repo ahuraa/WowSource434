@@ -22410,7 +22410,8 @@ bool Player::BuyItemFromVendorSlot(uint64 vendorguid, uint32 vendorslot, uint32 
             if (entry->ID == CURRENCY_TYPE_CONQUEST_POINTS)
                 checkValue = 600000;
 
-            if (checkValue != 0 && iece->RequiredCurrencyCount[i] * stacks > checkValue)
+            // Second field in dbc is season count except two strange rows
+            if (checkValue != 0 && iece->RequiredCurrencyCount[i] * stacks > checkValue && i == 1)
             {
                 // Check for total season amount
                 if (!HasCurrencySeasonCount(iece->RequiredCurrency[i], iece->RequiredCurrencyCount[i] * stacks))
@@ -22418,12 +22419,14 @@ bool Player::BuyItemFromVendorSlot(uint64 vendorguid, uint32 vendorslot, uint32 
                     SendEquipError(EQUIP_ERR_VENDOR_MISSING_TURNINS, NULL, NULL);
                     return false;
                 }
-            }
-            // Check for current amount
-            else if ((entry->ID != CURRENCY_TYPE_CONQUEST_POINTS) && (!HasCurrency(iece->RequiredCurrency[i], iece->RequiredCurrencyCount[i] * stacks)))
+            } else
             {
+                // Check for current amount
+                if (!HasCurrency(iece->RequiredCurrency[i], iece->RequiredCurrencyCount[i] * stacks))
+                {
                     SendEquipError(EQUIP_ERR_VENDOR_MISSING_TURNINS, NULL, NULL);
                     return false;
+                }
             }
         }
 
