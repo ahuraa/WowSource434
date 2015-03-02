@@ -2381,52 +2381,52 @@ class npc_consecration : public CreatureScript
         }
 };
 
-class npc_fungal_growth_one : public CreatureScript
-{
-    public:
-        npc_fungal_growth_one() : CreatureScript("npc_fungal_growth_one") { }
+//class npc_fungal_growth_one : public CreatureScript
+//{
+//    public:
+//        npc_fungal_growth_one() : CreatureScript("npc_fungal_growth_one") { }
+//
+//        struct npc_fungal_growth_oneAI : public PassiveAI
+//        {
+//            npc_fungal_growth_oneAI(Creature* creature) : PassiveAI(creature)
+//            {
+//                DoCast(me, 94339, false);
+//                me->AddAura(81289, me);
+//                me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PVP_ATTACKABLE);
+//            }
+//
+//            void EnterEvadeMode() {}
+//        };
+//
+//        CreatureAI* GetAI(Creature* creature) const
+//        {
+//            return new npc_fungal_growth_oneAI(creature);
+//        }
+//};
 
-        struct npc_fungal_growth_oneAI : public PassiveAI
-        {
-            npc_fungal_growth_oneAI(Creature* creature) : PassiveAI(creature)
-            {
-                DoCast(me, 94339, false);
-                me->AddAura(81289, me);
-                me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PVP_ATTACKABLE);
-            }
-
-            void EnterEvadeMode() {}
-        };
-
-        CreatureAI* GetAI(Creature* creature) const
-        {
-            return new npc_fungal_growth_oneAI(creature);
-        }
-};
-
-
-class npc_fungal_growth_two : public CreatureScript
-{
-    public:
-        npc_fungal_growth_two() : CreatureScript("npc_fungal_growth_two") { }
-
-        struct npc_fungal_growth_twoAI : public PassiveAI
-        {
-            npc_fungal_growth_twoAI(Creature* creature) : PassiveAI(creature)
-            {
-                DoCast(me, 94339, false);
-                me->AddAura(81282, me);
-                me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PVP_ATTACKABLE);
-            }
-
-            void EnterEvadeMode() {}
-        };
-
-        CreatureAI* GetAI(Creature* creature) const
-        {
-            return new npc_fungal_growth_twoAI(creature);
-        }
-};
+//
+//class npc_fungal_growth_two : public CreatureScript
+//{
+//    public:
+//        npc_fungal_growth_two() : CreatureScript("npc_fungal_growth_two") { }
+//
+//        struct npc_fungal_growth_twoAI : public PassiveAI
+//        {
+//            npc_fungal_growth_twoAI(Creature* creature) : PassiveAI(creature)
+//            {
+//                DoCast(me, 94339, false);
+//                me->AddAura(81282, me);
+//                me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PVP_ATTACKABLE);
+//            }
+//
+//            void EnterEvadeMode() {}
+//        };
+//
+//        CreatureAI* GetAI(Creature* creature) const
+//        {
+//            return new npc_fungal_growth_twoAI(creature);
+//        }
+//};
 
 enum eTrainingDummy
 {
@@ -3778,8 +3778,8 @@ void AddSC_npcs_special()
     new npc_mage_orb();
     new npc_hand_of_guldan();
     new npc_mushroom();
-    new npc_fungal_growth_one();
-    new npc_fungal_growth_two();
+    //new npc_fungal_growth_one();
+    //new npc_fungal_growth_two();
     new npc_consecration();
     new npc_melee_guardian();
     new npc_Tentacle_of_the_Old_Ones();

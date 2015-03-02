@@ -3302,6 +3302,12 @@ void SpellMgr::LoadSpellInfoCorrections()
             case 59735:
                 spellInfo->Effects[EFFECT_1].TriggerSpell = 59736;
                 break;
+			case 78788: // Fungal Growth Rank 1
+				spellInfo->Effects[EFFECT_0].MiscValue = 81289;
+				break;
+			case 78789: // Fungal Growth Rank 2
+				spellInfo->Effects[EFFECT_0].MiscValue = 81282;
+				break;
             case 52611: // Summon Skeletons
             case 52612: // Summon Skeletons
                 spellInfo->Effects[EFFECT_0].MiscValueB = 64;
