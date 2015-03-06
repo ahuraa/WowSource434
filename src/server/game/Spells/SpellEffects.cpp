@@ -576,6 +576,20 @@ void Spell::EffectSchoolDMG(SpellEffIndex effIndex)
             }
             case SPELLFAMILY_HUNTER:
             {
+				switch (m_spellInfo->Id)
+                {    
+					// PETS BASIC ATTACK
+                    case 17253: // Bite
+                    case 16827: // Claw
+                    case 49966: // Smack
+                    case 53508: // Wolverine Bite
+                    {
+                        if (Unit* owner = m_caster->GetOwner())
+                            damage += int32((owner->GetTotalAttackPowerValue(RANGED_ATTACK) * 0.4f) / 2);
+                         break;
+                    }
+                }
+
                 //Gore
                 if (m_spellInfo->SpellIconID == 1578)
                 {
