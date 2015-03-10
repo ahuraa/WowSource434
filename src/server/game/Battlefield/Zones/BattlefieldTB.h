@@ -189,6 +189,7 @@ protected:
 class BattlefieldTB: public Battlefield
 {
     public:
+	//~BattlefieldTB();
 
     void OnBattleStart();
     void OnBattleEnd(bool endbytimer);
@@ -202,6 +203,7 @@ class BattlefieldTB: public Battlefield
     void DoCompleteOrIncrementAchievement(uint32 achievement, Player* player, uint8 incrementNumber = 1);
     void AddPlayerToResurrectQueue(uint64 npc_guid, uint64 player_guid);
     bool SetupBattlefield();
+	void FillInitialWorldStates(WorldPacket& data);
 
     WorldPacket BuildInitWorldStates();
     void SendInitWorldStatesTo(Player* player);
@@ -741,10 +743,12 @@ struct BfTBWorkShopData
 
     void UpdateGraveYardAndWorkshop()
     {
-        if (m_Type < BATTLEFIELD_TB_FORT_MAX)
-            m_TB->GetGraveyardById(m_Type)->GiveControlTo(TeamId(m_TeamControl));
-        else
-            GiveControlTo(m_TB->GetDefenderTeam(), true);
+		if (m_Type != NULL){
+			if (m_Type < BATTLEFIELD_TB_FORT_MAX)
+				m_TB->GetGraveyardById(m_Type)->GiveControlTo(TeamId(m_TeamControl));
+			else
+				GiveControlTo(m_TB->GetDefenderTeam(), true);
+		}
     }
     void Save()
     {

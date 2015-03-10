@@ -19,6 +19,7 @@
 #include "Zones/BattlefieldWG.h"
 #include "ObjectMgr.h"
 #include "Player.h"
+#include "BattlefieldTB.h"
 
 BattlefieldMgr::BattlefieldMgr()
 {
@@ -48,19 +49,19 @@ void BattlefieldMgr::InitBattlefield()
         sLog->outInfo(LOG_FILTER_GENERAL, "Battlefield : Wintergrasp successfully initiated.");
     }
 
-    /* For Cataclysm: Tol Barad
-       pBf = new BattlefieldTB;
+    // For Cataclysm: Tol Barad
+	pBf = new BattlefieldTB;
        // respawn, init variables
        if (!pBf->SetupBattlefield())
        {
-       sLog->outDebug(LOG_FILTER_BATTLEFIELD, "Battlefield : Tol Barad init failed.");
-       delete pBf;
+		   sLog->outDebug(LOG_FILTER_BATTLEFIELD, "Battlefield : Tol Barad init failed.");
+		   delete pBf;
        }
        else
        {
-       m_BattlefieldSet.push_back(pBf);
-       sLog->outDebug(LOG_FILTER_BATTLEFIELD, "Battlefield : Tol Barad successfully initiated.");
-       } */
+		   m_BattlefieldSet.push_back(pBf);
+		   sLog->outDebug(LOG_FILTER_BATTLEFIELD, "Battlefield : Tol Barad successfully initiated.");
+       }
 }
 
 void BattlefieldMgr::AddZone(uint32 zoneid, Battlefield *handle)

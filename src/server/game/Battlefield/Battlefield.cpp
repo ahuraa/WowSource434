@@ -767,15 +767,17 @@ void BfGraveyard::GiveControlTo(TeamId team)
         m_SpiritGuide[1 - team]->SetVisible(false);
     if (m_SpiritGuide[team])
         m_SpiritGuide[team]->SetVisible(true);*/
-
-    m_ControlTeam = team;
-    // Teleport to other graveyard, player witch were on this graveyard
-    RelocateDeadPlayers();
+	if (team != NULL && m_ControlTeam != NULL)
+		m_ControlTeam = team;
+		// Teleport to other graveyard, player witch were on this graveyard
+		RelocateDeadPlayers();
+	//}
 }
 
 void BfGraveyard::RelocateDeadPlayers()
 {
     WorldSafeLocsEntry const* closestGrave = NULL;
+//	if (m_ResurrectQueue != NULL)
     for (GuidSet::const_iterator itr = m_ResurrectQueue.begin(); itr != m_ResurrectQueue.end(); ++itr)
     {
         Player* player = sObjectAccessor->FindPlayer(*itr);
