@@ -249,6 +249,14 @@ struct keyFrame
     float tFrom, tTo;
 };
 
+void Transport::EnableMovement(bool enabled)
+{
+	if (!GetGOInfo()->moTransport.canBeStopped)
+		return;
+
+	_pendingStop = !enabled;
+}
+
 bool Transport::GenerateWaypoints(uint32 pathid, std::set<uint32> &mapids)
 {
     if (pathid >= sTaxiPathNodesByPath.size())
