@@ -3134,10 +3134,43 @@ void Spell::EffectSummonPet(SpellEffIndex effIndex)
 
     Pet* OldSummon = owner->GetPet();
 
-    Pet* oldPet = owner->GetPet();
+    /*Pet* oldPet = owner->GetPet();*/
 
-    if (oldPet && owner->GetTypeId() == TYPEID_PLAYER)
-        owner->ToPlayer()->RemovePet(oldPet, (oldPet->getPetType() == HUNTER_PET ? PET_SLOT_DELETED : PET_SLOT_NOT_IN_SLOT));
+	// if pet requested type already exist
+	if (OldSummon)
+	{
+		if (petentry == 0 || OldSummon->GetEntry() == petentry)
+		{
+			// pet in corpse state can't be summoned
+			if (OldSummon->isDead())
+				return;
+
+			ASSERT(OldSummon->GetMap() == owner->GetMap());
+
+			//OldSummon->GetMap()->Remove(OldSummon->ToCreature(), false);
+
+			float px, py, pz;
+			owner->GetClosePoint(px, py, pz, OldSummon->GetObjectSize());
+
+			OldSummon->NearTeleportTo(px, py, pz, OldSummon->GetOrientation());
+			//OldSummon->Relocate(px, py, pz, OldSummon->GetOrientation());
+			//OldSummon->SetMap(owner->GetMap());
+			//owner->GetMap()->Add(OldSummon->ToCreature());
+
+			if (owner->GetTypeId() == TYPEID_PLAYER && OldSummon->isControlled())
+				owner->ToPlayer()->PetSpellInitialize();
+
+			return;
+		}
+
+		if (OldSummon && owner->GetTypeId() == TYPEID_PLAYER)
+			owner->ToPlayer()->RemovePet(OldSummon, (OldSummon->getPetType() == HUNTER_PET ? PET_SLOT_ACTUAL_PET_SLOT : PET_SLOT_NOT_IN_SLOT));
+		else
+			return;
+	}
+
+    /*if (oldPet && owner->GetTypeId() == TYPEID_PLAYER)
+        owner->ToPlayer()->RemovePet(oldPet, (oldPet->getPetType() == HUNTER_PET ? PET_SLOT_DELETED : PET_SLOT_NOT_IN_SLOT));*/
 
     if (owner->getClass() == CLASS_HUNTER && m_spellInfo->SpellIconID == 455)
     {
