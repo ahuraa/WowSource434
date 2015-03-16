@@ -407,6 +407,8 @@ void MotionMaster::MoveJump(float x, float y, float z, float speedXY, float spee
 {
     sLog->outDebug(LOG_FILTER_GENERAL, "Unit (GUID: %u) jump to point (X: %f Y: %f Z: %f)", _owner->GetGUIDLow(), x, y, z);
 
+	if (speedXY <= 0.1f)
+		return;
     float moveTimeHalf = speedZ / Movement::gravity;
     float max_height = -Movement::computeFallElevation(moveTimeHalf, false, -speedZ);
     Movement::MoveSplineInit init(_owner);

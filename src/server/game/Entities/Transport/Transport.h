@@ -88,6 +88,8 @@ class Transport : public GameObject, public TransportBase
         uint32 m_timer;
 
         PlayerSet m_passengers;
+		bool _isMoving;
+		bool _pendingStop;
 
         uint32 currenttguid;
         uint32 m_period;
