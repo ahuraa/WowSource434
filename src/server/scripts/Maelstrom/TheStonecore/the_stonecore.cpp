@@ -135,6 +135,17 @@ public:
 	}
 };
 
+///rehecho
+
+float MillHouseWayPoint[8][3] =
+{
+	{ 900.21f, 987.11f, 317.25f }, // waypoint 1
+	{ 958.693f, 924.922f, 312.84f }, // waypoint 2
+	{ 1057.61f, 868.109f, 293.92f },// waypoint 3
+	{ 1145.09F, 904.81f, 285.53f } //waypoint 4
+};
+
+
 // Millhouse Manastorm AI
 class mob_millhouse_manastorm : public CreatureScript
 {
@@ -153,22 +164,45 @@ class mob_millhouse_manastorm : public CreatureScript
 		EVENT_FROSTBOLT_VOLLEY,
 		EVENT_IMPENDING_DOOM,
 		EVENT_SHADOW_BOLT,
-		EVENT_SHADOWFURY
+		EVENT_SHADOWFURY,
+		EVENT_GUARDS
 	};
+
 public:
 	mob_millhouse_manastorm() : CreatureScript("mob_millhouse_manastorm") { }
 
 	struct mob_millhouse_manastormAI : public ScriptedAI
 	{
-		mob_millhouse_manastormAI(Creature* creature) : ScriptedAI(creature) { }
+		int nextWaypoint(){
+			float actualPosition = me->GetPositionX();
+			if (actualPosition < 930.693f)
+				return 1;
+			else if (actualPosition < 1000.61f){
+				return 2;
+			}
+			else{
+				return 3;
+			}
+		}
+
+		mob_millhouse_manastormAI(Creature* creature) : ScriptedAI(creature) {
+			actualWayPoint = nextWaypoint();
+		}
+		bool inMovement = false;
+		int actualWayPoint;
 
 		void Reset()
 		{
 			events.Reset();
 		}
 
+
 		void EnterCombat(Unit* /*who*/)
 		{
+			scheduleEvents();
+		}
+
+		void scheduleEvents(){
 			events.ScheduleEvent(EVENT_MILL_FEAR, 10000);
 			events.ScheduleEvent(EVENT_FROSTBOLT_VOLLEY, urand(7000, 17000));
 			events.ScheduleEvent(EVENT_IMPENDING_DOOM, urand(25000, 35000));
@@ -176,13 +210,58 @@ public:
 			events.ScheduleEvent(EVENT_SHADOWFURY, urand(10000, 15000));
 		}
 
+		void SendAttacker(uint32 entry, Unit* target)
+		{
+			std::list<Creature*> creatures;
+			GetCreatureListWithEntryInGrid(creatures, me, entry, 20.0f);
+
+			if (creatures.empty())
+				return;
+
+			for (std::list<Creature*>::iterator iter = creatures.begin(); iter != creatures.end(); ++iter)
+			{
+				(*iter)->SetNoCallAssistance(true);
+				(*iter)->AI()->AttackStart(target);
+			}
+		}
+
 		void UpdateAI(uint32 const diff)
 		{
 			if (!UpdateVictim())
 				return;
+			if (me->GetPositionX() > 1140){
 
+				if (GameObject* go = me->FindNearestGameObject(207343, 20.0f)){
+					me->RemoveGameObject(go, true);
+					go->Delete();
+					Creature* c = me->SummonCreature(43438, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(),
+						me->GetOrientation(), TEMPSUMMON_MANUAL_DESPAWN, 0); //summon corborus
+					c->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_NON_ATTACKABLE);
+					SendAttacker(43438, me->SelectNearestTarget(100.0f));
+
+				}
+			}
+			
 			events.Update(diff);
-
+			if (me->HealthBelowPct(50)){
+				me->GetMotionMaster()->MovePoint(nextWaypoint(), MillHouseWayPoint[nextWaypoint()][0], MillHouseWayPoint[nextWaypoint()][1], MillHouseWayPoint[nextWaypoint()][2]);
+				me->SetHealth(me->GetMaxHealth());
+				me->CombatStop(true);
+				events.CancelEvent(EVENT_MILL_FEAR);
+				events.CancelEvent(EVENT_SHADOW_BOLT);
+				events.CancelEvent(EVENT_FROSTBOLT_VOLLEY);
+				events.CancelEvent(EVENT_IMPENDING_DOOM);
+				events.CancelEvent(EVENT_SHADOWFURY);
+				me->SetReactState(REACT_PASSIVE);
+				inMovement = true;
+				if (actualWayPoint == 3){
+					me->DisappearAndDie();
+				}
+				else{
+					events.ScheduleEvent(EVENT_GUARDS, 1000);
+				}
+				
+			}
 			if (me->HasUnitState(UNIT_STATE_CASTING))
 				return;
 
@@ -190,6 +269,10 @@ public:
 			{
 				switch (eventId)
 				{
+				case EVENT_GUARDS:
+					scheduleEvents();
+					me->SetReactState(REACT_AGGRESSIVE);
+					return;
 				case EVENT_MILL_FEAR:
 					DoCastRandom(SPELL_FEAR, 0.0f);
 					events.ScheduleEvent(EVENT_MILL_FEAR, 10000);
@@ -225,6 +308,7 @@ public:
 		return new mob_millhouse_manastormAI(creature);
 	}
 };
+///
 
 enum Teleporter
 {
