@@ -135,9 +135,9 @@ public:
 	}
 };
 
-///rehecho
 
-float MillHouseWayPoint[8][3] =
+
+float MillHouseWayPoint[4][3] =
 {
 	{ 900.21f, 987.11f, 317.25f }, // waypoint 1
 	{ 958.693f, 924.922f, 312.84f }, // waypoint 2
@@ -308,7 +308,6 @@ public:
 		return new mob_millhouse_manastormAI(creature);
 	}
 };
-///
 
 enum Teleporter
 {
