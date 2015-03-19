@@ -241,9 +241,6 @@ class boss_zanzil : public CreatureScript
 
             void InitializeAI()
             {
-                for (int i = 0; i < ID_GREEN_CAULDRON; ++i)
-                    if (Creature* gas = me->SummonCreature(52062, GasSP[i]))
-                        GasGUID[i] = gas->GetGUID();
 
                 static uint32 GasSpell[4]=
                 {
@@ -252,13 +249,6 @@ class boss_zanzil : public CreatureScript
                     96867,
                     97180,
                 };
-
-                for (int i = ID_GREEN_CAULDRON; i <= ID_GREEN_GAS; ++i)
-                    if (Creature* gas = me->SummonCreature(52062, GasSP[i]))
-                    {
-                        GasGUID[i] = gas->GetGUID();
-                        gas->CastSpell(gas, GasSpell[i - ID_GREEN_CAULDRON], false);
-                    }
 
                 memset(&ZombieGUID, 0, sizeof(ZombieGUID));
                 memset(&BerserkerGUID, 0, sizeof(BerserkerGUID));
@@ -461,7 +451,7 @@ class boss_zanzil : public CreatureScript
                             break;
                         case EVENT_GRAVEYARD_GAS:
                             Talk(EMOTE_ZANZIL_GRAVEYARD_GAS);
-                            me->CastSpell(me, SPELL_ZANZILS_GRAVEYARD_GAS, false);
+                        //    me->CastSpell(me, SPELL_ZANZILS_GRAVEYARD_GAS, false);
                             me->m_Events.AddEvent(new GasEvent(me), me->m_Events.CalculateTime(2*IN_MILLISECONDS));
                             break;
                         case EVENT_REMOVE_GAS:
