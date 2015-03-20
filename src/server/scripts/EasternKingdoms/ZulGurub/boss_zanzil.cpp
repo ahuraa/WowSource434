@@ -268,7 +268,7 @@ class boss_zanzil : public CreatureScript
                 if (GameObject* forcefield = me->FindNearestGameObject(GO_ZANZIL_DOOR, 550.0f))
                     me->RemoveGameObject(forcefield, true);
 
-                for (int i = 0; i < 56; ++i)
+            /*    for (int i = 0; i < 56; ++i)
                     if (!ZombieGUID[i])
                         if (Creature* zombie = me->SummonCreature(52055, ZombieSP[i], TEMPSUMMON_CORPSE_TIMED_DESPAWN, 5000))
                             ZombieGUID[i] = zombie->GetGUID();
@@ -276,7 +276,7 @@ class boss_zanzil : public CreatureScript
                 for (int i = 0; i < 3; ++i)
                     if (!BerserkerGUID[i])
                         if (Creature* berserker = me->SummonCreature(52054, BerserkerSP[i], TEMPSUMMON_CORPSE_TIMED_DESPAWN, 5000))
-                            BerserkerGUID[i] = berserker->GetGUID();
+                            BerserkerGUID[i] = berserker->GetGUID();*/
             }
 
             void EnterEvadeMode()
@@ -349,6 +349,21 @@ class boss_zanzil : public CreatureScript
 
                 summons.Summon(summoned);
             }
+
+			void SendAttacker(uint32 entry, Unit* target)
+			{
+				std::list<Creature*> creatures;
+				GetCreatureListWithEntryInGrid(creatures, me, entry, 20.0f);
+
+				if (creatures.empty())
+					return;
+
+				for (std::list<Creature*>::iterator iter = creatures.begin(); iter != creatures.end(); ++iter)
+				{
+					(*iter)->SetNoCallAssistance(true);
+					(*iter)->AI()->AttackStart(target);
+				}
+			}
 
             void DoAction(int32 const action)
             {
@@ -486,11 +501,13 @@ class boss_zanzil : public CreatureScript
                                 }
                             }
                             break;
-                        case EVENT_RESPAWN_BERSERKER:
-                            {
-                                if (Creature* berserker = me->SummonCreature(52054, BerserkerSP[ResurrectionId], TEMPSUMMON_CORPSE_TIMED_DESPAWN, 5000))
-                                    BerserkerGUID[ResurrectionId] = berserker->GetGUID();
-                            }
+						case EVENT_RESPAWN_BERSERKER:
+						{
+							if (Creature* berserker = me->SummonCreature(52054, BerserkerSP[ResurrectionId], TEMPSUMMON_CORPSE_TIMED_DESPAWN, 5000)){
+								BerserkerGUID[ResurrectionId] = berserker->GetGUID();
+								SendAttacker(52054, me->SelectNearestPlayer(300.0f));
+							}
+                        }
                             break;
                         case EVENT_RESURRECTION_ELIXIR_ZOMBIE:
                             Talk(EMOTE_ZANZIL_ZOMBIES);
@@ -522,8 +539,10 @@ class boss_zanzil : public CreatureScript
                         case EVENT_RESPAWN_ZOMBIE:
                             {
                                 for (int i = ResurrectionId * 14; i < ResurrectionId * 14 + 14; ++i)
-                                    if (Creature* zombie = me->SummonCreature(52055, ZombieSP[i], TEMPSUMMON_CORPSE_TIMED_DESPAWN, 5000))
-                                        ZombieGUID[i] = zombie->GetGUID();
+								if (Creature* zombie = me->SummonCreature(52055, ZombieSP[i], TEMPSUMMON_CORPSE_TIMED_DESPAWN, 5000)){
+									ZombieGUID[i] = zombie->GetGUID();
+									SendAttacker(52055, me->SelectNearestPlayer(300.0f));
+								}
                             }
                             break;
                         case EVENT_TERRIBLE_TONIC:
