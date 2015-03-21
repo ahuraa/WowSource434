@@ -264,6 +264,7 @@ class boss_zanzil : public CreatureScript
                 me->SetReactState(REACT_AGGRESSIVE);
                 events.ScheduleEvent(EVENT_DRAIN_BLUE_CAULDRON, 1000);
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
+				summons.DespawnAll();
 
                 if (GameObject* forcefield = me->FindNearestGameObject(GO_ZANZIL_DOOR, 550.0f))
                     me->RemoveGameObject(forcefield, true);
