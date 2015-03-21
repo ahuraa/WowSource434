@@ -233,7 +233,7 @@ class boss_zanzil : public CreatureScript
         struct boss_zanzilAI : public BossAI
         {
             boss_zanzilAI(Creature* creature) : BossAI(creature, DATA_ZANZIL) { }
-
+			Unit* whoAttack;
             uint64 GasGUID[22];
             uint64 ZombieGUID[56];
             uint64 BerserkerGUID[3];
@@ -278,6 +278,8 @@ class boss_zanzil : public CreatureScript
                         if (Creature* berserker = me->SummonCreature(52054, BerserkerSP[i], TEMPSUMMON_CORPSE_TIMED_DESPAWN, 5000))
                             BerserkerGUID[i] = berserker->GetGUID();*/
             }
+
+		
 
             void EnterEvadeMode()
             {
@@ -339,6 +341,17 @@ class boss_zanzil : public CreatureScript
 
             void JustSummoned(Creature* summoned)
             {
+				printf("Recien summoneado \r\n");
+				if (Unit* target = me->SelectNearestTarget()){
+					printf("Target adquired \r\n");
+					if (target && target->IsInWorld()){
+						printf("Esta en el mundo \r\n");
+						summoned->AddThreat(target, 100.0f);
+						summoned->GetMotionMaster()->MovePoint(0, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ());
+						summoned->SetReactState(REACT_AGGRESSIVE);
+
+					}
+				}
                 switch (summoned->GetEntry())
                 {
                     case 52062:
@@ -350,19 +363,14 @@ class boss_zanzil : public CreatureScript
                 summons.Summon(summoned);
             }
 
-			void SendAttacker(uint32 entry, Unit* target)
+			void MoveInLineOfSight(Unit* who)
 			{
-				std::list<Creature*> creatures;
-				GetCreatureListWithEntryInGrid(creatures, me, entry, 20.0f);
-
-				if (creatures.empty())
+				if (!who){
+					whoAttack = who;
 					return;
-
-				for (std::list<Creature*>::iterator iter = creatures.begin(); iter != creatures.end(); ++iter)
-				{
-					(*iter)->SetNoCallAssistance(true);
-					(*iter)->AI()->AttackStart(target);
 				}
+
+				ScriptedAI::MoveInLineOfSight(who);
 			}
 
             void DoAction(int32 const action)
@@ -505,7 +513,6 @@ class boss_zanzil : public CreatureScript
 						{
 							if (Creature* berserker = me->SummonCreature(52054, BerserkerSP[ResurrectionId], TEMPSUMMON_CORPSE_TIMED_DESPAWN, 5000)){
 								BerserkerGUID[ResurrectionId] = berserker->GetGUID();
-								SendAttacker(52054, me->SelectNearestPlayer(300.0f));
 							}
                         }
                             break;
@@ -541,7 +548,6 @@ class boss_zanzil : public CreatureScript
                                 for (int i = ResurrectionId * 14; i < ResurrectionId * 14 + 14; ++i)
 								if (Creature* zombie = me->SummonCreature(52055, ZombieSP[i], TEMPSUMMON_CORPSE_TIMED_DESPAWN, 5000)){
 									ZombieGUID[i] = zombie->GetGUID();
-									SendAttacker(52055, me->SelectNearestPlayer(300.0f));
 								}
                             }
                             break;
@@ -653,6 +659,8 @@ class npc_zanzili_berserker : public CreatureScript
 
             void InitializeAI()
             {
+				//Unit* u = me->FindNearestPlayer(100.0f, true);
+				//me->go
             }
 
             void EnterEvadeMode()
@@ -679,6 +687,7 @@ class npc_zanzili_zombie : public CreatureScript
 
             void InitializeAI()
             {
+
             }
 
             void UpdateAI(uint32 const /*diff*/)
