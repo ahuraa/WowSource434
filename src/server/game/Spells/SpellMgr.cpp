@@ -4234,6 +4234,11 @@ void SpellMgr::LoadSpellInfoCorrections()
             case 99488:
                 spellInfo->Effects[0].MiscValue |= 16;
                 break;
+			case 14751: // Chakra
+				spellInfo->Effects[0].ApplyAuraName = SPELL_AURA_DUMMY;
+				spellInfo->Effects[0].MiscValue = 0;
+				spellInfo->Effects[0].SpellClassMask = flag96(0x0, 0x0, 0x0);
+				break;
 			// ISLE OF CONQUEST SPELLS
            //
             case 66551: // Teleport
