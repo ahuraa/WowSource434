@@ -29,6 +29,7 @@ Cataclysm 4.3.4 Emulator - V9
 10. We work with the Issue Tracker here on Github , please do not just open an Issue, try to find out in which area it goes and assign one of us to it (See ToDo List)
 11. Before you deleting a Creature or deleting a whole instance, be sure to check EVERYTHING!!! as example: (creature_addon, game_event_creature, every referenced Loot Template. Be sure to hold our World Clean.
 12. Dont push any fix if that gives DB errors and if you not tested before and working has Intendant !
-13. At the First mistake you will get a warning and the Second will get you out from our team if you not respect this rules!
-14. All who FORK this REPO will be kicked out from REPO and exclude from our GROUP with no possibility to RETURN!
-15. Sharing the files are totally against the rules of this team by any member and any violation of the rules will be kicked out from REPO and exclude from our GROUP with no possibility to RETURN!
+13. If you have an unfinished works push in into NotFinished Folder with Patch format & open a new Issue at Issue Tracker(describe it Well).
+14. At the First mistake you will get a warning and the Second will get you out from our team if you not respect this rules!
+15. All who FORK this REPO will be kicked out from REPO and exclude from our GROUP with no possibility to RETURN!
+16. Sharing the files are totally against the rules of this team by any member and any violation of the rules will be kicked out from REPO and exclude from our GROUP with no possibility to RETURN!
