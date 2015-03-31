@@ -1374,15 +1374,6 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
                         caster->CastCustomSpell(GetUnitOwner(), 56160, &heal, NULL, NULL, true, 0, GetEffect(0));
                     }
                 }
-
-				// Priest Hack Fix While Changing spec with a Chakra Aura Active
-				if (((caster->HasAura(77486) || caster->HasAura(77484)) && apply) && // Mastery Disc / Shadow
-					(caster->HasAura(81209) || caster->HasAura(81208) || caster->HasAura(81206))) // Chakra Active Spells
-				{
-					caster->RemoveAura(81209);
-					caster->RemoveAura(81208);
-					caster->RemoveAura(81206);
-				}
                 break;
             case SPELLFAMILY_ROGUE:
                 switch (GetId())
