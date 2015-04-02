@@ -490,7 +490,7 @@ bool Vehicle::AddPassenger(Unit* unit, int8 seatId)
             passenger->ExitVehicle();
         }
 
-        ASSERT(!seat->second.Passenger);
+        //ASSERT(!seat->second.Passenger);
     }
 
     return true;
