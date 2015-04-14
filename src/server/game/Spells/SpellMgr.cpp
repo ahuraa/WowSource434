@@ -3096,6 +3096,22 @@ void SpellMgr::LoadSpellCustomAttr()
             case 100698:
                 spellInfo->Effects[0].TriggerSpell = 0;
                 break;
+			// Divine Fire (priest t12 2p bonus)
+            case 99131:
+                spellInfo->Effects[EFFECT_0].BasePoints = 412;
+                break;
+            // Flame Tide (Shaman t12 2p bonus)
+            case 99189:
+                spellInfo->Effects[EFFECT_0].BasePoints = 234;
+                break;
+            // Fire of Heaven (Paladin t12 2p bonus)
+            case 99069:
+                spellInfo->Effects[EFFECT_0].BasePoints = 1404;
+                break;
+			// Heartfire (Druid t12 2p bonus)
+			case 99007:
+				spellInfo->Effects[EFFECT_0].BasePoints = 187;
+				break;
             case 82935: // Caustic Slime
             case 88915: // Caustic Slime
             case 88916: // Caustic Slime
