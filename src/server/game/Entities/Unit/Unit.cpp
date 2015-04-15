@@ -2560,6 +2560,20 @@ SpellMissInfo Unit::MeleeSpellHitResult(Unit* victim, SpellInfo const* spell)
 // TODO need use unit spell resistances in calculations
 SpellMissInfo Unit::MagicSpellHitResult(Unit* victim, SpellInfo const* spell)
 {
+		// Penance , Heal ,Flash heal, Greater Heal , Flash Heal(instant)
+	if (spell->Id == (uint32)47750 || spell->Id == (uint32)2050 || spell->Id == (uint32)2061 || spell->Id == (uint32)2060 || spell->Id == (uint32)101062)
+	{
+		if (HasSpell(47516)) // rank1 Grace
+		{
+
+			victim->AddAura(47930, victim);
+		}
+		else if (HasSpell(47517)) // rank2 Grace
+		{
+			victim->AddAura(77613, victim);
+
+		}
+	}
     // Can`t miss on dead target (on skinning for example)
     if (!victim->isAlive() && victim->GetTypeId() != TYPEID_PLAYER)
         return SPELL_MISS_NONE;
@@ -9083,14 +9097,15 @@ bool Unit::HandleProcTriggerSpell(Unit* victim, uint32 damage, uint32 absorb, Au
                 return false;
             break;
         }
-        case 47516: // Grace
-        case 47517:
-        {
-            // Penance channel spell has same familymask as the actual heal
-            if (!procSpell || procSpell->Id == 47757)
-                return false;
-            break;
-        }
+		// disable auto Grace(because when we use penance that spell add 4x grace effect)
+	case 47516: // Grace
+	case 47517:
+	{
+		 // Penance channel spell has same familymask as the actual heal
+		 if (!procSpell || procSpell->Id != 47750)
+		  return false;
+		 break;
+	}
         case 85126: // Seals of Command
         {
             if (!HasAuraState(AURA_STATE_JUDGEMENT))
