@@ -58,8 +58,8 @@ endif()
 if(NOT rev_info)
   # No valid ways available to find/set the revision/hash, so let's force some defaults
   message(STATUS "WARNING - Missing repository tags - you may need to pull tags with git fetch -t")
-  message(STATUS "WARNING - Continuing anyway - note that the versionstring will be set to 0000-00-00 00:00:00 (Archived)")
-  set(rev_date "0000-00-00 00:00:00 +0000")
+  message(STATUS "WARNING - Continuing anyway - note that the versionstring will be set to 20/04/2015 17:30:00 (Arquivo)")
+  set(rev_date "20/04/2015 17:30:00 +1b3f")
   set(rev_hash "Archived")
 else()
   # Extract information required to build a proper versionstring
