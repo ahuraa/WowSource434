@@ -1252,6 +1252,34 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
                         caster->CastCustomSpell(target, 64801, &heal, NULL, NULL, true, NULL, GetEffect(EFFECT_0));
                     }
                 }
+                switch (GetId())
+                {
+						case 5217: // tiger Fury
+						{
+							if (caster->GetShapeshiftForm() == FORM_CAT)
+							{
+								if (caster->HasAura(78892) && caster->HasAura(105735))   // Stampede & T13
+									caster->CastSpell(caster,81021, true);
+
+								if (caster->HasAura(78893) && caster->HasAura(105735))   // Stampede & T13
+									caster->CastSpell(caster,81022, true);
+
+								caster->CastSpell(caster, 109881, true);  // Stampede Ravage Marker
+							}
+							else if (caster->GetShapeshiftForm() == FORM_BEAR)
+							{
+								if (caster->HasAura(78892) && caster->HasAura(105735))    // Stampede & T13
+									caster->CastSpell(caster, 81016, true);
+
+								if (caster->HasAura(78893) && caster->HasAura(105735))    // Stampede & T13
+									caster->CastSpell(caster, 81017, true);
+							}
+						}
+						break;
+
+					default:
+						break;
+                }
                 break;
             case SPELLFAMILY_HUNTER:
             {
