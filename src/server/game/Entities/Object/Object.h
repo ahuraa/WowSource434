@@ -216,8 +216,7 @@ class Object
 
         uint32 GetUInt32Value(uint16 index) const
         {
-			if (!(index + 1 < m_valuesCount || PrintIndexError(index, false)))
-				return 0;
+			ASSERT(index < m_valuesCount || PrintIndexError(index, false));
             return m_uint32Values[index];
         }
 
