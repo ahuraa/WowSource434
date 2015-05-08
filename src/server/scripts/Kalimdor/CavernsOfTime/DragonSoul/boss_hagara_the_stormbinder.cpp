@@ -152,7 +152,7 @@ public:
 				Map::PlayerList const& Players = me->GetMap()->GetPlayers();
 				for (Map::PlayerList::const_iterator itr = Players.begin(); itr != Players.end(); ++itr)
 				{	
-					if (Player* player = itr->GetSource())
+					if (Player* player = itr->getSource())
 					{
 						if(player->FindNearestCreature(55689, 23.0f))
 						{

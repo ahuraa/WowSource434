@@ -165,7 +165,7 @@ public:
 			Map::PlayerList const& Players = me->GetMap()->GetPlayers();
 			for (Map::PlayerList::const_iterator itr = Players.begin(); itr != Players.end(); ++itr)
 			{	
-				if (Player* player = itr->GetSource())
+				if (Player* player = itr->getSource())
 				{
 					//BORRAR AURA DRAGONES
 					player->RemoveAura(105825);
@@ -354,9 +354,10 @@ public:
 			Map::PlayerList const& Players = me->GetMap()->GetPlayers();
 			for (Map::PlayerList::const_iterator itr = Players.begin(); itr != Players.end(); ++itr)
 			{	
-				if (Player* player = itr->GetSource())
+				if (Player* player = itr->getSource())
 				{
-					if (AchievementEntry const* achievementEntry = sAchievementMgr->GetAchievement(6177))
+					//TODO repair
+				/*	if (AchievementEntry const* achievementEntry = sAchievementMgr->GetAchievement(6177))
 					{
 						player->CompletedAchievement(achievementEntry);
 					}	
@@ -364,7 +365,7 @@ public:
 					{
 						if(IsHeroic())
 							player->CompletedAchievement(achievementEntry);
-					}
+					}*/
 					//BORRAR AURA DRAGONES
 					player->RemoveAura(105825);
 					player->RemoveAura(106027);
@@ -961,7 +962,7 @@ class npc_ysera_dw : public CreatureScript
 				Map::PlayerList const& Players = me->GetMap()->GetPlayers();
 				for (Map::PlayerList::const_iterator itr = Players.begin(); itr != Players.end(); ++itr)
 				{	
-					if (Player* player = itr->GetSource())
+					if (Player* player = itr->getSource())
 					{
 						if(!player->HasAura(106456) && me->IsInRange(player, 0.0f, 50.0f, true))
 						{
@@ -1021,7 +1022,7 @@ class npc_alextstraza_dw : public CreatureScript
 				Map::PlayerList const& Players = me->GetMap()->GetPlayers();
 				for (Map::PlayerList::const_iterator itr = Players.begin(); itr != Players.end(); ++itr)
 				{	
-					if (Player* player = itr->GetSource())
+					if (Player* player = itr->getSource())
 					{
 						if(!player->HasAura(105825) && me->IsInRange(player, 0.0f, 50.0f, true))
 						{
@@ -1082,7 +1083,7 @@ class npc_nozdormu_dw : public CreatureScript
 				Map::PlayerList const& Players = me->GetMap()->GetPlayers();
 				for (Map::PlayerList::const_iterator itr = Players.begin(); itr != Players.end(); ++itr)
 				{	
-					if (Player* player = itr->GetSource())
+					if (Player* player = itr->getSource())
 					{
 						if(!player->HasAura(106027) && me->IsInRange(player, 0.0f, 50.0f, true))
 						{
@@ -1142,7 +1143,7 @@ class npc_kalecgos_dw : public CreatureScript
 				Map::PlayerList const& Players = me->GetMap()->GetPlayers();
 				for (Map::PlayerList::const_iterator itr = Players.begin(); itr != Players.end(); ++itr)
 				{	
-					if (Player* player = itr->GetSource())
+					if (Player* player = itr->getSource())
 					{
 						if(!player->HasAura(106026) && me->IsInRange(player, 0.0f, 50.0f, true))
 						{

@@ -408,7 +408,7 @@ class npc_tendones_2 : public CreatureScript
 						Map::PlayerList const& Players = me->GetMap()->GetPlayers();
 						for (Map::PlayerList::const_iterator itr = Players.begin(); itr != Players.end(); ++itr)
 						{	
-							if (Player* player = itr->GetSource())
+							if (Player* player = itr->getSource())
 							{
 								if (AchievementEntry const* achievementEntry = sAchievementMgr->GetAchievement(6115))
 									if(IsHeroic())
@@ -419,9 +419,10 @@ class npc_tendones_2 : public CreatureScript
 						DespawnCreatures(53891);
 						me->DespawnOrUnsummon(5000);
 						me->SummonCreature(140003, -13854.73f, -13591.98f, 272.34f, 4.73f, TEMPSUMMON_CORPSE_DESPAWN, 120000);
-						if(Unit* killer = me->FindNearestPlayer(1000.0f))
-							killer->SummonGameObject(RAID_MODE(GO_ESPINAZO_LOOT_10N, GO_ESPINAZO_LOOT_25N, GO_ESPINAZO_LOOT_10H, GO_ESPINAZO_LOOT_25H), -12133.66f,  12076.17f, 2.30f, 3.57793f, 0.0f, 0.0f, -0.976295f, 0.216442f, 320000);
-
+						if (Unit* killer = me->FindNearestPlayer(1000.0f)){
+							//TODO fix loot
+							//killer->SummonGameObject(RAID_MODE(GO_ESPINAZO_LOOT_10N, GO_ESPINAZO_LOOT_25N, GO_ESPINAZO_LOOT_10H, GO_ESPINAZO_LOOT_25H), -12133.66f,  12076.17f, 2.30f, 3.57793f, 0.0f, 0.0f, -0.976295f, 0.216442f, 320000);
+						}
 					}							
 			   		if (!me->FindNearestCreature(50237, 100.0f))
 					{					
@@ -544,7 +545,7 @@ class npc_tentaculo : public CreatureScript
 						Map::PlayerList const& Players = me->GetMap()->GetPlayers();
 						for (Map::PlayerList::const_iterator itr = Players.begin(); itr != Players.end(); ++itr)
 						{	
-							if (Player* player = itr->GetSource())
+							if (Player* player = itr->getSource())
 							{
 								player->RemoveAura(105490);
 							}	

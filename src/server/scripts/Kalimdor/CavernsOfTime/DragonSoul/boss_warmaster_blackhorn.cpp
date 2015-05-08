@@ -367,7 +367,7 @@ class npc_goriona : public CreatureScript
 							case EVENT_ALIENTO_CREPUSCULAR:
 								for (Map::PlayerList::const_iterator itr = Players.begin(); itr != Players.end(); ++itr)
 								{	
-									if (Player* player = itr->GetSource())
+									if (Player* player = itr->getSource())
 									{
 											me->CastSpell(player, 93544);
 									}	
