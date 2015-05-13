@@ -33,6 +33,8 @@
 #include "WorldPacket.h"
 #include "WorldSession.h"
 
+#include "Chat.h"
+
 class Aura;
 
 /* differeces from off:
@@ -110,8 +112,20 @@ void WorldSession::HandleGroupInviteOpcode(WorldPacket& recvData)
     // no player
     if (!player)
     {
-        SendPartyResult(PARTY_OP_INVITE, memberName, ERR_BAD_PLAYER_NAME_S);
-        return;
+		 std::ostringstream fmn;
+		 fmn << "" << memberName << "";
+		 QueryResult result = CharacterDatabase.PQuery("SELECT name FROM characters_fake WHERE online=2 AND name = '%s'", fmn.str().c_str());
+
+        // PFake Player By Lizard.tiny
+        if ( result && sWorld->getBoolConfig(CONFIG_FAKE_WHO_LIST))
+        {
+           ChatHandler(_player->GetSession()).PSendSysMessage("%s is already in group.", fmn.str().c_str());
+        }
+        else
+        {
+            SendPartyResult(PARTY_OP_INVITE, memberName, ERR_BAD_PLAYER_NAME_S);
+        }
+		return;
     }
 
     // restrict invite to GMs

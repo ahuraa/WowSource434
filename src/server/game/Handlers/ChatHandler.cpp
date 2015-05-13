@@ -331,8 +331,23 @@ void WorldSession::HandleMessagechatOpcode(WorldPacket& recvData)
             bool receiverIsPlayer = AccountMgr::IsPlayerAccount(receiver ? receiver->GetSession()->GetSecurity() : SEC_PLAYER);
             if (!receiver || (senderIsPlayer && !receiverIsPlayer && !receiver->isAcceptWhispers() && !receiver->IsInWhisperWhiteList(sender->GetGUID())))
             {
-                SendPlayerNotFoundNotice(to);
-                return;
+				std::ostringstream nx;
+				nx << "" << to << "";
+				QueryResult result = CharacterDatabase.PQuery("SELECT name FROM characters_fake WHERE online=2 AND name = '%s'", nx.str().c_str());
+
+                // PFake Player By Lizard.tiny
+                if ( result && sWorld->getBoolConfig(CONFIG_FAKE_WHO_LIST)) 
+                {
+				std::ostringstream ss;
+				ss << "|cffF17AEFTo [" << to << "]: " << msg << "";
+				sWorld->SendServerMessage(SERVER_MSG_STRING, ss.str().c_str());
+                    return;
+                }
+                else 
+                { 
+                    SendPlayerNotFoundNotice(to);
+                    return;
+				}
             }
 
             if (!sWorld->getBoolConfig(CONFIG_ALLOW_TWO_SIDE_INTERACTION_CHAT) && senderIsPlayer && receiverIsPlayer)

@@ -1898,6 +1898,27 @@ void Player::Update(uint32 p_time)
             sScriptMgr->OnPlayerSave(this);
             SaveToDB();
             sLog->outDebug(LOG_FILTER_PLAYER, "Player '%s' (GUID: %u) saved", GetName().c_str(), GetGUIDLow());
+            // PFake Player By Lizard.tiny
+            if (sWorld->getBoolConfig(CONFIG_FAKE_WHO_LIST)) 
+            {
+				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = (FLOOR(67 * RAND()) + 1) WHERE online>1");
+				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 3 WHERE zone>1 AND zone<3");
+				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 8 WHERE zone>4 AND zone<8");
+				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 10 WHERE zone>8 AND zone<10");
+				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 14 WHERE zone>12 AND zone<14");
+				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 25 WHERE zone>17 AND zone<25");
+				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 28 WHERE zone>25 AND zone<28");
+				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 33 WHERE zone>28 AND zone<33");
+				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 38 WHERE zone>34 AND zone<38");
+				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 40 WHERE zone>38 AND zone<40");
+				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 44 WHERE zone>41 AND zone<44");
+				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 51 WHERE zone>47 AND zone<51");
+				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 54 WHERE zone>51 AND zone<54");
+				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 57 WHERE zone>54 AND zone<57");
+				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 65 WHERE zone>57 AND zone<65");
+				CharacterDatabase.PExecute("UPDATE characters_fake SET online = (FLOOR(2 * RAND()) + 1) WHERE  online>0 AND online<3");
+				CharacterDatabase.PExecute("UPDATE characters_fake SET level=level+1 WHERE online>1 AND level<(FLOOR(60 * RAND()) + 25)");
+             }
         }
         else
             m_nextSave -= p_time;
