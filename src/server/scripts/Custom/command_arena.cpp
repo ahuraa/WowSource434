@@ -10,8 +10,8 @@
         {
             static ChatCommand pvpTeleCommandTable[] =
             {
-                { "duel",      rbac::RBAC_PERM_COMMAND_MALL,  false, &HandlepvpTeleCommand,             "", NULL },
-                { "pvp",       rbac::RBAC_PERM_COMMAND_MALL,  false, &HandlepvpTeleCommand,             "", NULL },
+                { "duel",      SEC_PLAYER,  false, &HandlepvpTeleCommand,             "", NULL },
+                { "pvp",       SEC_PLAYER,  false, &HandlepvpTeleCommand,             "", NULL },
                 { NULL,             0,                  false, NULL,                              "", NULL }
             };
                      return pvpTeleCommandTable;
@@ -22,7 +22,7 @@
      
             Player* me = handler->GetSession()->GetPlayer();
      
-            if (me->IsInCombat())
+            if (me->isInCombat())
             {
                 handler->SendSysMessage(LANG_YOU_IN_COMBAT);
                 handler->SetSentErrorMessage(true);
@@ -30,7 +30,7 @@
             }
      
             // stop flight if need
-            if (me->IsInFlight())
+            if (me->isInFlight())
             {
                 me->GetMotionMaster()->MovementExpired();
                 me->CleanupAfterTaxiFlight();

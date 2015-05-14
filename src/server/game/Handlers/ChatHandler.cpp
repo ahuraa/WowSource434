@@ -340,7 +340,7 @@ void WorldSession::HandleMessagechatOpcode(WorldPacket& recvData)
                 {
 				std::ostringstream ss;
 				ss << "|cffF17AEFTo [" << to << "]: " << msg << "";
-				sWorld->SendServerMessage(SERVER_MSG_STRING, ss.str().c_str());
+				xxx
                     return;
                 }
                 else 
