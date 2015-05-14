@@ -107,27 +107,13 @@ extern int main(int argc, char **argv)
     sLog->outInfo(LOG_FILTER_AUTHSERVER, "<Ctrl-C> to stop.\n");
     sLog->outInfo(LOG_FILTER_AUTHSERVER, "Using configuration file %s.", cfg_file);
 
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "###############  ######   ######    #####  ######   ######   ");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "###############  ######   #######   #####  ######   #####    ");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "###############  ######   #######   #####   ###### ######    ");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "    #######      ######   ########  #####   ###### #####     ");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "    #######      ######   ######### #####    ###########     ");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "    #######      ######   ######### #####     #########      ");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "    #######      ######   ###############     #########      ");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "    #######      ######   ###############      #######       ");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "    #######      ######   ###### ########      ######        ");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "    #######      ######   ###### ########      ######        ");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "    #######      ######   ######  #######      ######        ");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "    #######      ######   ######  #######      ######        ");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "    #######      ######   ######   ######      ###### C O R E");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "-------------------------------------------------------------");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "-                                                           -");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "-    TinyCore 4.3.4 Developered By TinyCore Support Team    -");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "-                                                           -");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "- Website : www.tinycore.net                                -");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "- Email   : lizard.tiny@gmail.com                           -");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "-                                                           -");
-	sLog->outInfo(LOG_FILTER_AUTHSERVER, "-------------------------------------------------------------");
+	sLog->outInfo(LOG_FILTER_AUTHSERVER, " _    _       _    _ _____                          ");
+	sLog->outInfo(LOG_FILTER_AUTHSERVER, "| |  | |     | |  | /  ___|                         ");
+	sLog->outInfo(LOG_FILTER_AUTHSERVER, "| |  | | ___ | |  | \\ `--.  ___  _   _ _ __ ___ ___ ");
+	sLog->outInfo(LOG_FILTER_AUTHSERVER, "| |/\\| |/ _ \\| |/\\| |`--. \\/ _ \\| | | | '__/ __/ _ \\");
+	sLog->outInfo(LOG_FILTER_AUTHSERVER, "\\  /\\  / (_) \\  /\\  /\\__/ / (_) | |_| | | | (_|  __/");
+	sLog->outInfo(LOG_FILTER_AUTHSERVER, " \\/  \\/ \\___/ \\/  \\/\\____/ \\___/ \\__,_|_|  \\___\\___|");
+	sLog->outInfo(LOG_FILTER_AUTHSERVER, "");
 
     sLog->outWarn(LOG_FILTER_AUTHSERVER, "%s (Library: %s)", OPENSSL_VERSION_TEXT, SSLeay_version(SSLEAY_VERSION));
 
