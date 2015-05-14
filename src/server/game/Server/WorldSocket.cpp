@@ -806,6 +806,7 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
     uint32 addonSize;
     LocaleConstant locale;
     std::string account;
+	uint8 m_viplevel;
     SHA1Hash sha;
     BigNumber k;
     WorldPacket addonsData;
@@ -957,6 +958,9 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
         return -1;
     }
 
+     QueryResult VipInfo = LoginDatabase.PQuery("SELECT `viplevel` FROM `account_vip` WHERE `acc_id`='%u' AND `active`='1'", id);
+     m_viplevel = VipInfo ? VipInfo->Fetch()->GetUInt8() : 0;
+
     // Check locked state for server
     AccountTypes allowedAccountType = sWorld->GetPlayerSecurityLimit();
     sLog->outDebug(LOG_FILTER_NETWORKIO, "Allowed Level: %u Player Level %u", allowedAccountType, AccountTypes(security));
@@ -1012,7 +1016,7 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
     LoginDatabase.Execute(stmt);
 
     // NOTE ATM the socket is single-threaded, have this in mind ...
-    ACE_NEW_RETURN(m_Session, WorldSession(id, this, AccountTypes(security), expansion, mutetime, locale, recruiter, isRecruiter), -1);
+    ACE_NEW_RETURN(m_Session, WorldSession(id, this, AccountTypes(security), expansion, m_viplevel, mutetime, locale, recruiter, isRecruiter), -1);
 
     m_Crypt.Init(&k);
 

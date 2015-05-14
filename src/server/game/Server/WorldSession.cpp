@@ -97,7 +97,7 @@ bool WorldSessionFilter::Process(WorldPacket* packet)
 }
 
 /// WorldSession constructor
-WorldSession::WorldSession(uint32 id, WorldSocket* sock, AccountTypes sec, uint8 expansion, time_t mute_time, LocaleConstant locale, uint32 recruiter, bool isARecruiter):
+WorldSession::WorldSession(uint32 id, WorldSocket* sock, AccountTypes sec, uint8 expansion, uint8 viplevel, time_t mute_time, LocaleConstant locale, uint32 recruiter, bool isARecruiter):
     m_muteTime(mute_time),
     m_timeOutTime(0),
     _player(NULL),
@@ -105,6 +105,7 @@ WorldSession::WorldSession(uint32 id, WorldSocket* sock, AccountTypes sec, uint8
     _security(sec),
     _accountId(id),
     m_expansion(expansion),
+	m_viplevel(viplevel),
     _warden(NULL),
     _logoutTime(0),
     m_inQueue(false),

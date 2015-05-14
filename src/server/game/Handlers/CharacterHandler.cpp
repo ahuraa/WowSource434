@@ -1026,6 +1026,8 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder* holder)
         sLog->outDebug(LOG_FILTER_NETWORKIO, "WORLD: Sent server info");
     }
 
+	ChatHandler(pCurrChar->GetSession()).PSendSysMessage("Your Account vip level is : %u", pCurrChar->GetSession()->GetVipLevel());
+
     //QueryResult* result = CharacterDatabase.PQuery("SELECT guildid, rank FROM guild_member WHERE guid = '%u'", pCurrChar->GetGUIDLow());
     if (PreparedQueryResult resultGuild = holder->GetPreparedResult(PLAYER_LOGIN_QUERY_LOAD_GUILD))
     {
