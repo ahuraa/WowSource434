@@ -1598,23 +1598,11 @@ void AddBattlegroundScripts()
 
 #ifdef SCRIPTS
 /* This is where custom scripts' loading functions should be declared. */
-void AddSC_DuelResetCooldown();
-void AddSC_System_Censure();
-void AddSC_announce_vip();
-void AddSC_announce_login();
-void AddSC_Boss_Announcer();
-void AddSC_pvp_commandscript();
 #endif
 
 void AddCustomScripts()
 {
 #ifdef SCRIPTS
     /* This is where custom scripts should be added. */
-	AddSC_DuelResetCooldown();
-	AddSC_System_Censure();
-	AddSC_announce_vip();
-	AddSC_announce_login();
-	AddSC_Boss_Announcer();
-	AddSC_pvp_commandscript();
 #endif
 }
