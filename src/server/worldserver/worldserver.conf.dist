@@ -1287,13 +1287,18 @@ AllowTwoSide.Trade = 0
 
 TalentsInspecting = 1
 
-#    Fake.WHO.List 
+#    Fake.WHO.List
+#        Fake.WHO.List 			( 0 = Disable Fake Player System | 1 = Enable Fake Player System )
+#        Fake.ONLINE.System 	( 0 = Disable Fake Player Random Online/Offline System | 1 = Enable Fake Player Random Online/Offline System )
+#        Fake.LEVELUP.System 	( 0 = Disable Fake Player Auto Levelup System | 1 = Enable Auto Levelup Fake Player System )
 #        Add fake players to fill in WHO LIST (who is online list, "O" button) if there is less then 
 #        49 real players online (need to set online=2 in character database in order to work) 
 #        Default: 0 (disabled) 
 #                 1 (enabled) 
 
 Fake.WHO.List = 0
+Fake.ONLINE.System = 0
+Fake.LEVELUP.System = 0
 
 #
 ###################################################################################################

@@ -9,7 +9,7 @@
     public:
         announce_vip() : PlayerScript("announce_vip") { }
      
-        void onLogin(Player* player, bool /*loginFirst*/)
+        void OnLogin(Player* player, bool /*loginFirst*/)
         {
             if (player->GetSession()->GetVipLevel())
                     {

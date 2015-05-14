@@ -1916,8 +1916,14 @@ void Player::Update(uint32 p_time)
 				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 54 WHERE zone>51 AND zone<54");
 				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 57 WHERE zone>54 AND zone<57");
 				CharacterDatabase.PExecute("UPDATE characters_fake SET zone = 65 WHERE zone>57 AND zone<65");
+	            if (sWorld->getBoolConfig(CONFIG_FAKE_RANDOM_ONLINE_OFFLINE)) 
+	            	{
 				CharacterDatabase.PExecute("UPDATE characters_fake SET online = (FLOOR(2 * RAND()) + 1) WHERE  online>0 AND online<3");
-				CharacterDatabase.PExecute("UPDATE characters_fake SET level=level+1 WHERE online>1 AND level<(FLOOR(60 * RAND()) + 25)");
+	             	}
+	            if (sWorld->getBoolConfig(CONFIG_FAKE_LEVEL_UP)) 
+	            	{
+                CharacterDatabase.PExecute("UPDATE characters_fake SET level=level+1 WHERE online>1 AND level<(FLOOR(60 * RAND()) + 25)");
+             		}
              }
         }
         else

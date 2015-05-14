@@ -10,7 +10,7 @@
     public:
         announce_login() : PlayerScript("announce_login") { }
      
-        void onLogin(Player* player, bool /*loginFirst*/)
+        void OnLogin(Player* player, bool /*loginFirst*/)
         {
             if (player->GetTeam() == ALLIANCE)
                     {
