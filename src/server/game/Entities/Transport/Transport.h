@@ -46,10 +46,8 @@ class Transport : public GameObject, public TransportBase
         typedef std::set<Creature*> CreatureSet;
         CreatureSet m_NPCPassengerSet;
         uint32 AddNPCPassenger(uint32 tguid, uint32 entry, float x, float y, float z, float o, uint32 anim=0);
-      Creature* AddNPCPassengerInInstance(uint32 entry, float x, float y, float z, float o, uint32 anim=0);
-		void UpdatePosition(MovementInfo* mi);
+        void UpdatePosition(MovementInfo* mi);
         void UpdateNPCPositions();
-		void UpdatePlayerPositions();
 
         /// This method transforms supplied transport offsets into global coordinates
         void CalculatePassengerPosition(float& x, float& y, float& z, float& o);

@@ -20536,7 +20536,6 @@ void Player::_SaveSpells(SQLTransaction& trans)
         // add only changed/new not dependent spells
         if (!itr->second->dependent && (itr->second->state == PLAYERSPELL_NEW || itr->second->state == PLAYERSPELL_CHANGED))
         {
-
             stmt = CharacterDatabase.GetPreparedStatement(CHAR_INS_CHAR_SPELL);
             stmt->setUInt32(0, GetGUIDLow());
             stmt->setUInt32(1, itr->first);

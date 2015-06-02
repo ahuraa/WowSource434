@@ -70,3 +70,4 @@ class UpdateData
         ByteBuffer m_data;
 };
 #endif
+
