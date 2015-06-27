@@ -1973,6 +1973,12 @@ void Spell::EffectEnergize(SpellEffIndex effIndex)
             level_diff = m_caster->getLevel() - 60;
             level_multiplier = 4;
             break;
+		case 82726:                                         // Fervor
+		{
+			if (Unit* pet = m_caster->GetGuardianPet())
+				pet->CastSpell(pet, 82726, true); // Also give +50 focus to pet
+			break;
+		}
         case 63375:                                         // Primal Wisdom
         case 68082:                                         // Glyph of Seal of Command
         case 20167:                                         // Seal of Insight
