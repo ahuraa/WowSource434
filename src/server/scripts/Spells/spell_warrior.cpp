@@ -703,8 +703,11 @@ class spell_warr_victory_rush : public SpellScriptLoader
                 int32 value = GetHitHeal();
                 if (AuraEffect const* const aurEff = caster->GetAuraEffectOfRankedSpell(SPELL_IMPENDING_VICTORY, EFFECT_0))
                 {
-                    value = aurEff->GetAmount();
-                    SetHitHeal(caster->CountPctFromMaxHealth(value));
+					if (Player* p = caster->ToPlayer()){
+						p->UpdateSpellCritChance(SPELL_SCHOOL_HOLY);
+						value = aurEff->GetAmount();
+						SetHitHeal(caster->CountPctFromMaxHealth(value));
+					}
                 }
             }
         }
