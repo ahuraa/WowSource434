@@ -1337,24 +1337,6 @@ void AuraEffect::HandleShapeshiftBoosts(Unit* target, bool apply) const
                     target->CastSpell(target, 66530, true);
             }
 
-            if (AuraEffect* aur = target->GetAuraEffect(SPELL_AURA_MOD_TOTAL_STAT_PERCENTAGE, SPELLFAMILY_GENERIC, 240, EFFECT_0))
-            {
-                // Heart of the Wild
-                if (HotWSpellId)
-                {
-                    int32 HotWMod = 0;
-                    switch (HotWSpellId)
-                    {
-                        case 24900:
-                            HotWMod = 10;
-                            break;
-                        case 24899:
-                            HotWMod = 6;
-                            break;
-                    }
-                    target->CastCustomSpell(target, HotWSpellId, &HotWMod, NULL, NULL, true, NULL, this);
-                }
-            }
             switch (GetMiscValue())
             {
                 case FORM_CAT:
