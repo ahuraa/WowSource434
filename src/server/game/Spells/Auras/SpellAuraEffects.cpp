@@ -5042,6 +5042,23 @@ void AuraEffect::HandleAuraDummy(AuraApplication const* aurApp, uint8 mode, bool
                     if (GetId() == 61777)
                         target->CastSpell(target, GetAmount(), true);
                     break;
+				case SPELLFAMILY_PALADIN:
+				{
+					switch (GetId())
+					{
+						// Guardian of Ancient Kings - Retribution
+						case 86698:
+						{
+							if (aurApp->GetBase()->GetOwner()->ToUnit()->HasAura(86700))
+							{
+								caster->CastSpell((Unit*)NULL, 86704, true);
+								caster->RemoveAura(86701);
+								caster->RemoveAura(86700);
+							}
+							break;
+						}
+					}
+				}
                 default:
                     break;
             }
