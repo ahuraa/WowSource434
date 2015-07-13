@@ -673,6 +673,14 @@ DELETE FROM `pickpocketing_loot_template` WHERE entry='46321';
 INSERT INTO `pickpocketing_loot_template` VALUES ('46321', '58259', '23', '1', '0', '1', '1');
 INSERT INTO `pickpocketing_loot_template` VALUES ('46321', '63272', '19', '1', '0', '1', '1');
 INSERT INTO `pickpocketing_loot_template` VALUES ('46321', '63273', '16', '1', '0', '1', '1');
+INSERT INTO `pickpocketing_loot_template` VALUES ('46321', '63274', '13', '1', '0', '1
+INSERT INTO `pickpocketing_loot_template` VALUES ('46202', '63349', '0.15', '1', '0', '1', '1');
+UPDATE `creature_template` SET pickpocketloot='46202' WHERE entry='46202';
+-- missing pickpocket loot http://www.wowhead.com/npc=46321
+DELETE FROM `pickpocketing_loot_template` WHERE entry='46321';
+INSERT INTO `pickpocketing_loot_template` VALUES ('46321', '58259', '23', '1', '0', '1', '1');
+INSERT INTO `pickpocketing_loot_template` VALUES ('46321', '63272', '19', '1', '0', '1', '1');
+INSERT INTO `pickpocketing_loot_template` VALUES ('46321', '63273', '16', '1', '0', '1', '1');
 INSERT INTO `pickpocketing_loot_template` VALUES ('46321', '63274', '13', '1', '0', '1', '1');
 INSERT INTO `pickpocketing_loot_template` VALUES ('46321', '63275', '13', '1', '0', '1', '1');
 INSERT INTO `pickpocketing_loot_template` VALUES ('46321', '63349', '13', '1', '0', '1', '1');
@@ -727,12 +735,7 @@ INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_
 (46162, 0, 0, 0, 0, 0, 100, 0, 5000, 8000, 30000, 33000, 11, 81119, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 'Tawny Owl cast spell Howling Screech'),
 (46162, 0, 1, 0, 0, 0, 100, 0, 200, 200, 24000, 24500, 11, 16576, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 'Tawny Owl cast spell Piercing Screech');
 DELETE FROM smart_scripts WHERE entryorguid=50138 AND  source_type=0;
-INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
-(50138, 0, 0, 0, 0, 0, 100, 0, 2000, 7000, 32000, 37000, 11, 3149, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 'Karoma <The Wolf Spirit> cast spell Furious Howl'),
-(50138, 0, 1, 0, 0, 0, 100, 0, 1000, 1000, 10000, 11000, 11, 24529, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 'Karoma <The Wolf Spirit> cast spell Glyph of Animal Bond'),
-(50138, 0, 2, 0, 0, 0, 100, 0, 1100, 1100, 11000, 12000, 11, 75002, 1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 'Karoma <The Wolf Spirit> cast spell Leaping Rush'),	
-(50138, 0, 3, 0, 0, 0, 100, 0, 1300, 1300, 14000, 15000, 11, 93435, 1, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 'Karoma <The Wolf Spirit> cast spell	Roar of Courage');	
-DELETE FROM smart_scripts WHERE entryorguid=46321 AND  source_type=0;
+INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_x`, `target_y`, `target_z`, `target_o`,rce_type=0;
 INSERT INTO `smart_scripts` (`entryorguid`, `source_type`, `id`, `link`, `event_type`, `event_phase_mask`, `event_chance`, `event_flags`, `event_param1`, `event_param2`, `event_param3`, `event_param4`, `action_type`, `action_param1`, `action_param2`, `action_param3`, `action_param4`, `action_param5`, `action_param6`, `target_type`, `target_param1`, `target_param2`, `target_param3`, `target_x`, `target_y`, `target_z`, `target_o`, `comment`) VALUES
 (46321, 0, 0, 0, 0, 0, 100, 0, 5000, 8000, 30000, 33000, 11, 70910, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 'Thundermar Gryphon Rider cast spell Rough Landing'),
 (46321, 0, 1, 0, 0, 0, 100, 0, 200, 200, 24000, 24500, 11, 49482, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 'Thundermar Gryphon Rider cast spell Stormhammer');	
