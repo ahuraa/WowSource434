@@ -4436,76 +4436,95 @@ void Guild::GiveReputation(uint32 rep, Player* source)
 
 void Guild::GiveXP(uint32 xp, Player* source, bool challenge)
 {
-    if (!sWorld->getBoolConfig(CONFIG_GUILD_LEVELING_ENABLED))
-        return;
+	if (!sWorld->getBoolConfig(CONFIG_GUILD_LEVELING_ENABLED))
+		return;
 
-    if (_todayExperience == sWorld->getIntConfig(CONFIG_GUILD_DAILY_XP_CAP))
-        return;
+	if (_todayExperience == sWorld->getIntConfig(CONFIG_GUILD_DAILY_XP_CAP))
+		return;
 
-    if (GetLevel() >= sWorld->getIntConfig(CONFIG_GUILD_MAX_LEVEL))
-        xp = 0; // SMSG_GUILD_XP_GAIN is always sent, even for no gains
-    else if (GetLevel() < GUILD_EXPERIENCE_UNCAPPED_LEVEL && uint32(_todayExperience) > sWorld->getIntConfig(CONFIG_GUILD_DAILY_XP_CAP)) {
-        uint32 newXp = sWorld->getIntConfig(CONFIG_GUILD_DAILY_XP_CAP) - uint32(_todayExperience);
-        sLog->outInfo(LOG_FILTER_GUILD, "Guild (guid:%u) gets %u experience but todayExperience is %u. Experence was set to %u", GetGUID(), xp, _todayExperience, newXp);
-        xp = 0; //Set XP to 0 for while debugging...
-    }
+	if (GetLevel() >= sWorld->getIntConfig(CONFIG_GUILD_MAX_LEVEL))
+	{
+		xp = 0; // SMSG_GUILD_XP_GAIN is always sent, even for no gains
+	}
+	else if (GetLevel() < GUILD_EXPERIENCE_UNCAPPED_LEVEL && uint32(_todayExperience) > sWorld->getIntConfig(CONFIG_GUILD_DAILY_XP_CAP))
+	{
+		uint64 newXp = sWorld->getIntConfig(CONFIG_GUILD_DAILY_XP_CAP) - uint64(_todayExperience);
+		sLog->outInfo(LOG_FILTER_GUILD, "Guild (guid:%u) gets %u experience but todayExperience is %u. Experence was set to %u", GetGUID(), xp, _todayExperience, newXp);
+		xp = 0; //Set XP to 0 for while debugging...
+	}
 
-    _experience += xp;
+	uint64 _todayCap = sWorld->getIntConfig(CONFIG_GUILD_DAILY_XP_CAP);
 
-    if (!challenge)
-    {
-        _todayExperience += xp;
+	if (_todayExperience + xp >= _todayCap && _todayExperience < _todayCap)
+	{
+		_experience += (_todayCap - _todayExperience);
+	}
+	else if (_todayExperience < _todayCap)
+	{
+		_experience += xp;
+	}
 
-        if(source)
-        {
-            WorldPacket data(SMSG_GUILD_XP_GAIN, 8);
-            data << uint64(xp);
-            source->GetSession()->SendPacket(&data);
+	if (!challenge)
+	{
+		if (_todayExperience + xp >= _todayCap && _todayExperience < _todayCap)
+		{
+			_todayExperience += (_todayCap - _todayExperience);
+		}
+		else if (_todayExperience < _todayCap)
+		{
+			_todayExperience += xp;
+		}
 
-            if (Member* member = GetMember(source->GetGUID()))
-                member->AddActivity(xp);
-        }
-    }
+		if (source)
+		{
+			WorldPacket data(SMSG_GUILD_XP_GAIN, 8);
+			data << uint64(xp);
+			source->GetSession()->SendPacket(&data);
 
-    if (!xp)
-        return;
+			if (Member* member = GetMember(source->GetGUID()))
+				member->AddActivity(xp);
+		}
+	}
 
-    uint32 oldLevel = GetLevel();
+	if (!xp)
+		return;
 
-    // Ding, mon!
-    while (GetExperience() >= sGuildMgr->GetXPForGuildLevel(GetLevel()) && GetLevel() < sWorld->getIntConfig(CONFIG_GUILD_MAX_LEVEL))
-    {
-        _experience -= sGuildMgr->GetXPForGuildLevel(GetLevel());
-        ++_level;
+	uint32 oldLevel = GetLevel();
 
-        // Find all guild perks to learn
-        std::vector<uint32> perksToLearn;
-        for (uint32 i = 0; i < sGuildPerkSpellsStore.GetNumRows(); ++i)
-            if (GuildPerkSpellsEntry const* entry = sGuildPerkSpellsStore.LookupEntry(i))
-                if (entry->Level > oldLevel && entry->Level <= GetLevel())
-                    perksToLearn.push_back(entry->SpellId);
+	// Ding, mon!
+	while (GetExperience() >= sGuildMgr->GetXPForGuildLevel(GetLevel()) && GetLevel() < sWorld->getIntConfig(CONFIG_GUILD_MAX_LEVEL))
+	{
+		_experience -= sGuildMgr->GetXPForGuildLevel(GetLevel());
+		++_level;
 
-        // Notify all online players that guild level changed and learn perks
-        for (Members::const_iterator itr = m_members.begin(); itr != m_members.end(); ++itr)
-        {
-            if (Player* player = itr->second->FindPlayer())
-            {
-                player->SetGuildLevel(GetLevel());
-                for (size_t i = 0; i < perksToLearn.size(); ++i)
-                    player->learnSpell(perksToLearn[i], true);
-            }
-        }
+		// Find all guild perks to learn
+		std::vector<uint32> perksToLearn;
+		for (uint32 i = 0; i < sGuildPerkSpellsStore.GetNumRows(); ++i)
+			if (GuildPerkSpellsEntry const* entry = sGuildPerkSpellsStore.LookupEntry(i))
+				if (entry->Level > oldLevel && entry->Level <= GetLevel())
+					perksToLearn.push_back(entry->SpellId);
 
-        AddGuildNews(GUILD_NEWS_LEVEL_UP, 0, 0, _level);
-        UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_REACH_GUILD_LEVEL, GetLevel(), 0, 0, NULL, source);
+		// Notify all online players that guild level changed and learn perks
+		for (Members::const_iterator itr = m_members.begin(); itr != m_members.end(); ++itr)
+		{
+			if (Player* player = itr->second->FindPlayer())
+			{
+				player->SetGuildLevel(GetLevel());
+				for (size_t i = 0; i < perksToLearn.size(); ++i)
+					player->learnSpell(perksToLearn[i], true);
+			}
+		}
 
-        ++oldLevel;
-    }
+		AddGuildNews(GUILD_NEWS_LEVEL_UP, 0, 0, _level);
+		UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_REACH_GUILD_LEVEL, GetLevel(), 0, 0, NULL, source);
 
-    if(source)
-        SendGuildXP(source->GetSession()); //this is needed, to display correct update on gain.
-    else
-        SendGuildXP();
+		++oldLevel;
+	}
+
+	if (source)
+		SendGuildXP(source->GetSession()); //this is needed, to display correct update on gain.
+	else
+		SendGuildXP();
 }
 
 void Guild::SendGuildXP(WorldSession* session) const
@@ -4527,10 +4546,9 @@ void Guild::SendGuildXP(WorldSession* session) const
 
 void Guild::ResetDailyExperience()
 {
-    _todayExperience = 0;
-    CharacterDatabase.Execute("UPDATE `guild` SET `todayExperience` = 0");
-
-    SendGuildXP(NULL);
+	_todayExperience = 0;
+	CharacterDatabase.Execute("UPDATE `guild` SET `todayExperience` = 0");
+	SendGuildXP();
 }
 
 void Guild::ResetTimes(bool weekly)

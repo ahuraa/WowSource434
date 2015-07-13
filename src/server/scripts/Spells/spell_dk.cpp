@@ -49,7 +49,9 @@ enum DeathKnightSpells
     SPELL_DK_ITEM_T8_MELEE_4P_BONUS             = 64736,
     SPELL_DK_GLYPH_OF_SCOURGE_STRIKE            = 58642,
 	SPELL_DK_GLYPH_OF_CHAINS_OF_ICE				= 58620,
-	SPELL_DK_GLYPH_OF_CHAINS_OF_ICE_DAMAGE		= 58621
+	SPELL_DK_GLYPH_OF_CHAINS_OF_ICE_DAMAGE		= 58621,
+	SPELL_DK_MERCILESS_COMBAT_RANK_1            = 49024,
+	SPELL_DK_MERCILESS_COMBAT_RANK_2            = 49538,
 };
 
 enum DeathKnightSpellIcons
@@ -1669,6 +1671,51 @@ public:
 	}
 };
 
+/*#########
+# Spell Merciless Combat rank 1 - 49024
+# Spell Merciless Combat rank 2 - 49538
+#########*/
+
+class spell_dk_merciless_combat : public SpellScriptLoader
+{
+public:
+	spell_dk_merciless_combat() : SpellScriptLoader("spell_dk_merciless_combat") { }
+
+	class spell_dk_merciless_combat_SpellScript : public SpellScript
+	{
+		PrepareSpellScript(spell_dk_merciless_combat_SpellScript);
+
+		void HandleOnHit()
+		{
+			if (Player* caster = GetCaster()->ToPlayer())
+			{
+				if (GetHitUnit()->GetHealthPct() <= 35.0f)
+				{
+					int32 damage = GetHitDamage();
+					if (caster->HasTalent(SPELL_DK_MERCILESS_COMBAT_RANK_1, caster->GetActiveSpec()))
+					{
+						SetHitDamage(uint32(damage * 1.06f));
+					}
+					else if (caster->HasTalent(SPELL_DK_MERCILESS_COMBAT_RANK_2, caster->GetActiveSpec()))
+					{
+						SetHitDamage(uint32(damage * 1.12f));
+					}
+				}
+			}
+		}
+
+		void Register()
+		{
+			OnHit += SpellHitFn(spell_dk_merciless_combat_SpellScript::HandleOnHit);
+		}
+	};
+
+	SpellScript* GetSpellScript() const
+	{
+		return new spell_dk_merciless_combat_SpellScript();
+	}
+};
+
 void AddSC_deathknight_spell_scripts()
 {
     new spell_dk_anti_magic_shell_raid();
@@ -1704,4 +1751,5 @@ void AddSC_deathknight_spell_scripts()
     new spell_dk_pillar_of_frost();
 	new spell_dk_chains_of_ice();
 	new spell_dk_glyph_chains_of_ice();
+	new spell_dk_merciless_combat();
 }

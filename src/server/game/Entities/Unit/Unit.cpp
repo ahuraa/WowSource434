@@ -780,12 +780,12 @@ uint32 Unit::DealDamage(Unit* victim, uint32 damage, CleanDamage const* cleanDam
                             if (Player* grpMember = itr->getSource())
                             {
                                 if (grpMember->GetMapId() == GetMapId())
-                                    grpMember->ModifyCurrency(tpl->currencyId, tpl->currencyCount*100, true, true, false);
+									grpMember->ModifyCurrency(tpl->currencyId, tpl->currencyCount * 100, true, true, 0, false);
                             }
                         }
                     }
                     else
-                        player->ModifyCurrency(tpl->currencyId, tpl->currencyCount*100, true, true, false);
+						player->ModifyCurrency(tpl->currencyId, tpl->currencyCount * 100, true, true, 0, false);
                 }
             }
         }
@@ -809,12 +809,12 @@ uint32 Unit::DealDamage(Unit* victim, uint32 damage, CleanDamage const* cleanDam
                                 if (Player* grpMember = itr->getSource())
                                 {
                                     if (grpMember->GetMapId() == GetMapId())
-                                        grpMember->ModifyCurrency(tpl->currencyId, tpl->currencyCount*100, true, true, false);
+										grpMember->ModifyCurrency(tpl->currencyId, tpl->currencyCount * 100, true, true, 0, false);
                                 }
                             }
                         }
                         else
-                            player->ModifyCurrency(tpl->currencyId, tpl->currencyCount*100, true, true, false);
+							player->ModifyCurrency(tpl->currencyId, tpl->currencyCount * 100, true, true, 0, false);
                     }
                 }
             }

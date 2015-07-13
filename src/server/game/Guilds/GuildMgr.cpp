@@ -605,3 +605,10 @@ void GuildMgr::ResetTimes(bool week)
         if (Guild* guild = itr->second)
             guild->ResetTimes(week);
 }
+
+void GuildMgr::ResetDailyXPCap()
+{
+	for (GuildContainer::const_iterator itr = GuildStore.begin(); itr != GuildStore.end(); ++itr)
+		if (Guild* guild = itr->second)
+			guild->ResetDailyExperience();
+}

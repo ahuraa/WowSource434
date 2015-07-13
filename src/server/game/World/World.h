@@ -838,6 +838,7 @@ class World
         void ResetMonthlyQuests();
         void ResetRandomBG();
         void ResetGuildCap();
+		void ResetDailyGuildCap();
         void ResetCurrencyWeekCap();
     private:
         static ACE_Atomic_Op<ACE_Thread_Mutex, bool> m_stopEvent;
@@ -901,6 +902,7 @@ class World
         time_t m_NextMonthlyQuestReset;
         time_t m_NextRandomBGReset;
         time_t m_NextGuildReset;
+		time_t m_NextDailyGuildReset;
         time_t m_NextCurrencyReset;
 
         //Player Queue
