@@ -7885,29 +7885,43 @@ void Player::ModifyCurrency(uint32 id, int32 count, bool printLog/* = true*/, bo
 		oldSeasonCount = itr->second.seasonCount;
 	}
 
-	int32 newTotalCount = oldTotalCount + count;
+	// seasonCount
+	int32 newSeasonCount = int32(oldSeasonCount) + (!refund ? (count > 0 ? count : 0) : 0);
+
+	// count can't be more then weekCap if used (weekCap > 0)
+	uint32 weekCap = GetCurrencyWeekCap(currency);
+	if (!ignoreCap && weekCap && count > int32(weekCap))
+		count = weekCap;
+
+	// count can't be more then totalCap if used (totalCap > 0)
+	uint32 totalCap = GetCurrencyTotalCap(currency);
+	if (totalCap && count > int32(totalCap))
+		count = totalCap;
+
+	int32 newTotalCount = int32(oldTotalCount) + count;
 	if (newTotalCount < 0)
 		newTotalCount = 0;
-	int32 newWeekCount = oldWeekCount + (count > 0 ? count : 0);
+
+	int32 newWeekCount = int32(oldWeekCount) + (!refund ? (count > 0 ? count : 0) : 0);
 	if (newWeekCount < 0)
 		newWeekCount = 0;
 
-	int32 totalCap = GetCurrencyTotalCap(currency);
-	if (totalCap && totalCap < newTotalCount)
+	// if we get more then weekCap just set to limit
+	if (weekCap && int32(weekCap) < newWeekCount)
 	{
-		int32 delta = newTotalCount - totalCap;
-		newTotalCount = totalCap;
-		newWeekCount -= delta;
+		newWeekCount = int32(weekCap);
+		// weekCap - oldWeekCount always >= 0 as we set limit before!
+		if (!ignoreCap)
+			newTotalCount = oldTotalCount + (weekCap - oldWeekCount);
+		newSeasonCount = oldSeasonCount + (weekCap - oldWeekCount);
 	}
 
-	int32 weekCap = GetCurrencyWeekCap(currency);
-	if (weekCap && newWeekCount > weekCap)
+	// if we get more then totalCap set to maximum;
+	if (totalCap && int32(totalCap) < newTotalCount)
 	{
-		int32 delta = newWeekCount - weekCap;
+		newTotalCount = int32(totalCap);
 		newWeekCount = weekCap;
-		newTotalCount -= delta;
 	}
-
 
 	if (uint32(newTotalCount) != oldTotalCount)
 	{
@@ -7917,7 +7931,7 @@ void Player::ModifyCurrency(uint32 id, int32 count, bool printLog/* = true*/, bo
 		CurrencyTypesEntry const* curr = sCurrencyTypesStore.LookupEntry(CURRENCY_TYPE_CONQUEST_META_ARENA);
 		uint32 weekCap_small = GetCurrencyWeekCap(curr);
 
-		if (currency->ID == CURRENCY_TYPE_CONQUEST_POINTS)
+		if (currency->ID == CURRENCY_TYPE_CONQUEST_POINTS && !refund)
 		{
 			if (newWeekCount > weekCap_small && bycurrency != CURRENCY_TYPE_CONQUEST_META_RBG)
 			{
@@ -7941,10 +7955,10 @@ void Player::ModifyCurrency(uint32 id, int32 count, bool printLog/* = true*/, bo
 		itr->second.weekCount = newWeekCount;
 
 		int32 diff = newTotalCount - oldTotalCount;
-		if (diff > 0)
+		if (!refund && diff > 0)
 			itr->second.seasonCount += diff;
 
-		if (diff > 0)
+		if (!refund && diff > 0)
 			UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_CURRENCY, id, count);
 
 		if (currency->Category == CURRENCY_CATEGORY_META_CONQUEST)
@@ -7960,6 +7974,7 @@ void Player::ModifyCurrency(uint32 id, int32 count, bool printLog/* = true*/, bo
 
 		packet.WriteBit(weekCap != 0);
 		packet.WriteBit(0); // hasSeasonCount
+		//if (!refund)
 		packet.WriteBit(!printLog); // print in log
 
 		// if hasSeasonCount packet << uint32(seasontotalearned); TODO: save this in character DB and use it
@@ -7971,6 +7986,7 @@ void Player::ModifyCurrency(uint32 id, int32 count, bool printLog/* = true*/, bo
 
 		GetSession()->SendPacket(&packet);
 	}
+
 }
 
 void Player::SetCurrency(uint32 id, uint32 count, bool /*printLog*/ /*= true*/)
