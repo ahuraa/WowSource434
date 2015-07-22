@@ -252,7 +252,7 @@ public:
                 final = true;
                 me->InterruptNonMeleeSpells(true);
                 
-                DoCast(SPELL_RELEASE_ALL_ABBERATIONS);
+                DoCast(SPELL_RELEASE_ABBERATIONS);
                 if(abberationsLeft > 0)
                     for (uint8 i = 0; i < abberationsLeft; i++)
                         me->SummonCreature(NPC_ABBERATON, MaloriakPositions[urand(1,4)]);

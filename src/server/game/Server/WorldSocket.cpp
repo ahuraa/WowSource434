@@ -958,7 +958,7 @@ int WorldSocket::HandleAuthSession(WorldPacket& recvPacket)
         return -1;
     }
 
-     QueryResult VipInfo = LoginDatabase.PQuery("SELECT `viplevel` FROM `account_vip` WHERE `acc_id`='%u' AND `active`='1'", id);
+     QueryResult VipInfo = LoginDatabase.PQuery("SELECT `type` FROM `vip_accounts` WHERE `id`='%u' AND `active`='1'", id);
      m_viplevel = VipInfo ? VipInfo->Fetch()->GetUInt8() : 0;
 
     // Check locked state for server
