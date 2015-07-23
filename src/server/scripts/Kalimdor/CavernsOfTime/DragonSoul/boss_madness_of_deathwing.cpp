@@ -672,7 +672,7 @@ class npc_wing_tentacle_two : public CreatureScript
 		};
 };
 
-void AddSC_boss_deathwing()
+void AddSC_boss_madness_of_deathwing()
 {
     new boss_deathwing();
     new npc_maelstrom_trall();

@@ -84,7 +84,6 @@
 #include "BattlefieldMgr.h"
 #include "InfoMgr.h"
 #include "PerformanceLog.h"
-#include <atltime.h>
 
 ACE_Atomic_Op<ACE_Thread_Mutex, bool> World::m_stopEvent = false;
 uint8 World::m_ExitCode = SHUTDOWN_EXIT_CODE;
@@ -2998,38 +2997,30 @@ void World::InitGuildResetTime()
 void World::InitCurrencyResetTime()
 {
 	time_t currencytime = uint64(sWorld->getWorldState(WS_CURRENCY_RESET_TIME));
+	if (!currencytime)
+		m_NextCurrencyReset = time_t(time(NULL));         // game time not yet init
 
 	// generate time by config
 	time_t curTime = time(NULL);
 	tm localTm = *localtime(&curTime);
+
+	localTm.tm_wday = getIntConfig(CONFIG_CURRENCY_RESET_DAY);
 	localTm.tm_hour = getIntConfig(CONFIG_CURRENCY_RESET_HOUR);
 	localTm.tm_min = 0;
 	localTm.tm_sec = 0;
 
 	// current week reset time
-	int ResetDay = getIntConfig(CONFIG_CURRENCY_RESET_DAY);
 	time_t nextWeekResetTime = mktime(&localTm);
-	CTime ctime(curTime);
-	nextWeekResetTime -= DAY * (ctime.GetDayOfWeek() - ResetDay - 1);
+
+	// next reset time before current moment
+	if (curTime >= nextWeekResetTime)
+		nextWeekResetTime += getIntConfig(CONFIG_CURRENCY_RESET_INTERVAL) * DAY;
+
+	// normalize reset time
+	m_NextCurrencyReset = currencytime < curTime ? nextWeekResetTime - getIntConfig(CONFIG_CURRENCY_RESET_INTERVAL) * DAY : nextWeekResetTime;
 
 	if (!currencytime)
-		currencytime = nextWeekResetTime;
-
-	m_NextCurrencyReset = curTime > nextWeekResetTime ? nextWeekResetTime + WEEK : nextWeekResetTime;
-	sWorld->setWorldState(WS_CURRENCY_RESET_TIME, uint64(m_NextCurrencyReset));
-
-	if (m_NextCurrencyReset != currencytime || m_NextCurrencyReset == curTime)
-	{
-		CharacterDatabase.Execute("UPDATE `character_currency` SET `week_count` = 0");
-
-		// Calculating week cap for conquest points
-		CharacterDatabase.Execute("UPDATE character_currency_weekcap SET week_cap = ROUND(1.4326 * (1511.26 / (1 + 1639.28 / exp(0.00412 * `max_week_rating`))) + 857.15) WHERE `source`=0 AND `max_week_rating` BETWEEN 1500 AND 3000");
-		CharacterDatabase.PExecute("UPDATE character_currency_weekcap SET week_cap = '%u' WHERE `source`=0 AND `max_week_rating` < 1500", 1350);
-		CharacterDatabase.Execute("UPDATE character_currency_weekcap SET week_cap =3000 WHERE `source`=0 AND `max_week_rating` > 3000");
-		CharacterDatabase.Execute("UPDATE character_currency_weekcap SET max_week_rating=0");
-
-		sLog->outError(LOG_FILTER_GENERAL, "Reset Currency Week Cap done, due to some error...");
-	}
+		sWorld->setWorldState(WS_CURRENCY_RESET_TIME, uint64(m_NextCurrencyReset));
 }
 
 void World::ResetDailyQuests()
