@@ -2367,13 +2367,10 @@ public:
 
 	bool OnGossipHello(Player* player, Creature* creature) override
 	{
-		if (player->hasQuest(25266)) // 25266 is the correct quest id.
-		{
 			// 1440.35 -5014.26 12.2184 1.75891  orgrimmar
 			player->TeleportTo(1, 1440.35f, -5014.26f, 12.2184f, 1.75891f);
 			// cinematic id is 288
 			player->SendMovieStart(288);
-		}
 		return true;
 	}
 };
