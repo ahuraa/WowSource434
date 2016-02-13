@@ -255,7 +255,7 @@ public:
                 DoCast(SPELL_RELEASE_ABBERATIONS);
                 if(abberationsLeft > 0)
                     for (uint8 i = 0; i < abberationsLeft; i++)
-                        TC_LOG_INFO("server.worldserver", "[Maloriak Debug] Abberations Left: %u", abberationsLeft)
+                        TC_LOG_INFO("server.worldserver", "[Maloriak Debug] Abberations Left: %u", abberationsLeft);
                         //me->SummonCreature(NPC_ABBERATON, MaloriakPositions[urand(1,4)]);
 
                 Talk(SAY_LOW_HEALTH);
